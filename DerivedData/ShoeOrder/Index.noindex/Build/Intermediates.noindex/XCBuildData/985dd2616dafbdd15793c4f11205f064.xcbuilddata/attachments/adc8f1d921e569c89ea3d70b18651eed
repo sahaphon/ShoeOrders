@@ -1,0 +1,135 @@
+{
+  "" : {
+    "dependencies" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-maccatalyst/Alamofire.build/Objects-normal/arm64/Alamofire-master.d",
+    "diagnostics" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-maccatalyst/Alamofire.build/Objects-normal/arm64/Alamofire-master.dia",
+    "emit-module-dependencies" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-maccatalyst/Alamofire.build/Objects-normal/arm64/Alamofire-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-maccatalyst/Alamofire.build/Objects-normal/arm64/Alamofire-master-emit-module.dia",
+    "swift-dependencies" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-maccatalyst/Alamofire.build/Objects-normal/arm64/Alamofire-master.swiftdeps"
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/AFError.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/DataRequest.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/DataStreamRequest.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/DownloadRequest.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/HTTPHeaders.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/HTTPMethod.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/Notifications.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/ParameterEncoder.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/ParameterEncoding.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/Protected.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/Request.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/RequestTaskMap.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/Response.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/Session.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/SessionDelegate.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/URLConvertible+URLRequestConvertible.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/UploadRequest.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/WebSocketRequest.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/DispatchQueue+Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/OperationQueue+Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/Result+Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/StringEncoding+Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/URLRequest+Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/URLSessionConfiguration+Alamofire.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/AlamofireExtended.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/AuthenticationInterceptor.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/CachedResponseHandler.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/Combine.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/Concurrency.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/EventMonitor.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/MultipartFormData.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/MultipartUpload.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/NetworkReachabilityManager.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/RedirectHandler.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/RequestCompression.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/RequestInterceptor.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/ResponseSerialization.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/RetryPolicy.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/ServerTrustEvaluation.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/URLEncodedFormEncoder.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/Validation.swift" : {
+
+  }
+}

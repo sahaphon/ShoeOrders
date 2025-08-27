@@ -1,0 +1,6 @@
+framework module Pods_ShoeOrder {
+  umbrella header "Pods-ShoeOrder-umbrella.h"
+
+  export *
+  module * { export * }
+}

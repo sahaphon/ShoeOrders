@@ -19,7 +19,6 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
     @IBOutlet weak var lblPullsta: UILabel!
     @IBOutlet weak var lblPullTime: UILabel!
     
-    
     var od = [ListOd]()
     var searchActive : Bool = false
     
@@ -51,11 +50,7 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
             let progressHUD = ProgressHUD(text: "Please wait..")
             self.view.addSubview(progressHUD)
             
-            //URL
-            //let URL_USER_LOGIN = "http://consign-ios.adda.co.th/KeyOrders/getMainOD.php"
-            //let URL_USER_LOGIN = "http://111.223.38.24:3000/cal_mainod"
-            //let URL_USER_LOGIN = "http://111.223.38.24:3000/cal_test"     //ตัวทดสอบ v.1.0.13 store procedure TEST
-            let URL_USER_LOGIN = "http://111.223.38.24:3000/cal_saleorder"  //ver 1.0.14  store procedure cal_sale_order_status
+            let URL = "http://111.223.38.24:3000/cal_saleorder"  //ver 1.0.14  store procedure cal_sale_order_status
             
             //Set Parameter
             let parameters : Parameters=[
@@ -63,143 +58,211 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
                 "code": CustomerViewController.GlobalValiable.myCode
             ]
             
-            Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-                {
-                    response in
-                    //print(response)
+//            AF.request(URL, method: .get, parameters: parameters)
+//                .validate(statusCode: 200..<300)  // แนะนำให้ใส่เสมอ
+//                // ถ้าเซิร์ฟเวอร์ส่ง Content-Type แปลกๆ (เช่น text/html) ให้เพิ่ม:
+//                //.validate(contentType: ["application/json", "text/plain", "text/html"])
+//                .responseDecodable(of: [ListOD].self) { [weak self] response in
+//                    guard let self = self else { return }
+//                    defer { progressHUD.hide() }
+//                    
+//                    switch response.result {
+//                        
+//                        case .success(let value):
+//                            
+//                            if value.count == 0  {
+//                                self.showBasicAlert(title: "ผิดพลาด!", message: "ไม่พบผู้ใช้งานในระบบ กรุณาลองใหม่อีกครั้ง..")
+//                                return
+//                            }
+//                        
+//                        //กำหนด พาร์ท db
+//                        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//                            .appendingPathComponent("order.sqlite")
+//                        
+//                        var db: OpaquePointer?
+//                        
+//                        if sqlite3_open(fileURL.path, &db) != SQLITE_OK
+//                        {
+//                            print("error opening database")
+//                        }
+//                        else
+//                        {
+//                            //ลบข้อมูลเก่าออกก่อน
+//                            let deleteStatementStirng = "DELETE FROM od"
+//                            var deleteStatement: OpaquePointer? = nil
+//                            
+//                            if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
+//                            {
+//                                if sqlite3_step(deleteStatement) != SQLITE_DONE
+//                                {
+//                                    print("Could not delete row.")
+//                                }
+//                            } else
+//                            {
+//                                print("DELETE statement could not be prepared")
+//                            }
+//                            
+//                            sqlite3_finalize(deleteStatement)
+//                            
+//                            //บันทึกข้อมูลชุดใหม่
+//                            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+//                            
+//                            self.od.removeAll()
+//                            
+//                            
+//                            
+//                        }
+//                    
+//                        
+//                            
+//                            break
+//                        
+//                        case .failure(let error):
+//                            print("ERROR get list:", error)
+//                            self.showBasicAlert(title: "ผิดพลาด!", message: "ไม่พบผู้ใช้งานในระบบ กรุณาลองใหม่อีกครั้ง..")
+//                            
+//                            break
+//                        }
+//                }
                     
-                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                    {
-                        //Check nil data
-                        var blnHaveData = false
-                        for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                        {
-                            blnHaveData = true
-                            break
-                        }
-                        
-                        if (blnHaveData)
-                        {
-                            //กำหนด พาร์ท db
-                            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                                .appendingPathComponent("order.sqlite")
-                            
-                            var db: OpaquePointer?
-                            
-                            if sqlite3_open(fileURL.path, &db) != SQLITE_OK
-                            {
-                                print("error opening database")
-                            }
-                            else
-                            {
-                                //ลบข้อมูลเก่าออกก่อน
-                                let deleteStatementStirng = "DELETE FROM od"
-                                var deleteStatement: OpaquePointer? = nil
-                                
-                                if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
-                                {
-                                    if sqlite3_step(deleteStatement) != SQLITE_DONE
-                                    {
-                                        print("Could not delete row.")
-                                    }
-                                } else
-                                {
-                                    print("DELETE statement could not be prepared")
-                                }
-                                
-                                sqlite3_finalize(deleteStatement)
-                                
-                                //บันทึกข้อมูลชุดใหม่
-                                let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-                                
-                                self.od.removeAll()
-                                
-                                for personDict in array
-                                {
-                                    var od_sta = personDict["order_status"] as! String
-                                    if (od_sta == "green")
-                                    {
-                                        od_sta = "G.png"
-                                    }
-                                    else if (od_sta == "yellow")
-                                    {
-                                        od_sta = "Y.png"
-                                    }
-                                    else
-                                    {
-                                        od_sta = "R.png"
-                                    }
-                                    
-                                    
-                                    let Date =  personDict["date"] as! String
-                                    
-                                    let Orderno =  personDict["orderno"] as! String
-                                    //let Confm =  personDict["stat"] as! String
-                                    let Crterm =  personDict["cr_term"] as! Int
-                                    let Prodcode =  personDict["prodcode"] as! String
-                                    let Pono =  personDict["pono"] as! String
-                                    let Remark =  personDict["remark"] as! String
-                                    
-                                    
-                                    self.od.append(ListOd(od_status: od_sta, date: Date, orderno: Orderno, confirm: "Y", crterm: Crterm, prodcode: Prodcode, pono: Pono, remark: Remark))
-                                    
-                                    let insert = "INSERT INTO od (od_status, date, orderno, confirm, crterm, prodcode, pono, remark)" + "VALUES (?,?,?,?,?,?,?,?);"
-                                    var statement: OpaquePointer?
-                                    
-                                    //preparing the query
-                                    if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
-                                    {
-                                        sqlite3_bind_text(statement, 1, od_sta, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 2, Date, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 3, Orderno, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 4, "Y", -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_int(statement, 5, Int32(Crterm))
-                                        sqlite3_bind_text(statement, 6, Prodcode, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 7, Pono, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 8, Remark, -1, SQLITE_TRANSIENT)
-                                        
-                                        //executing the query to insert values
-                                        if sqlite3_step(statement) != SQLITE_DONE
-                                        {
-                                            let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                            print("failure inserting armstr: \(errmsg)")
-                                            return
-                                        }
-                                    }
-                                    else
-                                    {
-                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                        print("error preparing insert: \(errmsg)")
-                                        return
-                                    }
-                                    
-                                    sqlite3_finalize(statement)
-                                }
-                                
-                            } // open DB
-                            
-                            sqlite3_close(db)
-                            
-                            //ProgressIndicator.hide()
-                            progressHUD.hide()
-                            self.query()
-                            //self.myTable.reloadData()
-                        }
-                        else
-                        {
-                            progressHUD.hide()
-                            ProgressIndicator.hide()
-                            
-                            self.od.removeAll()
-                            self.myTable.reloadData()
-                            
-                            let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูล กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                            self.present(alert, animated: true)
-                        }
-                        
-                    }
-            }
+            
+//            Alamofire.request(URL, method: .get, parameters: parameters).responseJSON
+//                {
+//                    response in
+//                    //print(response)
+//                    
+//                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                    {
+//                        //Check nil data
+//                        var blnHaveData = false
+//                        for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                        {
+//                            blnHaveData = true
+//                            break
+//                        }
+//                        
+//                        if (blnHaveData)
+//                        {
+//                            //กำหนด พาร์ท db
+//                            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//                                .appendingPathComponent("order.sqlite")
+//                            
+//                            var db: OpaquePointer?
+//                            
+//                            if sqlite3_open(fileURL.path, &db) != SQLITE_OK
+//                            {
+//                                print("error opening database")
+//                            }
+//                            else
+//                            {
+//                                //ลบข้อมูลเก่าออกก่อน
+//                                let deleteStatementStirng = "DELETE FROM od"
+//                                var deleteStatement: OpaquePointer? = nil
+//                                
+//                                if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
+//                                {
+//                                    if sqlite3_step(deleteStatement) != SQLITE_DONE
+//                                    {
+//                                        print("Could not delete row.")
+//                                    }
+//                                } else
+//                                {
+//                                    print("DELETE statement could not be prepared")
+//                                }
+//                                
+//                                sqlite3_finalize(deleteStatement)
+//                                
+//                                //บันทึกข้อมูลชุดใหม่
+//                                let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+//                                
+//                                self.od.removeAll()
+//                                
+//                                for personDict in array
+//                                {
+//                                    var od_sta = personDict["order_status"] as! String
+//                                    if (od_sta == "green")
+//                                    {
+//                                        od_sta = "G.png"
+//                                    }
+//                                    else if (od_sta == "yellow")
+//                                    {
+//                                        od_sta = "Y.png"
+//                                    }
+//                                    else
+//                                    {
+//                                        od_sta = "R.png"
+//                                    }
+//                                    
+//                                    
+//                                    let Date =  personDict["date"] as! String
+//                                    
+//                                    let Orderno =  personDict["orderno"] as! String
+//                                    //let Confm =  personDict["stat"] as! String
+//                                    let Crterm =  personDict["cr_term"] as! Int
+//                                    let Prodcode =  personDict["prodcode"] as! String
+//                                    let Pono =  personDict["pono"] as! String
+//                                    let Remark =  personDict["remark"] as! String
+//                                    
+//                                    
+//                                    self.od.append(ListOd(od_status: od_sta, date: Date, orderno: Orderno, confirm: "Y", crterm: Crterm, prodcode: Prodcode, pono: Pono, remark: Remark))
+//                                    
+//                                    let insert = "INSERT INTO od (od_status, date, orderno, confirm, crterm, prodcode, pono, remark)" + "VALUES (?,?,?,?,?,?,?,?);"
+//                                    var statement: OpaquePointer?
+//                                    
+//                                    //preparing the query
+//                                    if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
+//                                    {
+//                                        sqlite3_bind_text(statement, 1, od_sta, -1, SQLITE_TRANSIENT)
+//                                        sqlite3_bind_text(statement, 2, Date, -1, SQLITE_TRANSIENT)
+//                                        sqlite3_bind_text(statement, 3, Orderno, -1, SQLITE_TRANSIENT)
+//                                        sqlite3_bind_text(statement, 4, "Y", -1, SQLITE_TRANSIENT)
+//                                        sqlite3_bind_int(statement, 5, Int32(Crterm))
+//                                        sqlite3_bind_text(statement, 6, Prodcode, -1, SQLITE_TRANSIENT)
+//                                        sqlite3_bind_text(statement, 7, Pono, -1, SQLITE_TRANSIENT)
+//                                        sqlite3_bind_text(statement, 8, Remark, -1, SQLITE_TRANSIENT)
+//                                        
+//                                        //executing the query to insert values
+//                                        if sqlite3_step(statement) != SQLITE_DONE
+//                                        {
+//                                            let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                            print("failure inserting armstr: \(errmsg)")
+//                                            return
+//                                        }
+//                                    }
+//                                    else
+//                                    {
+//                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                        print("error preparing insert: \(errmsg)")
+//                                        return
+//                                    }
+//                                    
+//                                    sqlite3_finalize(statement)
+//                                }
+//                                
+//                            } // open DB
+//                            
+//                            sqlite3_close(db)
+//                            
+//                            //ProgressIndicator.hide()
+//                            progressHUD.hide()
+//                            self.query()
+//                            //self.myTable.reloadData()
+//                        }
+//                        else
+//                        {
+//                            progressHUD.hide()
+//                            ProgressIndicator.hide()
+//                            
+//                            self.od.removeAll()
+//                            self.myTable.reloadData()
+//                            
+//                            let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูล กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                            alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                            self.present(alert, animated: true)
+//                        }
+//                        
+//                    }
+//            }
         }
         else    //หากไม่มีการต่อ Internet
         {
@@ -210,6 +273,36 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
                 delegate.window?.rootViewController = rootController
             }
         }
+    }
+    
+    struct StringOrNumber: Decodable {
+        let string: String
+        init(from decoder: Decoder) throws {
+            let c = try decoder.singleValueContainer()
+            if let s = try? c.decode(String.self) { string = s; return }
+            if let i = try? c.decode(Int.self)    { string = String(i); return }
+            if let d = try? c.decode(Double.self) { string = String(d); return }
+            string = ""
+        }
+    }
+    
+    struct ListOD: Decodable {
+        let date: Date
+        let orderno: String
+        let code: String
+        let desc: String
+        let prodcode: String
+        let saleman: String
+        let pono: String
+        let remark: String
+        let cr_term: Int
+        let confirm: Bool
+        let ctrycode: String
+        let status: String
+        let qty: Int
+        let invqty: Int
+        let pkqty: Int
+        let order_status: String
     }
     
     func getFormattedDate(date: Date, format: String) -> String
@@ -353,46 +446,45 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
     {
         let URL_USER_LOGIN = "http://111.223.38.24:3000/getodstatus"
         
-        //print("ค่าที่ส่งไป = ", CustomerViewController.GlobalValiable.myCode)
-        //making a post request
-        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: nil).responseJSON
-            {
-                response in
-                
-                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                {
-                    //Check nil data
-                    var blnHaveData = false
-                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                    {
-                        blnHaveData = true
-                        break
-                    }
-                    
-                    if (blnHaveData)
-                    {
-                        //var res:String = ""
-                        var status:String = ""
-                        
-                        for personDict in array
-                        {
-                            status = (personDict["pull_sta"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                            if (status == "1")
-                            {
-                                self.lblPullsta.text = "ดึงข้อมูลสำเร็จ"
-                            }
-                            else
-                            {
-                                self.lblPullsta.text = "อยู่ระหว่างดึงข้อมูล"
-                            }
-                            
-                            self.lblPullTime.text = (personDict["time"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                        }
-                    }
-                    
-                    ProgressIndicator.hide()
-                }
-        }
+
+//        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: nil).responseJSON
+//            {
+//                response in
+//                
+//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                {
+//                    //Check nil data
+//                    var blnHaveData = false
+//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                    {
+//                        blnHaveData = true
+//                        break
+//                    }
+//                    
+//                    if (blnHaveData)
+//                    {
+//                        //var res:String = ""
+//                        var status:String = ""
+//                        
+//                        for personDict in array
+//                        {
+//                            status = (personDict["pull_sta"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                            if (status == "1")
+//                            {
+//                                self.lblPullsta.text = "ดึงข้อมูลสำเร็จ"
+//                            }
+//                            else
+//                            {
+//                                self.lblPullsta.text = "อยู่ระหว่างดึงข้อมูล"
+//                            }
+//                            
+//                            self.lblPullTime.text = (personDict["time"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                        }
+//                    }
+//                    
+//                    ProgressIndicator.hide()
+//                }
+//        }
     }
     
     func ClearData()
@@ -525,6 +617,12 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
     
     override func viewDidDisappear(_ animated: Bool) {
         //print("หายไปแล้ว")
+    }
+    
+    private func showBasicAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ตกลง", style: .default))
+        present(alert, animated: true)
     }
 }
 

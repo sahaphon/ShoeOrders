@@ -1,0 +1,30 @@
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/Combine.swift":
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Combine.d"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Combine.dia"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Combine.o"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Combine.swiftdeps"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Combine.swiftconstvalues"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Features/Concurrency.swift":
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Concurrency.swiftdeps"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Concurrency.swiftconstvalues"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Concurrency.dia"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Concurrency.o"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/Concurrency.d"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/DataStreamRequest.swift":
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataStreamRequest.o"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataStreamRequest.dia"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataStreamRequest.d"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataStreamRequest.swiftconstvalues"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataStreamRequest.swiftdeps"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Extensions/DispatchQueue+Alamofire.swift":
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DispatchQueue+Alamofire.o"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DispatchQueue+Alamofire.dia"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DispatchQueue+Alamofire.swiftconstvalues"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DispatchQueue+Alamofire.d"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DispatchQueue+Alamofire.swiftdeps"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/Alamofire/Source/Core/DataRequest.swift":
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataRequest.o"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataRequest.swiftdeps"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataRequest.swiftconstvalues"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataRequest.d"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Alamofire.build/Objects-normal/arm64/DataRequest.dia"

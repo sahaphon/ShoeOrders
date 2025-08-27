@@ -1,0 +1,48 @@
+{
+  "" : {
+    "dependencies" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/Objects-normal/arm64/FirebaseCoreInternal-master.d",
+    "diagnostics" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/Objects-normal/arm64/FirebaseCoreInternal-master.dia",
+    "emit-module-dependencies" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/Objects-normal/arm64/FirebaseCoreInternal-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/Objects-normal/arm64/FirebaseCoreInternal-master-emit-module.dia",
+    "swift-dependencies" : "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/Objects-normal/arm64/FirebaseCoreInternal-master.swiftdeps"
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Heartbeat.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatController.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatLoggingTestUtils.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatStorage.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsBundle.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsPayload.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/RingBuffer.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Storage.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/StorageFactory.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/WeakContainer.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatController.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatsPayload.swift" : {
+
+  },
+  "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/Utilities/UnfairLock.swift" : {
+
+  }
+}

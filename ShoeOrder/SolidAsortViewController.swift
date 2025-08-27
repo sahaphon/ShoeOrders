@@ -294,121 +294,121 @@ class SolidAsortViewController: UIViewController {
         ]
         
         //print("รุ่นที่ส่งไป :", CustomerViewController.GlobalValiable.prod)
-        Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
-        {
-                response in
-                print(response)
-                
-                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                {
-                    //Check nil data
-                    var blnHaveData = false
-                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                    {
-                        blnHaveData = true
-                        break
-                    }
-                    
-                    //เช็คสิทธิการเข้าใช้งาน
-                    if (blnHaveData)
-                    {
-                        var db: OpaquePointer?
-                        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                            .appendingPathComponent("order.sqlite")
-                        
-                        if sqlite3_open(fileURL.path, &db) != SQLITE_OK
-                        {
-                            print("error opening database")
-                        }
-                        else
-                        {
-                            //ลบข้อมูลเก่าออกก่อน
-                            let delString = String(format:"DELETE FROM solidasort WHERE prodcode = '%@'", "GS-" + CustomerViewController.GlobalValiable.prod)
-                            //print(delString)
-                            
-                            var deleteStatement: OpaquePointer? = nil
-                            
-                            if sqlite3_prepare_v2(db, delString, -1, &deleteStatement, nil) == SQLITE_OK
-                            {
-                                if sqlite3_step(deleteStatement) != SQLITE_DONE
-                                {
-                                    print("Could not delete row.")
-                                }
-                            } else
-                            {
-                                print("DELETE statement could not be prepared")
-                            }
-                            
-                            sqlite3_finalize(deleteStatement)
-                            
-                            //บันทึกข้อมูลชุดใหม่
-                            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-                            
-                            for personDict in array
-                            {
-                    
-                                let prodcode =  personDict["prod"] as! String
-                                let packcode =  personDict["packcode"] as! String
-                                let packdesc =  personDict["packdesc"] as! String
-                                let pairs =  personDict["pairs"] as! Int
-                                let packsale =  personDict["packsale"] as! String  //แบบแพ็ครวม solid
-                                let sizedesc =  personDict["sizedesc"] as! String
-                                
-                                
-                                //======== INSERT TO SQL ===========
-                                
-                                let insert = "INSERT INTO solidasort (prodcode, packcode, packdesc, pairs, packsale, sizedesc)" + "VALUES (?,?,?,?,?,?);"
-                                var statement: OpaquePointer?
-                                
-                                //preparing the query
-                                if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
-                                {
-                                    sqlite3_bind_text(statement, 1, prodcode, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 2, packcode, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 3, packdesc, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_int(statement, 4, Int32(pairs))
-                                    sqlite3_bind_text(statement, 5, packsale, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 6, sizedesc, -1, SQLITE_TRANSIENT)
-                                    
-                                    //executing the query to insert values
-                                    if sqlite3_step(statement) != SQLITE_DONE
-                                    {
-                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                        print("failure inserting armstr: \(errmsg)")
-                                        return
-                                    }
-                                    
-                                }
-                                else
-                                {
-                                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                    print("error preparing insert: \(errmsg)")
-                                    return
-                                    
-                                }
-                                
-                                sqlite3_finalize(statement)
-                            }
-                            
-                        } // open DB
-                        
-                        sqlite3_close(db)
-                        progressHUD.hide()
-                        self.myTable.reloadData()
-                    }
-                    else
-                    {
-                        print("no data")
-                        progressHUD.hide()
-                        ProgressIndicator.hide()
-                        //Alert
-                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                        
-                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                    }
-                }
-        }
+//        Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
+//        {
+//                response in
+//                print(response)
+//                
+//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                {
+//                    //Check nil data
+//                    var blnHaveData = false
+//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                    {
+//                        blnHaveData = true
+//                        break
+//                    }
+//                    
+//                    //เช็คสิทธิการเข้าใช้งาน
+//                    if (blnHaveData)
+//                    {
+//                        var db: OpaquePointer?
+//                        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//                            .appendingPathComponent("order.sqlite")
+//                        
+//                        if sqlite3_open(fileURL.path, &db) != SQLITE_OK
+//                        {
+//                            print("error opening database")
+//                        }
+//                        else
+//                        {
+//                            //ลบข้อมูลเก่าออกก่อน
+//                            let delString = String(format:"DELETE FROM solidasort WHERE prodcode = '%@'", "GS-" + CustomerViewController.GlobalValiable.prod)
+//                            //print(delString)
+//                            
+//                            var deleteStatement: OpaquePointer? = nil
+//                            
+//                            if sqlite3_prepare_v2(db, delString, -1, &deleteStatement, nil) == SQLITE_OK
+//                            {
+//                                if sqlite3_step(deleteStatement) != SQLITE_DONE
+//                                {
+//                                    print("Could not delete row.")
+//                                }
+//                            } else
+//                            {
+//                                print("DELETE statement could not be prepared")
+//                            }
+//                            
+//                            sqlite3_finalize(deleteStatement)
+//                            
+//                            //บันทึกข้อมูลชุดใหม่
+//                            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+//                            
+//                            for personDict in array
+//                            {
+//                    
+//                                let prodcode =  personDict["prod"] as! String
+//                                let packcode =  personDict["packcode"] as! String
+//                                let packdesc =  personDict["packdesc"] as! String
+//                                let pairs =  personDict["pairs"] as! Int
+//                                let packsale =  personDict["packsale"] as! String  //แบบแพ็ครวม solid
+//                                let sizedesc =  personDict["sizedesc"] as! String
+//                                
+//                                
+//                                //======== INSERT TO SQL ===========
+//                                
+//                                let insert = "INSERT INTO solidasort (prodcode, packcode, packdesc, pairs, packsale, sizedesc)" + "VALUES (?,?,?,?,?,?);"
+//                                var statement: OpaquePointer?
+//                                
+//                                //preparing the query
+//                                if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
+//                                {
+//                                    sqlite3_bind_text(statement, 1, prodcode, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 2, packcode, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 3, packdesc, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_int(statement, 4, Int32(pairs))
+//                                    sqlite3_bind_text(statement, 5, packsale, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 6, sizedesc, -1, SQLITE_TRANSIENT)
+//                                    
+//                                    //executing the query to insert values
+//                                    if sqlite3_step(statement) != SQLITE_DONE
+//                                    {
+//                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                        print("failure inserting armstr: \(errmsg)")
+//                                        return
+//                                    }
+//                                    
+//                                }
+//                                else
+//                                {
+//                                    let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                    print("error preparing insert: \(errmsg)")
+//                                    return
+//                                    
+//                                }
+//                                
+//                                sqlite3_finalize(statement)
+//                            }
+//                            
+//                        } // open DB
+//                        
+//                        sqlite3_close(db)
+//                        progressHUD.hide()
+//                        self.myTable.reloadData()
+//                    }
+//                    else
+//                    {
+//                        print("no data")
+//                        progressHUD.hide()
+//                        ProgressIndicator.hide()
+//                        //Alert
+//                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                        
+//                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                        self.present(alert, animated: true)
+//                    }
+//                }
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool)

@@ -1,0 +1,23 @@
+{
+  "version": 0,
+  "use-external-names": false,
+  "case-sensitive": false,
+  "roots": [{
+    "type": "directory",
+    "name": "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Products/Debug-iphonesimulator/FirebaseCoreInternal/FirebaseCoreInternal.framework/Modules",
+    "contents": [{
+      "type": "file",
+      "name": "module.modulemap",
+      "external-contents": "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    "type": "directory",
+    "name": "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Products/Debug-iphonesimulator/FirebaseCoreInternal/FirebaseCoreInternal.framework/Headers",
+    "contents": [{
+      "type": "file",
+      "name": "FirebaseCoreInternal-Swift.h",
+      "external-contents": "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Index.noindex/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCoreInternal.build/unextended-interface-header.h",
+    }]
+  }]
+}

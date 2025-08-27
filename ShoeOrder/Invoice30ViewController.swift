@@ -50,66 +50,66 @@ class Invoice30ViewController: UIViewController {
             ]
             print(CustomerViewController.GlobalValiable.saleid, CustomerViewController.GlobalValiable.myCode)
             
-            Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-                {
-                    
-                    response in
-                    //print(response)
-                    
-                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                    {
-                        //Check nil data
-                        var blnHaveData = false
-                        for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                        {
-                            blnHaveData = true
-                            break
-                        }
-                        
-                        //เช็คสิทธิการเข้าใช้งาน
-                        if (blnHaveData)
-                        {
-                            self.inv30.removeAll()
-                            
-                            for personDict in array
-                            {
-                                var date: String
-                                let invno: String
-                                let prodcode: String
-                                let color: String
-                                let qty: Int
-                                let snddate: String
-                                let orderno: String
-                                
-                                date = personDict["date"] as! String
-                                
-                                invno = personDict["docno"] as! String
-                                prodcode = personDict["prod"] as! String
-                                color = personDict["color"] as! String
-                                qty = personDict["qty"] as! Int
-                                snddate = personDict["retdate"] as! String
-                                orderno = ""
-                                
-                                //Add data to dictionary
-                                self.inv30.append(Invoice30(date: date, invno: invno, prodcode: prodcode, color: color, qty: qty, snddate: snddate, orderno: orderno))
-                            }
-                            
-                            //ProgressIndicator.hide()
-                            progressHUD.hide()
-                            self.myTable.reloadData()
-                        }
-                        else
-                        {
-                            progressHUD.hide()
-                            ProgressIndicator.hide()
-                            //Alert
-                            let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                            
-                            alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                            self.present(alert, animated: true)
-                        }
-                    }
-            }
+//            Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
+//                {
+//                    
+//                    response in
+//                    //print(response)
+//                    
+//                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                    {
+//                        //Check nil data
+//                        var blnHaveData = false
+//                        for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                        {
+//                            blnHaveData = true
+//                            break
+//                        }
+//                        
+//                        //เช็คสิทธิการเข้าใช้งาน
+//                        if (blnHaveData)
+//                        {
+//                            self.inv30.removeAll()
+//                            
+//                            for personDict in array
+//                            {
+//                                var date: String
+//                                let invno: String
+//                                let prodcode: String
+//                                let color: String
+//                                let qty: Int
+//                                let snddate: String
+//                                let orderno: String
+//                                
+//                                date = personDict["date"] as! String
+//                                
+//                                invno = personDict["docno"] as! String
+//                                prodcode = personDict["prod"] as! String
+//                                color = personDict["color"] as! String
+//                                qty = personDict["qty"] as! Int
+//                                snddate = personDict["retdate"] as! String
+//                                orderno = ""
+//                                
+//                                //Add data to dictionary
+//                                self.inv30.append(Invoice30(date: date, invno: invno, prodcode: prodcode, color: color, qty: qty, snddate: snddate, orderno: orderno))
+//                            }
+//                            
+//                            //ProgressIndicator.hide()
+//                            progressHUD.hide()
+//                            self.myTable.reloadData()
+//                        }
+//                        else
+//                        {
+//                            progressHUD.hide()
+//                            ProgressIndicator.hide()
+//                            //Alert
+//                            let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                            
+//                            alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                            self.present(alert, animated: true)
+//                        }
+//                    }
+//            }
     }
     
     @IBAction func btnBack(_ sender: Any)

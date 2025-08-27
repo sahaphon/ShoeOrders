@@ -12,6 +12,7 @@ import Alamofire
 
 class OrderViewController: UIViewController {
     
+    @IBOutlet weak var mainview: UIView!
     @IBOutlet var Secment: UISegmentedControl!
     @IBOutlet var lblCode: UILabel!
     @IBOutlet var lblDesc: UILabel!
@@ -36,6 +37,9 @@ class OrderViewController: UIViewController {
     
     @IBOutlet weak var btnWSend: UIButton!
     var blnCheckWSend:Bool!
+    
+    @IBOutlet weak var btnPro: UIButton!
+    var blnPro: Bool!
     
     var db: OpaquePointer?
     let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -247,6 +251,14 @@ class OrderViewController: UIViewController {
         super.viewWillAppear(animated)
         //print("viewWillAppear")
         
+        if (CustomerViewController.GlobalValiable.pro == 1)
+        {
+            mainview.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+            btnPro.setImage(checkBox, for: UIControl.State.normal)
+            blnPro = true
+        }
+            
+        
         if CustomerViewController.GlobalValiable.blnEditShip
         {
             lblShipdate.text = CustomerViewController.GlobalValiable.strShipDate
@@ -330,6 +342,73 @@ class OrderViewController: UIViewController {
         super.viewDidDisappear(animated)
         //print("viewDidDisappear")
     }
+    
+    @IBAction func CheckPro(_ sender: Any)
+    {
+        var intSet = 0;
+        
+        if blnPro == true
+        {
+            CustomerViewController.GlobalValiable.pro = 1
+            btnPro.setImage(checkBox, for: UIControl.State.normal)
+            blnPro = false
+            mainview.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+            
+            ClearListOD() //ล้างข้อมูล order ทิ้ง
+        }
+        else
+        {
+            print(blnPro)
+            if blnPro != nil
+            {
+                // create the alert
+                let alert = UIAlertController(title: "ยกเลิกการคีย์ โปรโมชั่น!..", message: "คำเตือน! ออเดอร์ที่คีย์ไว้จะถูกล้างทิ้ง", preferredStyle: .alert)
+
+                  // add an action (button)
+                alert.addAction(UIAlertAction(title: "ตกลง", style: UIAlertAction.Style.default, handler: { [self] (action: UIAlertAction!) in
+                      intSet = 1;
+
+                    CustomerViewController.GlobalValiable.pro = 0
+                    self.btnPro.setImage(self.uncheckBox, for: UIControl.State.normal)
+                    blnPro = true
+                    mainview.backgroundColor = UIColor.white
+
+                    ClearListOD() //ล้างข้อมูล order ทิ้ง
+                }))
+
+                alert.addAction(UIAlertAction(title: "ยกเลิก", style: UIAlertAction.Style.cancel, handler: { [self] (action: UIAlertAction!) in
+                    intSet = 0;
+
+              }))
+
+                  // show the alert
+                  self.present(alert, animated: true, completion: nil)
+                  
+            }
+            else
+            {
+                ClearListOD() //ล้างข้อมูล order ทิ้ง
+            }
+            
+            if intSet == 1
+            {
+                CustomerViewController.GlobalValiable.pro = 0
+                btnPro.setImage(self.uncheckBox, for: UIControl.State.normal)
+                blnPro = true
+                mainview.backgroundColor = UIColor.white
+            }
+            else
+            {
+                CustomerViewController.GlobalValiable.pro = 1
+                btnPro.setImage(checkBox, for: UIControl.State.normal)
+                blnPro = false
+                mainview.backgroundColor = UIColor.red.withAlphaComponent(0.5)
+            }
+            
+        }
+    }
+    
+    
     
     @IBAction func CheckVate(_ sender: Any)
     {
@@ -589,6 +668,7 @@ class OrderViewController: UIViewController {
         var _ctrycode: String = ""
         var _store: String = ""
         var _logi_name: String = ""
+        var _fixdue: String = ""
         
         //Get data from server
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK
@@ -708,7 +788,8 @@ class OrderViewController: UIViewController {
                     "ctrycode": _ctrycode,
                     "store": _store,
                     "logi_name": _logi_name,
-                    "sale_type":  CustomerViewController.GlobalValiable.waitsend
+                    "sale_type":  CustomerViewController.GlobalValiable.waitsend,
+                    "fixdue": CustomerViewController.GlobalValiable.pro
                 ]
                 
                 //Add data 
@@ -774,6 +855,7 @@ class OrderViewController: UIViewController {
         CustomerViewController.GlobalValiable.locat_name = ""      //เคลียร์สถานที่ส่งใหม่
         CustomerViewController.GlobalValiable.oldprod = ""
         CustomerViewController.GlobalValiable.blnSolidPackAsort = false
+        CustomerViewController.GlobalValiable.pro = 0
         
         //Reset control
         lblStore.text = ""
@@ -808,91 +890,91 @@ class OrderViewController: UIViewController {
          }
          request.httpBody = json!.data(using: String.Encoding.utf8.rawValue);
 
-        Alamofire.request(request as URLRequestConvertible)
-             .responseJSON { response in
-                
-                   switch response.result
-                    {
-                    case .success(_): //หาก success
-    //                    print("Success")
-
-                        print(response.result.value as? [[String: Any]] as Any)
-                        if let array = response.result.value as? [[String: Any]]
-                        {
-                            var result:String = ""
-                            
-                            for personDict in array
-                            {
-                                result = (personDict["result"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                                                       
-    //                          print("result = ", result)
-                                if ( result == "1" )
-                                {
-                                   self.AlertResult(mainTxt: "Success!", Title: "ส่งข้อมูลออเดอร์ สำเร็จ!..")
-                                }
-                                else
-                                {
-                                    let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERR03: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(result)", preferredStyle: .alert)
-                                                                                              
-                                          let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-                                              
-                                              self.ClearAllData()
-                                              
-                                              //back viewcontroller
-                                              if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
-                                              {
-                                                  self.present(menu, animated: true, completion: nil)
-                                              }
-                                          }
-                                          
-                                          let Resend = UIAlertAction(title: "ลองใหม่", style: .default) { (action:UIAlertAction!) in
-                                              self.RollBackOD() //แก้สถานะ od ใหม่
-                                              //หากเกิด error ขณะบันทึกให้ลบ od ใน SQL Server cat ทั้งโดยรับค่ารหัส od มา  ==> รอทำต่อ..
-                                              
-                                              self.Secment.selectedSegmentIndex = 1
-                                              self.Secment.sendActions(for: UIControl.Event.valueChanged)
-                                          }
-                                          
-                                          alertController.addAction(Resend)
-                                          alertController.addAction(OKAction)
-                                          self.present(alertController, animated: true, completion:nil)
-
-                                }
-                            }
-                        }
-                        
-                        progressHUD.hide()
-                        
-                    case .failure(let error): //หาก process error
-    //                    print(error)
-                        let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERR: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(error)", preferredStyle: .alert)
-                                                                                              
-                          let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-                                                              
-                              self.ClearAllData()
-                                                                  
-                              //back viewcontroller
-                              if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
-                              {
-                                   self.present(menu, animated: true, completion: nil)
-                              }
-                           }
-                                                          
-                            let Resend = UIAlertAction(title: "ลองใหม่", style: .default) { (action:UIAlertAction!) in
-                            self.RollBackOD() //แก้สถานะ od ใหม่
-                            //หากเกิด error ขณะบันทึกให้ลบ od ใน SQL Server cat ทั้งโดยรับค่ารหัส od มา  ==> รอทำต่อ..
-                                                              
-                            self.Secment.selectedSegmentIndex = 1
-                            self.Secment.sendActions(for: UIControl.Event.valueChanged)
-                            }
-                                                          
-
-                            alertController.addAction(Resend)
-                            alertController.addAction(OKAction)
-                            self.present(alertController, animated: true, completion:nil)
-                    }
-
-         }
+//        Alamofire.request(request as URLRequestConvertible)
+//             .responseJSON { response in
+//                
+//                   switch response.result
+//                    {
+//                    case .success(_): //หาก success
+//    //                    print("Success")
+//
+//                        print(response.result.value as? [[String: Any]] as Any)
+//                        if let array = response.result.value as? [[String: Any]]
+//                        {
+//                            var result:String = ""
+//                            
+//                            for personDict in array
+//                            {
+//                                result = (personDict["result"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                                                       
+//    //                          print("result = ", result)
+//                                if ( result == "1" )
+//                                {
+//                                   self.AlertResult(mainTxt: "Success!", Title: "ส่งข้อมูลออเดอร์ สำเร็จ!..")
+//                                }
+//                                else
+//                                {
+//                                    let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERR03: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(result)", preferredStyle: .alert)
+//                                                                                              
+//                                          let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
+//                                              
+//                                              self.ClearAllData()
+//                                              
+//                                              //back viewcontroller
+//                                              if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
+//                                              {
+//                                                  self.present(menu, animated: true, completion: nil)
+//                                              }
+//                                          }
+//                                          
+//                                          let Resend = UIAlertAction(title: "ลองใหม่", style: .default) { (action:UIAlertAction!) in
+//                                              self.RollBackOD() //แก้สถานะ od ใหม่
+//                                              //หากเกิด error ขณะบันทึกให้ลบ od ใน SQL Server cat ทั้งโดยรับค่ารหัส od มา  ==> รอทำต่อ..
+//                                              
+//                                              self.Secment.selectedSegmentIndex = 1
+//                                              self.Secment.sendActions(for: UIControl.Event.valueChanged)
+//                                          }
+//                                          
+//                                          alertController.addAction(Resend)
+//                                          alertController.addAction(OKAction)
+//                                          self.present(alertController, animated: true, completion:nil)
+//
+//                                }
+//                            }
+//                        }
+//                        
+//                        progressHUD.hide()
+//                        
+//                    case .failure(let error): //หาก process error
+//    //                    print(error)
+//                        let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERR: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(error)", preferredStyle: .alert)
+//                                                                                              
+//                          let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
+//                                                              
+//                              self.ClearAllData()
+//                                                                  
+//                              //back viewcontroller
+//                              if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
+//                              {
+//                                   self.present(menu, animated: true, completion: nil)
+//                              }
+//                           }
+//                                                          
+//                            let Resend = UIAlertAction(title: "ลองใหม่", style: .default) { (action:UIAlertAction!) in
+//                            self.RollBackOD() //แก้สถานะ od ใหม่
+//                            //หากเกิด error ขณะบันทึกให้ลบ od ใน SQL Server cat ทั้งโดยรับค่ารหัส od มา  ==> รอทำต่อ..
+//                                                              
+//                            self.Secment.selectedSegmentIndex = 1
+//                            self.Secment.sendActions(for: UIControl.Event.valueChanged)
+//                            }
+//                                                          
+//
+//                            alertController.addAction(Resend)
+//                            alertController.addAction(OKAction)
+//                            self.present(alertController, animated: true, completion:nil)
+//                    }
+//
+//         }
     }
     
     //Alert function
@@ -1005,4 +1087,5 @@ class OrderViewController: UIViewController {
             sqlite3_close(db)
         }
     }
+
 }

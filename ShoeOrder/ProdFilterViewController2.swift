@@ -8,12 +8,14 @@
 
 import UIKit
 import SQLite3
+import Alamofire
 
 class ProdFilterViewController2: UIViewController {
     
     var db: OpaquePointer?
     var prod : [String] = [String]()
     
+    @IBOutlet weak var lblTitle: UILabel!
     //Create SQLite
     let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         .appendingPathComponent("order.sqlite")
@@ -24,6 +26,12 @@ class ProdFilterViewController2: UIViewController {
     {
         super.viewDidLoad()
         CustomerViewController.GlobalValiable.prod = ""  //Clear data
+        
+        if CustomerViewController.GlobalValiable.pro == 1
+        {
+            lblTitle.text = "เลือกรุ่น (PROMOTION)"
+            lblTitle.backgroundColor = UIColor.yellow
+        }
         
         pickProd.dataSource = self
         pickProd.delegate = self
@@ -37,17 +45,48 @@ class ProdFilterViewController2: UIViewController {
     
     @IBAction func btnAccept(_ sender: Any)
     {
+//        let URL_USER_LOGIN = "http://111.223.38.24:3000/checklogin_test"
+        
         if (prod.count > 0)
         {
+            //หากเป็นการคีย์ออเดอร์ โปรโมชั่นให้เช็ควันที่เริ่มต้นสิ้นสุดของรุ่นนั้นๆ ให้อยู่ใน length ก่อน
+            // if
+            
             if (CustomerViewController.GlobalValiable.prod == "")  //เป็นค่า defalse ไม่ต้องกดก็ได้
             {
                 CustomerViewController.GlobalValiable.prod = String(prod[0].prefix(7))
             }
             
-              
+            //Fetch data find stock planc   edit_date: 01-02-2022
+            //เช็คเฉพาะนอกแผนเท่านั้น
+            
+            let strplan : String = prod[0]
+            let strplanArr : [String] = strplan.components(separatedBy: "/")
+
+            // And then to access the individual words:
+            let res_strplan : String = strplanArr[1]
+            print("====> ", res_strplan);
+            
+            if (res_strplan == "นอกแผน")
+            {
+                let progressHUD = ProgressHUD(text: "Checking...")
+                self.view.addSubview(progressHUD)
+        
+                let parameters : Parameters=[
+                    "prodcode": String(prod[0].prefix(7)),
+                    "npack": String(prod[0]).containsIgnoringCase(find: "Asort") ? "1" : "2"
+                ]
+            }
+
+            
+            print("=> ", String(prod[0].prefix(7)))
+            print("=> ", prod[0])
+            
+            
             if String(prod[0]).containsIgnoringCase(find: "Asort")
             {
                 CustomerViewController.GlobalValiable.n_pack = 1
+                print("เลือก Asort")
                 
                 if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "asort") as? AsortOnlyViewController
                 {
@@ -75,9 +114,21 @@ class ProdFilterViewController2: UIViewController {
         {
             //first empty array
             prod.removeAll()
+            let queryString : String;
             
-            let queryString = String(format:"SELECT SUBSTR(prodcode,4,7) as prod, packtype, type FROM prodlist WHERE prodcode LIKE '%%%@%%' AND n_pack = '%@' AND p_novat <> 0 AND validdate <= '%@' GROUP BY prodcode, packtype, type ORDER BY prodcode", CustomerViewController.GlobalValiable.oldprod, String(CustomerViewController.GlobalValiable.n_pack), CustomerViewController.GlobalValiable.sevdate)
-            //print("คิวรี่ prodFilter2 ", queryString)
+            //เช็คว่าเลือกจัดรายการหรือไม่ ถ้าจัดรายการจะค้นหาเฉพาะรายการที่อยู่ในช่วงเวลาเท่านั้น
+            if CustomerViewController.GlobalValiable.pro == 1
+            {
+                queryString = String(format:"SELECT SUBSTR(prodcode,4,7) as prod, packtype, type FROM prodlist WHERE prodcode LIKE '%%%@%%' AND n_pack = '%@' AND p_novat <> 0 AND validdate <= '%@' AND (sfixdue <= '%@' AND efixdue >= '%@') GROUP BY prodcode, packtype, type ORDER BY prodcode", CustomerViewController.GlobalValiable.oldprod, String(CustomerViewController.GlobalValiable.n_pack), CustomerViewController.GlobalValiable.sevdate, CustomerViewController.GlobalValiable.sevdate, CustomerViewController.GlobalValiable.sevdate)
+                //print("คิวรี่ prodFilter2 ", queryString)
+            }
+            else
+            {
+                 queryString = String(format:"SELECT SUBSTR(prodcode,4,7) as prod, packtype, type FROM prodlist WHERE prodcode LIKE '%%%@%%' AND n_pack = '%@' AND p_novat <> 0 AND validdate <= '%@' GROUP BY prodcode, packtype, type ORDER BY prodcode", CustomerViewController.GlobalValiable.oldprod, String(CustomerViewController.GlobalValiable.n_pack), CustomerViewController.GlobalValiable.sevdate)
+                //print("คิวรี่ prodFilter2 ", queryString)
+            }
+                
+
             
             //statement pointer
             var stmt:OpaquePointer?

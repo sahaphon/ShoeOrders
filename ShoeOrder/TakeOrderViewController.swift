@@ -18,6 +18,7 @@ class TakeOrderViewController: UIViewController{
     @IBOutlet weak var lblAmt: UILabel!
     @IBOutlet weak var lblFree: UILabel!
     
+    @IBOutlet weak var lblTitles: UILabel!
     var Orders = [Order]()  //ประกาศตัวแปรของคลาส
     
     var db: OpaquePointer?
@@ -63,6 +64,13 @@ class TakeOrderViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if CustomerViewController.GlobalValiable.pro == 1 //จัดรายการ
+        {
+            lblTitles.text = "รายการสั่งซื้อ (PROMOTION)"
+            lblTitles.backgroundColor = UIColor.yellow
+        }
+            
         
         lblCode.text = CustomerViewController.GlobalValiable.myCode
         lblDesc.text = CustomerViewController.GlobalValiable.desc

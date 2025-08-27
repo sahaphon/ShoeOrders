@@ -1,0 +1,36 @@
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/ViewController.swift":
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ViewController.o"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ViewController.swiftconstvalues"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ViewController.swiftdeps"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ViewController.d"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ViewController.dia"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/ShoeOrder/Prod7Cell.swift":
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Prod7Cell.dia"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Prod7Cell.o"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Prod7Cell.swiftconstvalues"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Prod7Cell.swiftdeps"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Prod7Cell.d"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/ShoeOrder/OrderCell.swift":
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/OrderCell.swiftconstvalues"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/OrderCell.o"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/OrderCell.swiftdeps"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/OrderCell.dia"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/OrderCell.d"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/ShoeOrder/ODKardAllViewController.swift":
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ODKardAllViewController.d"
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ODKardAllViewController.swiftdeps"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ODKardAllViewController.swiftconstvalues"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ODKardAllViewController.dia"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ODKardAllViewController.o"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/ShoeOrder/Odtrn.swift":
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Odtrn.swiftdeps"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Odtrn.dia"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Odtrn.d"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Odtrn.swiftconstvalues"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/Odtrn.o"
+"/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/ShoeOrder/ProgressIndicator/ProgressIndicatorViewController.swift":
+  swift-dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ProgressIndicatorViewController.swiftdeps"
+  const-values: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ProgressIndicatorViewController.swiftconstvalues"
+  dependencies: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ProgressIndicatorViewController.d"
+  object: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ProgressIndicatorViewController.o"
+  diagnostics: "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/DerivedData/ShoeOrder/Build/Intermediates.noindex/ShoeOrder.build/Debug-iphonesimulator/ShoeOrder.build/Objects-normal/arm64/ProgressIndicatorViewController.dia"

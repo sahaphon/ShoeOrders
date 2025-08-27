@@ -1,0 +1,31 @@
+version: "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)"
+options: "fd0b6690c257e80e9fa0d25172e6ad6a3a5de0686c476aad024f634e821cd8f3"
+build_start_time: [1756281083, 17132000]
+build_end_time: [1756281083, 786518000]
+inputs:
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Heartbeat.swift"
+  : [1756097970, 866571624]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatController.swift"
+  : [1756097970, 867055541]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatLoggingTestUtils.swift"
+  : [1756097970, 867333291]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatStorage.swift"
+  : [1756097970, 867551249]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsBundle.swift"
+  : [1756097970, 867705374]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsPayload.swift"
+  : [1756097970, 867999458]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/RingBuffer.swift"
+  : [1756097970, 866703291]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Storage.swift"
+  : [1756097970, 866442041]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/StorageFactory.swift"
+  : [1756097970, 868125624]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/WeakContainer.swift"
+  : [1756097970, 867838749]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatController.swift"
+  : [1756097970, 866825583]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatsPayload.swift"
+  : [1756097970, 867174166]
+  ? "/Users/sahaphon-m4/Desktop/TODO/ShoeOrder_1.0.30/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/Utilities/UnfairLock.swift"
+  : [1756097970, 868648499]

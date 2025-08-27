@@ -9,8 +9,8 @@
 import UIKit
 import Alamofire
 
-class OdTransViewController: UIViewController {
-
+class OdTransViewController: UIViewController
+{
     @IBOutlet weak var lblQty: UILabel!
     @IBOutlet weak var lblTot: UILabel!
     @IBOutlet weak var myTable: UITableView!
@@ -59,77 +59,77 @@ class OdTransViewController: UIViewController {
         ]
         //print(CustomerViewController.GlobalValiable.od)
         
-        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-            {
-                
-                response in
-                //print(response)
-                
-                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                {
-                    //Check nil data
-                    var blnHaveData = false
-                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                    {
-                        blnHaveData = true
-                        break
-                    }
-                    
-                    //เช็คสิทธิการเข้าใช้งาน
-                    if (blnHaveData)
-                    {
-                        self.Odtrans.removeAll()
-                        var intQty: Int = 0
-                        var dblAmt: Double = 0
-                        
-                        for personDict in array
-                        {
-                            let No: Int
-                            var Prodcode: String
-                            let Color: String
-                            let Size: String
-                            let Qty: Int
-                            let pkqty: Int
-                            let Amt: Double
-                            let Store: String
-                            let Packcode: String
-                            
-                            No = personDict["no"] as! Int
-                            Prodcode = personDict["prodcode"] as! String
-                            Size = personDict["size"] as! String
-                            Color = personDict["color"] as! String
-                            Qty = personDict["qty"] as! Int
-                            pkqty = 0
-                            Amt = 0
-                            Store = ""
-                            Packcode = personDict["packcode"] as! String
-                            
-                            intQty = intQty + Qty
-                            dblAmt = dblAmt + Amt
-                            
-                            //Add data to dictionary
-                            self.Odtrans.append(Odtrn(no: No, prodcode: Prodcode, size: Size, color: Color, qty: Qty, pkqty: pkqty, amt: Amt, store: Store, packcode: Packcode))
-                        }
-                        
-                        self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
-                        self.lblTot.text = String(format: "%.2f", locale: Locale.current, dblAmt)  //ไม่แสดงราคา
-                        
-                        //ProgressIndicator.hide()
-                        progressHUD.hide()
-                        self.myTable.reloadData()
-                    }
-                    else
-                    {
-                        progressHUD.hide()
-                        ProgressIndicator.hide()
-                        //Alert
-                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                        
-                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                    }
-                }
-        }
+//        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
+//            {
+//                
+//                response in
+//                //print(response)
+//                
+//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                {
+//                    //Check nil data
+//                    var blnHaveData = false
+//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                    {
+//                        blnHaveData = true
+//                        break
+//                    }
+//                    
+//                    //เช็คสิทธิการเข้าใช้งาน
+//                    if (blnHaveData)
+//                    {
+//                        self.Odtrans.removeAll()
+//                        var intQty: Int = 0
+//                        var dblAmt: Double = 0
+//                        
+//                        for personDict in array
+//                        {
+//                            let No: Int
+//                            var Prodcode: String
+//                            let Color: String
+//                            let Size: String
+//                            let Qty: Int
+//                            let pkqty: Int
+//                            let Amt: Double
+//                            let Store: String
+//                            let Packcode: String
+//                            
+//                            No = personDict["no"] as! Int
+//                            Prodcode = personDict["prodcode"] as! String
+//                            Size = personDict["size"] as! String
+//                            Color = personDict["color"] as! String
+//                            Qty = personDict["qty"] as! Int
+//                            pkqty = 0
+//                            Amt = 0
+//                            Store = ""
+//                            Packcode = personDict["packcode"] as! String
+//                            
+//                            intQty = intQty + Qty
+//                            dblAmt = dblAmt + Amt
+//                            
+//                            //Add data to dictionary
+//                            self.Odtrans.append(Odtrn(no: No, prodcode: Prodcode, size: Size, color: Color, qty: Qty, pkqty: pkqty, amt: Amt, store: Store, packcode: Packcode))
+//                        }
+//                        
+//                        self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
+//                        self.lblTot.text = String(format: "%.2f", locale: Locale.current, dblAmt)  //ไม่แสดงราคา
+//                        
+//                        //ProgressIndicator.hide()
+//                        progressHUD.hide()
+//                        self.myTable.reloadData()
+//                    }
+//                    else
+//                    {
+//                        progressHUD.hide()
+//                        ProgressIndicator.hide()
+//                        //Alert
+//                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                        
+//                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                        self.present(alert, animated: true)
+//                    }
+//                }
+//        }
     }
     
     func LoadData()
@@ -147,85 +147,84 @@ class OdTransViewController: UIViewController {
         ]
         print(CustomerViewController.GlobalValiable.od)
         
-        Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
-        {
-           
-                response in
-                //print(response)
-                
-                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                {
-                    //Check nil data
-                    var blnHaveData = false
-                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                    {
-                        blnHaveData = true
-                        break
-                    }
-                    
-                    //เช็คสิทธิการเข้าใช้งาน
-                    if (blnHaveData)
-                    {
-
-                        self.Odtrans.removeAll()
-                        var intQty: Int = 0
-                        var dblAmt: Double = 0
-                        
-                        for personDict in array
-                        {
-                            let No: Int
-                            var Prodcode: String
-                            let Color: String
-                            let Size: String
-                            let Qty: Int
-                            let pkqty: Int
-                            let Amt: Double
-                            let Store: String
-                            let Packcode: String
-                            
-                            No = personDict["no"] as! Int
-                            Prodcode = personDict["prodcode"] as! String
-                            Size = personDict["size"] as! String
-                            Color = personDict["color"] as! String
-                            Qty = personDict["qty"] as! Int
-                            pkqty = personDict["pkqty"] as! Int
-                            Amt = Double(personDict["amt"] as! String)!
-                            Store = personDict["store"] as! String
-                            Packcode = personDict["packcode"] as! String
-                            
-                            intQty = intQty + Qty
-                            dblAmt = dblAmt + Amt
-                            
-                            //Add data to dictionary
-                            self.Odtrans.append(Odtrn(no: No, prodcode: Prodcode, size: Size, color: Color, qty: Qty, pkqty: pkqty, amt: Amt, store: Store, packcode: Packcode))
-                        }
-                        
-                        self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
-                        self.lblTot.text = String(format: "%.2f", locale: Locale.current, dblAmt)  //ไม่แสดงราคา
-                        
-                        //ProgressIndicator.hide()
-                        progressHUD.hide()
-                        self.myTable.reloadData()
-                    }
-                    else
-                    {
-                        progressHUD.hide()
-                        ProgressIndicator.hide()
-                        //Alert
-                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                        
-                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                    }
-                }
-        }
+//        Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
+//        {
+//           
+//                response in
+//                //print(response)
+//                
+//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                {
+//                    //Check nil data
+//                    var blnHaveData = false
+//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                    {
+//                        blnHaveData = true
+//                        break
+//                    }
+//                    
+//                    //เช็คสิทธิการเข้าใช้งาน
+//                    if (blnHaveData)
+//                    {
+//
+//                        self.Odtrans.removeAll()
+//                        var intQty: Int = 0
+//                        var dblAmt: Double = 0
+//                        
+//                        for personDict in array
+//                        {
+//                            let No: Int
+//                            var Prodcode: String
+//                            let Color: String
+//                            let Size: String
+//                            let Qty: Int
+//                            let pkqty: Int
+//                            let Amt: Double
+//                            let Store: String
+//                            let Packcode: String
+//                            
+//                            No = personDict["no"] as! Int
+//                            Prodcode = personDict["prodcode"] as! String
+//                            Size = personDict["size"] as! String
+//                            Color = personDict["color"] as! String
+//                            Qty = personDict["qty"] as! Int
+//                            pkqty = personDict["pkqty"] as! Int
+//                            Amt = Double(personDict["amt"] as! String)!
+//                            Store = personDict["store"] as! String
+//                            Packcode = personDict["packcode"] as! String
+//                            
+//                            intQty = intQty + Qty
+//                            dblAmt = dblAmt + Amt
+//                            
+//                            //Add data to dictionary
+//                            self.Odtrans.append(Odtrn(no: No, prodcode: Prodcode, size: Size, color: Color, qty: Qty, pkqty: pkqty, amt: Amt, store: Store, packcode: Packcode))
+//                        }
+//                        
+//                        self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
+//                        self.lblTot.text = String(format: "%.2f", locale: Locale.current, dblAmt)  //ไม่แสดงราคา
+//                        
+//                        //ProgressIndicator.hide()
+//                        progressHUD.hide()
+//                        self.myTable.reloadData()
+//                    }
+//                    else
+//                    {
+//                        progressHUD.hide()
+//                        ProgressIndicator.hide()
+//                        //Alert
+//                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                        
+//                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                        self.present(alert, animated: true)
+//                    }
+//                }
+//        }
     }
     
     @IBAction func btnBack(_ sender: Any)
     {
         dismiss(animated: true, completion: nil)
     }
-    
 }
 
 extension OdTransViewController: UITableViewDataSource, UITableViewDelegate

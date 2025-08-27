@@ -282,6 +282,7 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         static var recfirm : Int = 0 //งานสั่งทำ
         static var vat : Int = 0 //vat
         static var pono = String()
+        static var pro : Int = 0 //จัดโปรโมชั่น
         
         //ปุ่มรอส่ง
         static var waitsend : Int = 0 //งานสั่งทำ

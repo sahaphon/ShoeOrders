@@ -14,6 +14,7 @@ class ProdFilterViewController: UIViewController, UITextFieldDelegate {
 
     var prodDictionary = [String: String]()
     
+    @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblResult: UILabel!
     @IBOutlet weak var txtSearch: UITextField!
     
@@ -39,6 +40,13 @@ class ProdFilterViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        if CustomerViewController.GlobalValiable.pro == 1
+        {
+            lblTitle.text = "กรอกข้อมูล (PROMOTION)"
+            lblTitle.backgroundColor = UIColor.yellow
+        }
+        
         self.lblResult.text = ""
         
         txtSearch.delegate = self
@@ -140,168 +148,177 @@ class ProdFilterViewController: UIViewController, UITextFieldDelegate {
         let URL_USER_LOGIN = "http://111.223.38.24:4000/findProd"
         
         //making a post request เดิม .post
-        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-        {
-                response in
-            //print(response)
-                
-                switch response.result
-                {
-                    case .success(_):
-                     //print("ค่าที่ส่งมา : \(value)")  //หากไม่มีข้อผิดพลาด
-                    
-
-                          if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                          {
-                              var blnHaveData = false
-                    
-                              //Check nil data
-                              for myData in array  //วนลูปเช็คค่าที่ส่งมา
-                              {
-                                  self.blnAccessDenied = myData["AccessDenied"] as! Int
-                                  blnHaveData = true
-                                  break
-                              }
-                              
-                              
-                              //print("====== สิทธิ์การคีย์ :",self.blnAccessDenied)
-                              if (self.blnAccessDenied == 1)
-                              {
-                                  self.lblResult.text = "สินค้านี้ขายโดยพนักงานคนอื่น!.. หรือเครดิตเทอมผิด"
-                                  progressHUD.hide()
-                              }
-                              else
-                              {
-                                  if (blnHaveData)
-                                  {
-                                      self.blnFoundData = true
-                                      self.lblResult.text = ""
-                                      
-                                      CustomerViewController.GlobalValiable.n_pack = self.typePack
-                                      CustomerViewController.GlobalValiable.oldprod = self.txtSearch.text!  //เก็บรุ่นที่เคยคีย์
-                                      
-                                      //กำหนด พาร์ท db
-                                      let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                                          .appendingPathComponent("order.sqlite")
-                                      
-                                      var db: OpaquePointer?
-                                      
-                                      if sqlite3_open(fileURL.path, &db) != SQLITE_OK
-                                      {
-                                          print("error opening database")
-                                      }
-                                      else
-                                      {
-                                          
-                                          //บันทึกข้อมูลชุดใหม่
-                                          let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-                                          
-                                          for personDict in array
-                                          {
-                                              
-                                              let update = "INSERT INTO prodlist (prodcode, style, n_pack, packtype, type, packcode, packno, colorcode, colordesc, sizedesc, pairs, price, p_novat,validdate)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
-                                              var statement: OpaquePointer?
-                                              
-                                              //preparing the query
-                                              if sqlite3_prepare_v2(db, update, -1, &statement, nil) == SQLITE_OK
-                                              {
-                                                  let Prod = (personDict["prod"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Style = (personDict["style"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let N_pack = (personDict["n_pack"] as! Int8)
-                                                  let Packtype = (personDict["packtype"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Type = (personDict["type"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Packcode = (personDict["packcode"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Packno = (personDict["packno"] as! Int8)
-                                                  let Colorcode = (personDict["colorcode"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Colordesc = (personDict["description"] as!String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Sizedesc = (personDict["sizedesc"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  let Pairs =  (personDict["pairs"] as! Int8)
-                                                  
-
-                                                  let Price = personDict["price"]!
-                                                  let P_novat = personDict["p_novat"]!
-                                                  let Validdate = (personDict["validdate"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                                  //print("วันที่เริ่มขาย : ",Validdate)
-                                                  CustomerViewController.GlobalValiable.sevdate = (personDict["serv_date"] as! String).trimmingCharacters(in: .whitespacesAndNewlines) //เก็บวันที่ Server
-                                                  //print("วันที่ Server : ",CustomerViewController.GlobalValiable.sevdate)
-                                                  
-                                                  sqlite3_bind_text(statement, 1, Prod, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_text(statement, 2, Style, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_int(statement, 3, Int32(N_pack))
-                                                  sqlite3_bind_text(statement, 4, Packtype, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_text(statement, 5, Type, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_text(statement, 6, Packcode, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_int(statement, 7, Int32(Packno))
-                                                  sqlite3_bind_text(statement, 8, Colorcode, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_text(statement, 9, Colordesc, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_text(statement, 10, Sizedesc, -1, SQLITE_TRANSIENT)
-                                                  sqlite3_bind_int(statement, 11, Int32(Pairs))
-                                                  sqlite3_bind_double(statement, 12, Double(Price as! String)!)
-                                                  sqlite3_bind_double(statement, 13, Double(P_novat as! String)!)
-                                                  sqlite3_bind_text(statement, 14, Validdate, -1, SQLITE_TRANSIENT)
-                                                  
-                                                  //executing the query to insert values
-                                                  if sqlite3_step(statement) != SQLITE_DONE
-                                                  {
-                                                      let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                                      print("failure inserting armstr: \(errmsg)")
-                                                      return
-                                                  }
-                                              }
-                                              else
-                                              {
-                                                  let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                                  print("error preparing insert: \(errmsg)")
-                                                  return
-                                              }
-                                              
-                                              progressHUD.hide()
-                                              sqlite3_finalize(statement)
-                                          } //Close loop arrays
-                                          
-                                          sqlite3_close(db)
-                                      }
-                                      
-                                      //sqlite3_close(db)
-                                      
-                                      if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProdSelc") as? ProdFilterViewController2
-                                      {
-                                          menu.modalPresentationStyle = .fullScreen
-                                          self.present(menu, animated: true, completion: nil)
-                                      }
-                                      
-                                  }
-                                  else
-                                  {
-                                      self.lblResult.text = "***Not found data!!"
-                                      self.blnFoundData = false
-                                      
-                                      progressHUD.hide()
-                                  }
-                              }
-                              
-                          }//Close เช็คมีข้อมูล
-                    
-                    
-                    case .failure(let error): //หาก process error..
-                        
-                      let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERROR : เกิดข้อผิดพลาดขณะค้นหาข้อมูล โปรดลองใหม่อีกครั้ง!..\(error)", preferredStyle: .alert)
-                                                                                                      
-                             let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-                                    self.dismiss(animated: false, completion: nil)
-
-                             }
-                                                                              
-
-                                alertController.addAction(OKAction)
-                                self.present(alertController, animated: true, completion:nil)
-                    
-                }
-                
-                
-                 self.txtSearch.text = ""
-                
-        } //Close Alamofire!
+//        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
+//        {
+//                response in
+//            //print(response)
+//                
+//                switch response.result
+//                {
+//                    case .success(_):
+//                     //print("ค่าที่ส่งมา : \(value)")  //หากไม่มีข้อผิดพลาด
+//                    
+//
+//                          if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                          {
+//                              var blnHaveData = false
+//                    
+//                              //Check nil data
+//                              for myData in array  //วนลูปเช็คค่าที่ส่งมา
+//                              {
+//                                  self.blnAccessDenied = myData["AccessDenied"] as! Int
+//                                  blnHaveData = true
+//                                  break
+//                              }
+//                              
+//                              
+//                              //print("====== สิทธิ์การคีย์ :",self.blnAccessDenied)
+//                              if (self.blnAccessDenied == 1)
+//                              {
+//                                  self.lblResult.text = "สินค้านี้ขายโดยพนักงานคนอื่น!.. หรือเครดิตเทอมผิด"
+//                                  progressHUD.hide()
+//                              }
+//                              else
+//                              {
+//                                  if (blnHaveData)
+//                                  {
+//                                      self.blnFoundData = true
+//                                      self.lblResult.text = ""
+//                                      
+//                                      CustomerViewController.GlobalValiable.n_pack = self.typePack
+//                                      CustomerViewController.GlobalValiable.oldprod = self.txtSearch.text!  //เก็บรุ่นที่เคยคีย์
+//                                      
+//                                      //กำหนด พาร์ท db
+//                                      let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//                                          .appendingPathComponent("order.sqlite")
+//                                      
+//                                      var db: OpaquePointer?
+//                                      
+//                                      if sqlite3_open(fileURL.path, &db) != SQLITE_OK
+//                                      {
+//                                          print("error opening database")
+//                                      }
+//                                      else
+//                                      {
+//                                          
+//                                          //บันทึกข้อมูลชุดใหม่
+//                                          let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+//                                          
+//                                          for personDict in array
+//                                          {
+//                                              
+//                                              let update = "INSERT INTO prodlist (prodcode, style, n_pack, packtype, type, packcode, packno, colorcode, colordesc, sizedesc, pairs, price, p_novat, validdate, sfixdue, efixdue)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+//                                              var statement: OpaquePointer?
+//                                              
+//                                              //preparing the query
+//                                              if sqlite3_prepare_v2(db, update, -1, &statement, nil) == SQLITE_OK
+//                                              {
+//                                                  let Prod = (personDict["prod"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Style = (personDict["style"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let N_pack = (personDict["n_pack"] as! Int8)
+//                                                  let Packtype = (personDict["packtype"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Type = (personDict["type"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Packcode = (personDict["packcode"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Packno = (personDict["packno"] as! Int8)
+//                                                  let Colorcode = (personDict["colorcode"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Colordesc = (personDict["description"] as!String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Sizedesc = (personDict["sizedesc"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Pairs =  (personDict["pairs"] as! Int8)
+//                                                  
+//
+//                                                  let Price = personDict["price"]!
+//                                                  let P_novat = personDict["p_novat"]!
+//                                                  let Validdate = (personDict["validdate"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  
+//                                                  let Sfixdue = (personDict["sfixdue"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  let Efixdue = (personDict["efixdue"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                                  
+//                                                  
+//                                                  //print("วันที่เริ่มขาย : ",Validdate)
+//                                                  
+//                                                  
+//                                                  CustomerViewController.GlobalValiable.sevdate = (personDict["serv_date"] as! String).trimmingCharacters(in: .whitespacesAndNewlines) //เก็บวันที่ Server
+//                                                  //print("วันที่ Server : ",CustomerViewController.GlobalValiable.sevdate)
+//                                                  
+//                                                  sqlite3_bind_text(statement, 1, Prod, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 2, Style, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_int(statement, 3, Int32(N_pack))
+//                                                  sqlite3_bind_text(statement, 4, Packtype, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 5, Type, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 6, Packcode, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_int(statement, 7, Int32(Packno))
+//                                                  sqlite3_bind_text(statement, 8, Colorcode, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 9, Colordesc, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 10, Sizedesc, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_int(statement, 11, Int32(Pairs))
+//                                                  sqlite3_bind_double(statement, 12, Double(Price as! String)!)
+//                                                  sqlite3_bind_double(statement, 13, Double(P_novat as! String)!)
+//                                                  sqlite3_bind_text(statement, 14, Validdate, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 15, Sfixdue, -1, SQLITE_TRANSIENT)
+//                                                  sqlite3_bind_text(statement, 16, Efixdue, -1, SQLITE_TRANSIENT)
+//                                                  
+//                                                  //executing the query to insert values
+//                                                  if sqlite3_step(statement) != SQLITE_DONE
+//                                                  {
+//                                                      let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                                      print("failure inserting armstr: \(errmsg)")
+//                                                      return
+//                                                  }
+//                                              }
+//                                              else
+//                                              {
+//                                                  let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                                  print("error preparing insert: \(errmsg)")
+//                                                  return
+//                                              }
+//                                              
+//                                              progressHUD.hide()
+//                                              sqlite3_finalize(statement)
+//                                          } //Close loop arrays
+//                                          
+//                                          sqlite3_close(db)
+//                                      }
+//                                      
+//                                      //sqlite3_close(db)
+//                                      
+//                                      if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProdSelc") as? ProdFilterViewController2
+//                                      {
+//                                          menu.modalPresentationStyle = .fullScreen
+//                                          self.present(menu, animated: true, completion: nil)
+//                                      }
+//                                      
+//                                  }
+//                                  else
+//                                  {
+//                                      self.lblResult.text = "***Not found data!!"
+//                                      self.blnFoundData = false
+//                                      
+//                                      progressHUD.hide()
+//                                  }
+//                              }
+//                              
+//                          }//Close เช็คมีข้อมูล
+//                    
+//                    
+//                    case .failure(let error): //หาก process error..
+//                        
+//                      let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERROR : เกิดข้อผิดพลาดขณะค้นหาข้อมูล โปรดลองใหม่อีกครั้ง!..\(error)", preferredStyle: .alert)
+//                                                                                                      
+//                             let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
+//                                    self.dismiss(animated: false, completion: nil)
+//
+//                             }
+//                                                                              
+//
+//                                alertController.addAction(OKAction)
+//                                self.present(alertController, animated: true, completion:nil)
+//                    
+//                }
+//                
+//                
+//                 self.txtSearch.text = ""
+//                
+//        } //Close Alamofire!
     }
     else
     {

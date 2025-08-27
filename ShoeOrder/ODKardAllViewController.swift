@@ -241,154 +241,154 @@ class ODKardAllViewController: UIViewController, UISearchBarDelegate, UITextFiel
             "sale": CustomerViewController.GlobalValiable.saleid
         ]
         
-        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-            {
-                response in
-                //print(response)
-                
-                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                {
-                    //Check nil data
-                    var blnHaveData = false
-                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                    {
-                        blnHaveData = true
-                        break
-                    }
-                    
-                    //เช็คสิทธิการเข้าใช้งาน
-                    if (blnHaveData)
-                    {
-                        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                            .appendingPathComponent("order.sqlite")
-                        
-                        var db: OpaquePointer?
-                        
-                        if sqlite3_open(fileURL.path, &db) != SQLITE_OK
-                        {
-                            print("error opening database")
-                        }
-                        else
-                        {
-                            //ลบข้อมูลเก่าออกก่อน
-                            let deleteStatementStirng = "DELETE FROM kardall"
-                            var deleteStatement: OpaquePointer? = nil
-                            
-                            if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
-                            {
-                                if sqlite3_step(deleteStatement) != SQLITE_DONE
-                                {
-                                    print("Could not delete row.")
-                                }
-                            } else
-                            {
-                                print("DELETE statement could not be prepared")
-                            }
-                            
-                            sqlite3_finalize(deleteStatement)
-                            
-                            //บันทึกข้อมูลชุดใหม่
-                            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-                            
-                            self.OdK_All.removeAll()
-                            var intKard: Int = 0
-                            var dblAmt: Double = 0
-                            
-                            for personDict in array
-                            {
-                                let Code: String
-                                let CustName: String
-                                let Prodcode: String
-                                let Pack: String
-                                let Color: String
-                                let Qty: Int
-                                let KardQty: Int
-                                let Orderno: String
-                                let Date: String
-                                let Pono: String
-                                let Amt : Double
-                                
-                                Orderno = (personDict["orderno"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                                Date = personDict["date"] as! String
-                                
-                                //ตัด GS- ออก
-                                Prodcode = personDict["prodcode"] as! String
-                                Pack = personDict["pack_type"] as! String
-                                Color = personDict["color"] as! String
-                                Qty = personDict["qty"] as! Int
-                                KardQty = personDict["kard"] as! Int
-                                CustName = personDict["custname"] as! String
-                                Pono = personDict["pono"] as! String
-                                Amt = personDict["amt"] as! Double
-                                Code = personDict["code"] as! String
-                                
-                                
-                                intKard = intKard + KardQty
-                                dblAmt = dblAmt + Amt
-                                
-                                //Add data to dictionary
-                                self.OdK_All.append(OdKardAll(customer: CustName, prod: Prodcode, pack: Pack, color: Color, qty: Qty, pkqty: KardQty, orderno: Orderno, date: Date, remark: Pono))
-                                
-                                let insert = "INSERT INTO kardall (code, custname, prodcode, pack, color, qty, kardqty, orderno, date, pono, amt)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?);"
-                                var statement: OpaquePointer?
-                                
-                                //preparing the query
-                                if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
-                                {
-                                    sqlite3_bind_text(statement, 1, Code, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 2, CustName, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 3, Prodcode, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 4, Pack, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 5, Color, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_int(statement, 6, Int32(Qty))
-                                    sqlite3_bind_int(statement, 7, Int32(KardQty))
-                                    sqlite3_bind_text(statement, 8, Orderno, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 9, Date, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_text(statement, 10, Pono, -1, SQLITE_TRANSIENT)
-                                    sqlite3_bind_double(statement, 11, Amt)
-                         
-                                    //executing the query to insert values
-                                    if sqlite3_step(statement) != SQLITE_DONE
-                                    {
-                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                        print("failure inserting armstr: \(errmsg)")
-                                        return
-                                    }
-                                }
-                                else
-                                {
-                                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                    print("error preparing insert: \(errmsg)")
-                                    return
-                                }
-                                
-                                sqlite3_finalize(statement)
-                            }
-                            
-                            let formattedInt = String(format: "%d", locale: Locale.current, intKard)
-                            let formatDbl = String(format: "%.2f", locale: Locale.current, dblAmt)
-                            
-                            self.lblQty.text = formattedInt
-                            self.lblAmt.text = formatDbl
-                            
-                            //ProgressIndicator.hide()
-                            progressHUD.hide()
-                            self.myTable.reloadData()
-                        }
- 
-                    }
-                    else
-                    {
-                        progressHUD.hide()
-                        ProgressIndicator.hide()
-                        //Alert
-                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                        
-                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                    }
-                }
-        }
+//        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
+//            {
+//                response in
+//                //print(response)
+//                
+//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                {
+//                    //Check nil data
+//                    var blnHaveData = false
+//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                    {
+//                        blnHaveData = true
+//                        break
+//                    }
+//                    
+//                    //เช็คสิทธิการเข้าใช้งาน
+//                    if (blnHaveData)
+//                    {
+//                        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//                            .appendingPathComponent("order.sqlite")
+//                        
+//                        var db: OpaquePointer?
+//                        
+//                        if sqlite3_open(fileURL.path, &db) != SQLITE_OK
+//                        {
+//                            print("error opening database")
+//                        }
+//                        else
+//                        {
+//                            //ลบข้อมูลเก่าออกก่อน
+//                            let deleteStatementStirng = "DELETE FROM kardall"
+//                            var deleteStatement: OpaquePointer? = nil
+//                            
+//                            if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
+//                            {
+//                                if sqlite3_step(deleteStatement) != SQLITE_DONE
+//                                {
+//                                    print("Could not delete row.")
+//                                }
+//                            } else
+//                            {
+//                                print("DELETE statement could not be prepared")
+//                            }
+//                            
+//                            sqlite3_finalize(deleteStatement)
+//                            
+//                            //บันทึกข้อมูลชุดใหม่
+//                            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+//                            
+//                            self.OdK_All.removeAll()
+//                            var intKard: Int = 0
+//                            var dblAmt: Double = 0
+//                            
+//                            for personDict in array
+//                            {
+//                                let Code: String
+//                                let CustName: String
+//                                let Prodcode: String
+//                                let Pack: String
+//                                let Color: String
+//                                let Qty: Int
+//                                let KardQty: Int
+//                                let Orderno: String
+//                                let Date: String
+//                                let Pono: String
+//                                let Amt : Double
+//                                
+//                                Orderno = (personDict["orderno"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                                Date = personDict["date"] as! String
+//                                
+//                                //ตัด GS- ออก
+//                                Prodcode = personDict["prodcode"] as! String
+//                                Pack = personDict["pack_type"] as! String
+//                                Color = personDict["color"] as! String
+//                                Qty = personDict["qty"] as! Int
+//                                KardQty = personDict["kard"] as! Int
+//                                CustName = personDict["custname"] as! String
+//                                Pono = personDict["pono"] as! String
+//                                Amt = personDict["amt"] as! Double
+//                                Code = personDict["code"] as! String
+//                                
+//                                
+//                                intKard = intKard + KardQty
+//                                dblAmt = dblAmt + Amt
+//                                
+//                                //Add data to dictionary
+//                                self.OdK_All.append(OdKardAll(customer: CustName, prod: Prodcode, pack: Pack, color: Color, qty: Qty, pkqty: KardQty, orderno: Orderno, date: Date, remark: Pono))
+//                                
+//                                let insert = "INSERT INTO kardall (code, custname, prodcode, pack, color, qty, kardqty, orderno, date, pono, amt)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?);"
+//                                var statement: OpaquePointer?
+//                                
+//                                //preparing the query
+//                                if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
+//                                {
+//                                    sqlite3_bind_text(statement, 1, Code, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 2, CustName, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 3, Prodcode, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 4, Pack, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 5, Color, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_int(statement, 6, Int32(Qty))
+//                                    sqlite3_bind_int(statement, 7, Int32(KardQty))
+//                                    sqlite3_bind_text(statement, 8, Orderno, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 9, Date, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_text(statement, 10, Pono, -1, SQLITE_TRANSIENT)
+//                                    sqlite3_bind_double(statement, 11, Amt)
+//                         
+//                                    //executing the query to insert values
+//                                    if sqlite3_step(statement) != SQLITE_DONE
+//                                    {
+//                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                        print("failure inserting armstr: \(errmsg)")
+//                                        return
+//                                    }
+//                                }
+//                                else
+//                                {
+//                                    let errmsg = String(cString: sqlite3_errmsg(db)!)
+//                                    print("error preparing insert: \(errmsg)")
+//                                    return
+//                                }
+//                                
+//                                sqlite3_finalize(statement)
+//                            }
+//                            
+//                            let formattedInt = String(format: "%d", locale: Locale.current, intKard)
+//                            let formatDbl = String(format: "%.2f", locale: Locale.current, dblAmt)
+//                            
+//                            self.lblQty.text = formattedInt
+//                            self.lblAmt.text = formatDbl
+//                            
+//                            //ProgressIndicator.hide()
+//                            progressHUD.hide()
+//                            self.myTable.reloadData()
+//                        }
+// 
+//                    }
+//                    else
+//                    {
+//                        progressHUD.hide()
+//                        ProgressIndicator.hide()
+//                        //Alert
+//                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                        
+//                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                        self.present(alert, animated: true)
+//                    }
+//                }
+//        }
     }
     
     

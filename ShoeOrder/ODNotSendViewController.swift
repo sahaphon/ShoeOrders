@@ -54,6 +54,7 @@ class ODNotSendViewController: UIViewController {
         LoadData()
     }
     
+    /// <#Description#>
     func LoadData()
     {
         //ProgressBar
@@ -71,91 +72,91 @@ class ODNotSendViewController: UIViewController {
  
         print("ข้อมูลที่ส่งไป : ", CustomerViewController.GlobalValiable.saleid)
         print("Shop : ", CustomerViewController.GlobalValiable.myCode)
-        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-        {
-            response in
-            print(response)
-        
-            if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-            {
-                //Check nil data
-                var blnHaveData = false
-                for _ in array  //วนลูปเช็คค่าที่ส่งมา
-                {
-                    blnHaveData = true
-                    break
-                }
-                
-                //เช็คสิทธิการเข้าใช้งาน
-                if (blnHaveData)
-                {
-                    print("มีข้อมูล od")
-                    self.OdNotSends.removeAll()
-                    var intKard: Int = 0
-                    
-                    for personDict in array
-                    {
-                    
-                        let Ordern: String
-                        let Date: String
-                        var Prodcode: String
-                        let Pack: String
-                        let Color: String
-                        let Qty: Int
-                        let Qty_kard: Int
-                        let Qty_send: Int
-                        let Lst_invno: String
-                        let Lst_inv: String
-                        let Code: String
-                        let Sale: String
-                        let Pono: String
-                        
-                        Ordern = (personDict["orderno"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-                        Date = personDict["date"] as! String
-                        
-                        //ตัด GS- ออก
-                        Prodcode = personDict["prodcode"] as! String
-                        let indexStartOfText = Prodcode.index(Prodcode.startIndex, offsetBy: 3) //ตัวที่4 เป็นตันไป
-                        Prodcode = String(Prodcode[indexStartOfText...])
-                        
-                        Pack = personDict["pack_type"] as! String
-                        Color = personDict["color"] as! String
-                        Qty = personDict["qty"] as! Int
-                        Qty_kard = personDict["kard"] as! Int
-                        Qty_send = personDict["invqty"] as! Int
-                        Lst_invno = personDict["latest_inv_no"] as! String
-                        Lst_inv = personDict["latest_inv"] as! String       //วันที่อินวอยส์
-                        Code = personDict["code"] as! String
-                        Sale = personDict["saleman"] as! String
-                        Pono = personDict["pono"] as! String
-                        print("code :", Code)
-
-                        intKard = intKard + Qty_kard
-                        
-                        //Add data to dictionary
-                        self.OdNotSends.append(notSend(prodcode: Prodcode, packtype: Pack, color: Color, qty: Qty, qty_kard: Qty_kard, qty_send: Qty_send, invoice: Lst_invno, inv_date: Lst_inv, od: Ordern, od_date: Date, pono: Pono, code: Code, sale: Sale))
-                    }
-                    
-                      let formattedInt = String(format: "%d", locale: Locale.current, intKard)
-                      self.lblQty.text = formattedInt
-                      self.lblTotprice.text = "0.00"
-                    
-                      //ProgressIndicator.hide()
-                      progressHUD.hide()
-                      self.myTable.reloadData()
-                }
-                else
-                {
-                    progressHUD.hide()
-                    ProgressIndicator.hide()
-                    //Alert
-                    let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                    
-                    alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-                    self.present(alert, animated: true)
-                }
-            }
-        }
+//        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
+//        {
+//            response in
+//            print(response)
+//        
+//            if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//            {
+//                //Check nil data
+//                var blnHaveData = false
+//                for _ in array  //วนลูปเช็คค่าที่ส่งมา
+//                {
+//                    blnHaveData = true
+//                    break
+//                }
+//                
+//                //เช็คสิทธิการเข้าใช้งาน
+//                if (blnHaveData)
+//                {
+//                    print("มีข้อมูล od")
+//                    self.OdNotSends.removeAll()
+//                    var intKard: Int = 0
+//                    
+//                    for personDict in array
+//                    {
+//                    
+//                        let Ordern: String
+//                        let Date: String
+//                        var Prodcode: String
+//                        let Pack: String
+//                        let Color: String
+//                        let Qty: Int
+//                        let Qty_kard: Int
+//                        let Qty_send: Int
+//                        let Lst_invno: String
+//                        let Lst_inv: String
+//                        let Code: String
+//                        let Sale: String
+//                        let Pono: String
+//                        
+//                        Ordern = (personDict["orderno"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+//                        Date = personDict["date"] as! String
+//                        
+//                        //ตัด GS- ออก
+//                        Prodcode = personDict["prodcode"] as! String
+//                        let indexStartOfText = Prodcode.index(Prodcode.startIndex, offsetBy: 3) //ตัวที่4 เป็นตันไป
+//                        Prodcode = String(Prodcode[indexStartOfText...])
+//                        
+//                        Pack = personDict["pack_type"] as! String
+//                        Color = personDict["color"] as! String
+//                        Qty = personDict["qty"] as! Int
+//                        Qty_kard = personDict["kard"] as! Int
+//                        Qty_send = personDict["invqty"] as! Int
+//                        Lst_invno = personDict["latest_inv_no"] as! String
+//                        Lst_inv = personDict["latest_inv"] as! String       //วันที่อินวอยส์
+//                        Code = personDict["code"] as! String
+//                        Sale = personDict["saleman"] as! String
+//                        Pono = personDict["pono"] as! String
+//                        print("code :", Code)
+//
+//                        intKard = intKard + Qty_kard
+//                        
+//                        //Add data to dictionary
+//                        self.OdNotSends.append(notSend(prodcode: Prodcode, packtype: Pack, color: Color, qty: Qty, qty_kard: Qty_kard, qty_send: Qty_send, invoice: Lst_invno, inv_date: Lst_inv, od: Ordern, od_date: Date, pono: Pono, code: Code, sale: Sale))
+//                    }
+//                    
+//                      let formattedInt = String(format: "%d", locale: Locale.current, intKard)
+//                      self.lblQty.text = formattedInt
+//                      self.lblTotprice.text = "0.00"
+//                    
+//                      //ProgressIndicator.hide()
+//                      progressHUD.hide()
+//                      self.myTable.reloadData()
+//                }
+//                else
+//                {
+//                    progressHUD.hide()
+//                    ProgressIndicator.hide()
+//                    //Alert
+//                    let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                    
+//                    alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+//                    self.present(alert, animated: true)
+//                }
+//            }
+//        }
     }
     
 }

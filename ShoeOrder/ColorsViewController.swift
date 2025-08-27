@@ -16,12 +16,19 @@ class ColorsViewController: UIViewController {
     var db: OpaquePointer?
     var color : [String] = [String]()
     
+    @IBOutlet weak var lblTitle: UILabel!
     //Create SQLite
     let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         .appendingPathComponent("order.sqlite")
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        if CustomerViewController.GlobalValiable.pro == 1
+        {
+            lblTitle.text = "เลือกสี (PROMOTION)"
+            lblTitle.backgroundColor = UIColor.yellow
+        }
 
         picColor.dataSource = self
         picColor.delegate = self

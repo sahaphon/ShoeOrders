@@ -1,61 +1,60 @@
-//
-//  TimeOutViewController.swift
-//  ShoeOrder
-//
-//  Created by Sahaphon_mac on 11/22/19.
-//  Copyright © 2019 rich_noname. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 
-class TimeOutViewController: UIViewController
-{
+class TimeOutViewController: UIViewController {
     @IBOutlet weak var txtView: UITextView!
     @IBOutlet weak var loginItem: UIBarButtonItem!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         loginItem.setTitleTextAttributes([
-            NSAttributedString.Key.foregroundColor : UIColor.red,
-            NSAttributedString.Key.font : UIFont (name: "PSL Display", size: 28) as Any], for: .normal)
+            .foregroundColor: UIColor.red,
+            .font: UIFont(name: "PSL Display", size: 28) ?? .systemFont(ofSize: 28)
+        ], for: .normal)
 
-        txtView.textColor = UIColor.black
-        txtView.font = UIFont (name: "PSL Display", size: 28)
+        txtView.textColor = .black
+        txtView.font = UIFont(name: "PSL Display", size: 28) ?? .systemFont(ofSize: 28)
         txtView.textAlignment = .center
-        
-        //print("ตาราง : ", CustomerViewController.GlobalValiable.table_name)
-        //หากมีการสร้างตาราง dbf ทิ้งไว้ให้ลบออก กันสร้างไว้แล้วไม่มี od
-        if (CustomerViewController.GlobalValiable.table_name != "")
-        {
-            DropDbfTable()
-        }
-    }
-    
-    @IBAction func btnLogin(_ sender: Any)
-    {
-        let vc = LoginViewController()      //change this to your class name
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
-    }
-    
-     func DropDbfTable()
-        {
-            //URL
-            let URL_USER_LOGIN = "http://consign-ios.adda.co.th/KeyOrders/dropDbfTable.php"
-            
-            //getting the username and password
-            let parameters : Parameters=[
-                "tbname": CustomerViewController.GlobalValiable.table_name
-            ]
-            
-            //print("ลบตาราง = ", CustomerViewController.GlobalValiable.table_name)
-            //making a post request
-            Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
-            {
-                response in
 
-            }
+        if !CustomerViewController.GlobalValiable.table_name.isEmpty {
+            dropDbfTable()
         }
+    }
+
+    @IBAction func btnLogin(_ sender: Any) {
+        // ถ้าใช้ Storyboard แนะนำ instantiate ด้วย identifier
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        } else {
+            // fallback ถ้าไม่ได้ใช้ storyboard
+            let vc = LoginViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        }
+    }
+
+    private func dropDbfTable() {
+        // แนะนำใช้ https ถ้าเป็นไปได้ (หลีกเลี่ยง ATS issue)
+        let url = "http://consign-ios.adda.co.th/KeyOrders/dropDbfTable.php"
+
+        let parameters: Parameters = [
+            "tbname": CustomerViewController.GlobalValiable.table_name
+        ]
+
+        AF.request(url, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<300)
+            .response { [weak self] response in
+                switch response.result {
+                case .success:
+                    print("dropDbfTable OK")
+                    // ใช้งาน self ต่อถ้าต้องอัปเดต UI
+                    _ = self
+                case .failure(let error):
+                    print("dropDbfTable error:", error)
+                }
+            }
+    }
 }
+

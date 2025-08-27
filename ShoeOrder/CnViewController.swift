@@ -128,93 +128,93 @@ class CnViewController: UIViewController, UITextFieldDelegate
         ]
         
         print(parameters)
-        Alamofire.request(URL, method: .get, parameters: parameters).responseJSON
-        {
-            response in
-            //print(response)
-            
-            switch response.result
-            {
-                 case .success(_):
-                 
-                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-                    {
-                        self.headerTitle.removeAll()
-                        for personDict in array
-                        {
-                            //let code : String
-                            let release_valid : String
-                            let release_price : Double
-                            let release_pnovat : Double
-                            let notsold : String
-                            var notsold_date : String = ""
-                            let first_inv : String
-                            var inv_date : String = ""
-                            //let srvdate : String
-                            
-                            //code = personDict["code"] as! String
-                            release_valid = personDict["release_valid"] as! String
-                                
-                            release_price = personDict["release_price"] as! Double
-                            release_pnovat = personDict["release_pnovat"] as! Double
-                            notsold_date = personDict["notsold_date"] as! String
-                            //notsold = personDict["notsold"] as! Bool
-                            
-                            if (personDict["notsold"] as! Bool)  // false = ปกติ
-                            {
-                                notsold = "YES"
-                                notsold_date = "  " + notsold_date
-                            }
-                            else
-                            {
-                                notsold = "NO"
-                                notsold_date = ""
-                            }
-                            
-                           
-                            first_inv = personDict["first_inv"] as! String
-                            inv_date = personDict["inv_date"] as! String
-                            if (inv_date == "30/12/1899")
-                            {
-                                inv_date = "-"
-                            }
-                            
-                            //srvdate = personDict["serv_date"] as! String
-                            
-                            self.blnHaveDt = true
-                            self.headerTitle.append(TypeTitleHeader(name: "จำหน่ายครั้งเเรก :", desc0: release_valid, desc1: "", desc2: release_price, desc3: release_pnovat))
-                            self.headerTitle.append(TypeTitleHeader(name: "ปิดรับ OD :", desc0: notsold, desc1: notsold_date, desc2: 0, desc3: 0))
-                            self.headerTitle.append(TypeTitleHeader(name: "Latest invoice :", desc0: inv_date, desc1: first_inv, desc2: 0, desc3: 0))
-                        }
-                        
-                        if (self.blnHaveDt)
-                        {
-                            self.myTable.reloadData()
-                        }
-                        else
-                        {
-                            let alertController = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูล กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-                            let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-                                                                    
-                            }
-                                                            
-                            alertController.addAction(OKAction)
-                            self.present(alertController, animated: true, completion:nil)
-                        }
-                       
-                        progressHUD.hide()
-                }
-                else
-                {
-                    print("Empty data..")
-                    self.blnHaveDt = false
-                }
-                    
-                 case .failure(let error):
-                      print(error)
-                     // error handling
-                 }
-        }
+//        Alamofire.request(URL, method: .get, parameters: parameters).responseJSON
+//        {
+//            response in
+//            //print(response)
+//            
+//            switch response.result
+//            {
+//                 case .success(_):
+//                 
+//                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
+//                    {
+//                        self.headerTitle.removeAll()
+//                        for personDict in array
+//                        {
+//                            //let code : String
+//                            let release_valid : String
+//                            let release_price : Double
+//                            let release_pnovat : Double
+//                            let notsold : String
+//                            var notsold_date : String = ""
+//                            let first_inv : String
+//                            var inv_date : String = ""
+//                            //let srvdate : String
+//                            
+//                            //code = personDict["code"] as! String
+//                            release_valid = personDict["release_valid"] as! String
+//                                
+//                            release_price = personDict["release_price"] as! Double
+//                            release_pnovat = personDict["release_pnovat"] as! Double
+//                            notsold_date = personDict["notsold_date"] as! String
+//                            //notsold = personDict["notsold"] as! Bool
+//                            
+//                            if (personDict["notsold"] as! Bool)  // false = ปกติ
+//                            {
+//                                notsold = "YES"
+//                                notsold_date = "  " + notsold_date
+//                            }
+//                            else
+//                            {
+//                                notsold = "NO"
+//                                notsold_date = ""
+//                            }
+//                            
+//                           
+//                            first_inv = personDict["first_inv"] as! String
+//                            inv_date = personDict["inv_date"] as! String
+//                            if (inv_date == "30/12/1899")
+//                            {
+//                                inv_date = "-"
+//                            }
+//                            
+//                            //srvdate = personDict["serv_date"] as! String
+//                            
+//                            self.blnHaveDt = true
+//                            self.headerTitle.append(TypeTitleHeader(name: "จำหน่ายครั้งเเรก :", desc0: release_valid, desc1: "", desc2: release_price, desc3: release_pnovat))
+//                            self.headerTitle.append(TypeTitleHeader(name: "ปิดรับ OD :", desc0: notsold, desc1: notsold_date, desc2: 0, desc3: 0))
+//                            self.headerTitle.append(TypeTitleHeader(name: "Latest invoice :", desc0: inv_date, desc1: first_inv, desc2: 0, desc3: 0))
+//                        }
+//                        
+//                        if (self.blnHaveDt)
+//                        {
+//                            self.myTable.reloadData()
+//                        }
+//                        else
+//                        {
+//                            let alertController = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูล กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+//                            let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
+//                                                                    
+//                            }
+//                                                            
+//                            alertController.addAction(OKAction)
+//                            self.present(alertController, animated: true, completion:nil)
+//                        }
+//                       
+//                        progressHUD.hide()
+//                }
+//                else
+//                {
+//                    print("Empty data..")
+//                    self.blnHaveDt = false
+//                }
+//                    
+//                 case .failure(let error):
+//                      print(error)
+//                     // error handling
+//                 }
+//        }
     }
     
      private func textFieldShouldReturn(textField: UITextField) -> Bool {
