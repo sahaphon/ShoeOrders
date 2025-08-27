@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C26A66A3891A0394481692D /* libPods-ShoeOrderUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31D5BD89AE22C791621164 /* libPods-ShoeOrderUITests.a */; };
-		33BA411F21ACA830BFE1CD03 /* Pods_ShoeOrder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE067FB25EE2C43098D57442 /* Pods_ShoeOrder.framework */; };
+		58DFE366D218046735ACA114 /* libPods-ShoeOrderUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD8EF40C364F1DABC215231 /* libPods-ShoeOrderUITests.a */; };
 		84054670216F08DC00F2E88C /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8405466F216F08DC00F2E88C /* libsqlite3.0.tbd */; };
 		8415EAA72167C52100397A37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8415EAA62167C52100397A37 /* AppDelegate.swift */; };
 		8415EAAC2167C52100397A37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8415EAAA2167C52100397A37 /* Main.storyboard */; };
@@ -107,7 +106,8 @@
 		84F66EDD23099F2D00381EE3 /* icons8-wi-fi-disconnected-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F66EDC23099F2C00381EE3 /* icons8-wi-fi-disconnected-100.png */; };
 		84F66EDF2309A06800381EE3 /* CheckIntenetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F66EDE2309A06800381EE3 /* CheckIntenetViewController.swift */; };
 		84FB8A2221E79AFF006B01D1 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FB8A2121E79AFF006B01D1 /* ProductCell.swift */; };
-		8DECBEBE857D79262DFB7FF6 /* libPods-ShoeOrderTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD688A2C02614584914516B6 /* libPods-ShoeOrderTests.a */; };
+		9B02DC21F57F72FE197E07B1 /* Pods_ShoeOrder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB74C83AA67DC95612E45F47 /* Pods_ShoeOrder.framework */; };
+		D01D75794C2B4AA2754F1F6F /* libPods-ShoeOrderTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6529DCD644C401E3D0B720F /* libPods-ShoeOrderTests.a */; };
 		FDC6F1AA2E5C22FE007E1B0F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849E1C66216C8780007C216D /* Alamofire.framework */; };
 /* End PBXBuildFile section */
 
@@ -129,8 +129,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		524124D82257553BAD1D62FF /* Pods-ShoeOrderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderTests.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrderTests/Pods-ShoeOrderTests.release.xcconfig"; sourceTree = "<group>"; };
-		7BFC5D85EAB4BB15D9D424BB /* Pods-ShoeOrder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrder.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder.release.xcconfig"; sourceTree = "<group>"; };
+		1F589AD562F78890EA0B8486 /* Pods-ShoeOrder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrder.debug.xcconfig"; path = "Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder.debug.xcconfig"; sourceTree = "<group>"; };
 		8405466F216F08DC00F2E88C /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8415EAA32167C52100397A37 /* ShoeOrder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoeOrder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8415EAA62167C52100397A37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -236,13 +235,14 @@
 		84F66EDC23099F2C00381EE3 /* icons8-wi-fi-disconnected-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-wi-fi-disconnected-100.png"; sourceTree = "<group>"; };
 		84F66EDE2309A06800381EE3 /* CheckIntenetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIntenetViewController.swift; sourceTree = "<group>"; };
 		84FB8A2121E79AFF006B01D1 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
-		8F337BC20C77B849CFF577E5 /* Pods-ShoeOrderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderUITests.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrderUITests/Pods-ShoeOrderUITests.release.xcconfig"; sourceTree = "<group>"; };
-		9860176CC4257E3FCCCB4F71 /* Pods-ShoeOrderUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShoeOrderUITests/Pods-ShoeOrderUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		9F31D5BD89AE22C791621164 /* libPods-ShoeOrderUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShoeOrderUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD688A2C02614584914516B6 /* libPods-ShoeOrderTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShoeOrderTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6CE4A0CA63DFF0B6376CA03 /* Pods-ShoeOrderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderTests.debug.xcconfig"; path = "Target Support Files/Pods-ShoeOrderTests/Pods-ShoeOrderTests.debug.xcconfig"; sourceTree = "<group>"; };
-		DE067FB25EE2C43098D57442 /* Pods_ShoeOrder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoeOrder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF9926980BF9112730FAA4D7 /* Pods-ShoeOrder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrder.debug.xcconfig"; path = "Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder.debug.xcconfig"; sourceTree = "<group>"; };
+		A53C9B3E6A9212D1DA041201 /* Pods-ShoeOrder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrder.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder.release.xcconfig"; sourceTree = "<group>"; };
+		B2704E753C7266549AB3F0C7 /* Pods-ShoeOrderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderUITests.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrderUITests/Pods-ShoeOrderUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B2F4EB21E33BAA832BB2E423 /* Pods-ShoeOrderUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShoeOrderUITests/Pods-ShoeOrderUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B822B7073735D37C02743068 /* Pods-ShoeOrderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderTests.debug.xcconfig"; path = "Target Support Files/Pods-ShoeOrderTests/Pods-ShoeOrderTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BB74C83AA67DC95612E45F47 /* Pods_ShoeOrder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoeOrder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC955FE1B58EB8366CF7A3EA /* Pods-ShoeOrderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderTests.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrderTests/Pods-ShoeOrderTests.release.xcconfig"; sourceTree = "<group>"; };
+		E6529DCD644C401E3D0B720F /* libPods-ShoeOrderTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShoeOrderTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAD8EF40C364F1DABC215231 /* libPods-ShoeOrderUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShoeOrderUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,7 +252,7 @@
 			files = (
 				84054670216F08DC00F2E88C /* libsqlite3.0.tbd in Frameworks */,
 				FDC6F1AA2E5C22FE007E1B0F /* Alamofire.framework in Frameworks */,
-				33BA411F21ACA830BFE1CD03 /* Pods_ShoeOrder.framework in Frameworks */,
+				9B02DC21F57F72FE197E07B1 /* Pods_ShoeOrder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,7 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DECBEBE857D79262DFB7FF6 /* libPods-ShoeOrderTests.a in Frameworks */,
+				D01D75794C2B4AA2754F1F6F /* libPods-ShoeOrderTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +268,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C26A66A3891A0394481692D /* libPods-ShoeOrderUITests.a in Frameworks */,
+				58DFE366D218046735ACA114 /* libPods-ShoeOrderUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,9 +280,9 @@
 			children = (
 				8405466F216F08DC00F2E88C /* libsqlite3.0.tbd */,
 				849E1C66216C8780007C216D /* Alamofire.framework */,
-				DE067FB25EE2C43098D57442 /* Pods_ShoeOrder.framework */,
-				AD688A2C02614584914516B6 /* libPods-ShoeOrderTests.a */,
-				9F31D5BD89AE22C791621164 /* libPods-ShoeOrderUITests.a */,
+				BB74C83AA67DC95612E45F47 /* Pods_ShoeOrder.framework */,
+				E6529DCD644C401E3D0B720F /* libPods-ShoeOrderTests.a */,
+				FAD8EF40C364F1DABC215231 /* libPods-ShoeOrderUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -458,12 +458,12 @@
 		E81906088B15C86E5D296E62 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DF9926980BF9112730FAA4D7 /* Pods-ShoeOrder.debug.xcconfig */,
-				7BFC5D85EAB4BB15D9D424BB /* Pods-ShoeOrder.release.xcconfig */,
-				C6CE4A0CA63DFF0B6376CA03 /* Pods-ShoeOrderTests.debug.xcconfig */,
-				524124D82257553BAD1D62FF /* Pods-ShoeOrderTests.release.xcconfig */,
-				9860176CC4257E3FCCCB4F71 /* Pods-ShoeOrderUITests.debug.xcconfig */,
-				8F337BC20C77B849CFF577E5 /* Pods-ShoeOrderUITests.release.xcconfig */,
+				1F589AD562F78890EA0B8486 /* Pods-ShoeOrder.debug.xcconfig */,
+				A53C9B3E6A9212D1DA041201 /* Pods-ShoeOrder.release.xcconfig */,
+				B822B7073735D37C02743068 /* Pods-ShoeOrderTests.debug.xcconfig */,
+				BC955FE1B58EB8366CF7A3EA /* Pods-ShoeOrderTests.release.xcconfig */,
+				B2F4EB21E33BAA832BB2E423 /* Pods-ShoeOrderUITests.debug.xcconfig */,
+				B2704E753C7266549AB3F0C7 /* Pods-ShoeOrderUITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -475,11 +475,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8415EACB2167C52200397A37 /* Build configuration list for PBXNativeTarget "ShoeOrder" */;
 			buildPhases = (
-				D0600B3D5BD1BB010E66BEFB /* [CP] Check Pods Manifest.lock */,
+				FC64258213E1022E8118D1E5 /* [CP] Check Pods Manifest.lock */,
 				8415EA9F2167C52100397A37 /* Sources */,
 				8415EAA02167C52100397A37 /* Frameworks */,
 				8415EAA12167C52100397A37 /* Resources */,
-				785F17B9A4ADA43195D51FE1 /* [CP] Embed Pods Frameworks */,
+				DDE446C90B114A1D852B80A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -494,7 +494,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8415EACE2167C52200397A37 /* Build configuration list for PBXNativeTarget "ShoeOrderTests" */;
 			buildPhases = (
-				52431BF0DA8442E02C6D0A37 /* [CP] Check Pods Manifest.lock */,
+				5CFDDABDFFEAE9A0A2F61CE9 /* [CP] Check Pods Manifest.lock */,
 				8415EAB32167C52200397A37 /* Sources */,
 				8415EAB42167C52200397A37 /* Frameworks */,
 				8415EAB52167C52200397A37 /* Resources */,
@@ -513,7 +513,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8415EAD12167C52200397A37 /* Build configuration list for PBXNativeTarget "ShoeOrderUITests" */;
 			buildPhases = (
-				95E96FAFA204E5458A16713D /* [CP] Check Pods Manifest.lock */,
+				8CD747517A5754363CCD276E /* [CP] Check Pods Manifest.lock */,
 				8415EABE2167C52200397A37 /* Sources */,
 				8415EABF2167C52200397A37 /* Frameworks */,
 				8415EAC02167C52200397A37 /* Resources */,
@@ -651,7 +651,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		52431BF0DA8442E02C6D0A37 /* [CP] Check Pods Manifest.lock */ = {
+		5CFDDABDFFEAE9A0A2F61CE9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -673,37 +673,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		785F17B9A4ADA43195D51FE1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		95E96FAFA204E5458A16713D /* [CP] Check Pods Manifest.lock */ = {
+		8CD747517A5754363CCD276E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -725,7 +695,41 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D0600B3D5BD1BB010E66BEFB /* [CP] Check Pods Manifest.lock */ = {
+		DDE446C90B114A1D852B80A6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging/FirebaseMessaging_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb_Privacy.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Alamofire.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCore_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCoreInternal_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseInstallations_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseMessaging_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleDataTransport_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleUtilities_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FBLPromises_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/nanopb_Privacy.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShoeOrder/Pods-ShoeOrder-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC64258213E1022E8118D1E5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -979,13 +983,14 @@
 		};
 		8415EACC2167C52200397A37 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF9926980BF9112730FAA4D7 /* Pods-ShoeOrder.debug.xcconfig */;
+			baseConfigurationReference = 1F589AD562F78890EA0B8486 /* Pods-ShoeOrder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 77XD555ZVK;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = ShoeOrder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1007,13 +1012,14 @@
 		};
 		8415EACD2167C52200397A37 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BFC5D85EAB4BB15D9D424BB /* Pods-ShoeOrder.release.xcconfig */;
+			baseConfigurationReference = A53C9B3E6A9212D1DA041201 /* Pods-ShoeOrder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 77XD555ZVK;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = ShoeOrder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1035,7 +1041,7 @@
 		};
 		8415EACF2167C52200397A37 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6CE4A0CA63DFF0B6376CA03 /* Pods-ShoeOrderTests.debug.xcconfig */;
+			baseConfigurationReference = B822B7073735D37C02743068 /* Pods-ShoeOrderTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1056,7 +1062,7 @@
 		};
 		8415EAD02167C52200397A37 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 524124D82257553BAD1D62FF /* Pods-ShoeOrderTests.release.xcconfig */;
+			baseConfigurationReference = BC955FE1B58EB8366CF7A3EA /* Pods-ShoeOrderTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1077,7 +1083,7 @@
 		};
 		8415EAD22167C52200397A37 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9860176CC4257E3FCCCB4F71 /* Pods-ShoeOrderUITests.debug.xcconfig */;
+			baseConfigurationReference = B2F4EB21E33BAA832BB2E423 /* Pods-ShoeOrderUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NV5382425C;
@@ -1097,7 +1103,7 @@
 		};
 		8415EAD32167C52200397A37 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F337BC20C77B849CFF577E5 /* Pods-ShoeOrderUITests.release.xcconfig */;
+			baseConfigurationReference = B2704E753C7266549AB3F0C7 /* Pods-ShoeOrderUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NV5382425C;

@@ -1,13 +1,12 @@
 platform :ios, '13.0'
 
 target 'ShoeOrder' do
-  use_frameworks!
+  use_frameworks! :linkage => :static
 
-  # ใช้ Alamofire รุ่นใหม่ (แนะนำ 5.9 ขึ้นไป)
   pod 'Alamofire', '~> 5.9'
-
-  pod 'Firebase/Analytics'
-
+  pod 'FirebaseCore'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseMessaging'
 end
 
 target 'ShoeOrderTests' do
@@ -18,7 +17,6 @@ target 'ShoeOrderUITests' do
   inherit! :search_paths
 end
 
-# บังคับ iOS deployment target ให้ทุก Pods
 post_install do |installer|
   installer.pods_project.targets.each do |t|
     t.build_configurations.each do |config|
