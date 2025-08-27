@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 import SQLite3
 
-
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var lblResult: UILabel!
@@ -190,7 +189,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     "version": ver!
                 ]
                 
-          
                 AF.request(URL_USER_LOGIN, method: .get, parameters: parameters)
                     .validate(statusCode: 200..<300)  // แนะนำให้ใส่เสมอ
                     // ถ้าเซิร์ฟเวอร์ส่ง Content-Type แปลกๆ (เช่น text/html) ให้เพิ่ม:
@@ -201,236 +199,41 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         
                         switch response.result {
                                 
-                            case .success(let value):
+                            case .success(let customers):
                                 
-                                guard let array = value as? [[String: Any]] else {
-                                    self.showBasicAlert(title: "ผิดพลาด!", message: "รูปแบบข้อมูลไม่ถูกต้อง")
-                                    return
-                                }
+//                            print("response -----> ", customers)
+//                            for customer in customers {
+//                                print("รหัส:", customer.code,
+//                                         "ชื่อร้าน:", customer.customer_name,
+//                                         "เครดิตเทอม:", customer.crterm,
+//                                         "ผู้ติดต่อ:", customer.customer_name,
+//                                         "typevat:", customer.typevat ? 1 : 0)
+//                            }
                             
-                            
-                                if value.count == 0  {
-                                    self.showBasicAlert(title: "ผิดพลาด!", message: "ไม่พบผู้ใช้งานในระบบ กรุณาลองใหม่อีกครั้ง..")
-                                    return
-                                }
-                                
-    
-                                //Clear textfield
-                                self.user.text = ""
-                                self.password.text = ""
-                                self.user.text = ""
-                                self.password.text = ""
-                            
-                            print("login data", value)
-                            print("Customer:,\(Customer.self)")
-//                            self.addData(customers:  )
-                               
-                                
-                                break
-                            case .failure(let error):
-                                print("login error:", error)
+                            // ✅ ไม่ต้อง cast เป็น [[String: Any]]
+                            print("count : \(customers.count)")
+                            if (customers.count == 0) {
                                 self.showBasicAlert(title: "ผิดพลาด!", message: "ไม่พบผู้ใช้งานในระบบ กรุณาลองใหม่อีกครั้ง..")
-                                
-                                break
+                                return
                             }
+
+                            //Clear textfield
+                            self.user.text = ""
+                            self.password.text = ""
+                            self.user.text = ""
+                            self.password.text = ""
+                            
+                            self.addData(customers: customers)
+                               
+                            break
+                        case .failure(let error):
+                            print("login error:", error)
+                            self.showBasicAlert(title: "ผิดพลาด!", message: "ไม่พบผู้ใช้งานในระบบ กรุณาลองใหม่อีกครั้ง..")
+                            
+                            break
+                        }
                     }
                 
-//                
-//                Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-//                {
-//                    response in
-//                    //print(response)
-//                    
-//                    switch response.result
-//                    {
-//                        case .success(_):
-//       
-//                            if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-//                            {
-//                                //Clear textfield
-//                                self.user.text = ""
-//                                self.password.text = ""
-//                                
-//                                //Check nil data
-//                                var blnHaveData = false
-//                                for _ in array  //วนลูปเช็คค่าที่ส่งมา
-//                                {
-//                                    blnHaveData = true
-//                                    break
-//                                }
-//                                
-//                                //เช็คสิทธิการเข้าใช้งาน
-//                                if (blnHaveData)
-//                                {
-//                                
-//                                    //กำหนด พาร์ท db
-//                                    let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-//                                        .appendingPathComponent("order.sqlite")
-//                                    
-//                                    var db: OpaquePointer?
-//                                    
-//                                    if sqlite3_open(fileURL.path, &db) != SQLITE_OK
-//                                    {
-//                                        print("error opening database")
-//                                    }
-//                                    else
-//                                    {
-//                                        //ลบข้อมูลเก่าออกก่อน
-//                                        var deleteStatementStirng = "DELETE FROM armstr"
-//                                        var deleteStatement: OpaquePointer? = nil
-//                                        
-//                                        if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
-//                                        {
-//                                            if sqlite3_step(deleteStatement) != SQLITE_DONE
-//                                            {
-//                                                print("Could not delete row.")
-//                                            }
-//                                        } else
-//                                        {
-//                                            print("DELETE statement could not be prepared")
-//                                        }
-//                                        
-//                                        sqlite3_finalize(deleteStatement)
-//                                        
-//                                        //ลบข้อมูลเก่าออกก่อน odmst
-//                                        deleteStatementStirng = "DELETE FROM odmst"
-//                                        var deleteStatement2: OpaquePointer? = nil
-//                                        
-//                                        if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement2, nil) == SQLITE_OK
-//                                        {
-//                                            if sqlite3_step(deleteStatement2) != SQLITE_DONE
-//                                            {
-//                                                print("Could not delete row.")
-//                                            }
-//                                        } else
-//                                        {
-//                                            print("DELETE statement could not be prepared")
-//                                        }
-//                                        
-//                                        sqlite3_finalize(deleteStatement2)
-//                                        
-//                                        
-//                                        //บันทึกข้อมูลชุดใหม่
-//                                        let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-//                                        var serv_ver = ""
-//                                        var rowno = 0
-//                                        
-//                                        for personDict in array
-//                                        {
-//                                            if (rowno == 0)  //เก็บเวอร์ชั่นจาก Server
-//                                            {
-//                                               serv_ver = (personDict["curr_ver"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)    //เก็บเวอร์ชั่น จาก Server
-//                                            }
-//                                            
-//
-//                                            let update = "INSERT INTO armstr (code, name, cr_term, disc, sale, salenm, typevat)" + "VALUES (?,?,?,?,?,?,?);"
-//                                            var statement: OpaquePointer?
-//                                            
-//                                            //preparing the query
-//                                            if sqlite3_prepare_v2(db, update, -1, &statement, nil) == SQLITE_OK
-//                                            {
-//                                                //Declear Valiable
-//                                                let code = (personDict["code"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-//                                                let name = (personDict["arname"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-//                                                
-//                                                let crterm:String = String(format: "%@", personDict["crterm"] as! CVarArg)
-//                                                let disc:String = String(format: "%@", personDict["disc"] as! CVarArg)
-//                                                //let disc = Double(personDict["disc"] as! String)!
-//                                                let sale = (personDict["id"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-//                                                let sname = (personDict["name"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-//                                                let typevat = (personDict["typevat"] as! Int)
-//                                                
-//                                                
-//                                                //sqlite3_bind_double(statement, 4, disc)
-//                                                sqlite3_bind_text(statement, 1, code, -1, SQLITE_TRANSIENT)
-//                                                sqlite3_bind_text(statement, 2, name, -1, SQLITE_TRANSIENT)
-//                                                sqlite3_bind_text(statement, 3, crterm, -1, SQLITE_TRANSIENT)
-//                                                sqlite3_bind_text(statement, 4, disc, -1, SQLITE_TRANSIENT)
-//                                                sqlite3_bind_text(statement, 5, sale, -1, SQLITE_TRANSIENT)
-//                                                sqlite3_bind_text(statement, 6, sname, -1, SQLITE_TRANSIENT)
-//                                                sqlite3_bind_int(statement, 7, Int32(typevat))
-//                                            
-//                                                
-//                                                CustomerViewController.GlobalValiable.saleid = sale //เก็บ รหัส sale
-//                                                
-//                                                //executing the query to insert values
-//                                                if sqlite3_step(statement) != SQLITE_DONE
-//                                                {
-//                                                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-//                                                    print("failure inserting armstr: \(errmsg)")
-//                                                    return
-//                                                }
-//                                                
-//                                            }
-//                                            else
-//                                            {
-//                                                let errmsg = String(cString: sqlite3_errmsg(db)!)
-//                                                print("error preparing insert: \(errmsg)")
-//                                                return
-//                                                
-//                                            }
-//                                            
-//                                            rowno = rowno + 1
-//                                            
-//                                            sqlite3_finalize(statement)
-//                                        }  //forloop
-//                                        
-//                                        sqlite3_close(db)
-//                                        
-//                                        //ProgressIndicator.hide()
-//                                        progressHUD.hide()
-//                                        
-//                                        print("เวอร์ชั่นแอพ : \(String(describing: self.ver)) : server : \(serv_ver)")
-//                                        if (self.ver == serv_ver)
-//                                           {
-//                                               if let delegate = UIApplication.shared.delegate as? AppDelegate
-//                                               {
-//                                                   let storyboard : UIStoryboard? = UIStoryboard(name: "Main", bundle: nil)
-//                                                   let rootController = storyboard!.instantiateViewController(withIdentifier: "Tab")
-//                                                   delegate.window?.rootViewController = rootController
-//                                               }
-//                                           }
-//                                           else
-//                                           {
-//    //                                            print("Out of version..")
-//                                                let alertController = UIAlertController(title: "กรุณาอัพเดท", message: "แอพพลิเคชั่นคีย์ออเดอร์มีเวอร์ชั่นใหม่ โปรดอัพเดทเพื่อการใช้งานที่ราบรื่น..", preferredStyle: .alert)
-//                                                                                        
-//                                                let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-//                                                    //
-//                                                }
-//                                                
-//                                                let Resend = UIAlertAction(title: "อัพเดท", style: .default) { (action:UIAlertAction!) in
-//                                                    //Link AppStore update apps
-//                                                    UIApplication.shared.open((URL(string: "itms://itunes.apple.com/app/apple-store/id" + "1450217925")!), options:[:], completionHandler: nil)
-//                                                }
-//                                                
-//                                              
-//                                                alertController.addAction(Resend)
-//                                                alertController.addAction(OKAction)
-//                                                self.present(alertController, animated: true, completion:nil)
-//                                            
-//                                           }
-//                                        
-//
-//                                    } //open database
-//                                    
-//                                }
-//                            }
-//                            break
-//                        case .failure(let error) :
-//                            print(error)
-//                            
-//                            progressHUD.hide()
-//                            
-//                            //Alert
-//                            let alert = UIAlertController(title: "ผิดพลาด!", message: "ไม่พบผู้ใช้งานในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-//                            alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-//                            self.present(alert, animated: true)
-//                            
-//                            break
-//                    }
-//                    
-//                }
             }
         }
         else
@@ -458,13 +261,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     struct Customer: Decodable {
         let code: String
-        let arname: String
-        let crterm: StringOrNumber
-        let disc: StringOrNumber
-        let id: String
-        let name: String
-        let typevat: Int
-        let curr_ver: String?     // เจอเฉพาะแถวแรก
+        let customer_name: String
+        let crterm: Int
+        let disc: Double
+        let saleman: String
+        let salename: String
+        let typevat: Bool
+        let curr_ver: String
+        
+        enum CodingKeys: String, CodingKey {
+            case code, crterm, disc, typevat, curr_ver
+            case customer_name = "arname"   //แปลงจาก arname -> customer_name
+            case saleman = "id"
+            case salename = "name"
+        }
     }
     
     // ************** END Struct *************
@@ -683,8 +493,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
        sqlite3_close(db)
     }
     
-    func addData(customers: [Customer]) {
-        
+    func addData(customers: [Customer])
+    {
         //กำหนด พาร์ท db
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("order.sqlite")
         
@@ -734,14 +544,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 //บันทึกข้อมูลชุดใหม่
                 let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
                 var server_version = ""
-                var rowno = 0
                 
                 //วนลูปค่าใน array
                 for c in customers {
                     
                     //เก็บค่าแรกของ Version
                     if let first = customers.first {
-                        server_version = first.curr_ver!
+                        server_version = first.curr_ver
                     }
                     
                     let update = "INSERT INTO armstr (code, name, cr_term, disc, sale, salenm, typevat)" + "VALUES (?,?,?,?,?,?,?);"
@@ -751,29 +560,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     //preparing the query
                     if sqlite3_prepare_v2(db, update, -1, &statement, nil) == SQLITE_OK
                     {
-                        //Declear Valiable
-                        let code = (c.code).trimmingCharacters(in: .whitespacesAndNewlines)
-                        let name = (c.arname).trimmingCharacters(in: .whitespacesAndNewlines)
-                        
-                        let crterm:String = String(format: "%@", c.crterm as! CVarArg)
-                        let disc:String = String(format: "%@", c.disc as! CVarArg)
-
-                        let sale = (c.id).trimmingCharacters(in: .whitespacesAndNewlines)
-                        let sname = (c.name).trimmingCharacters(in: .whitespacesAndNewlines)
-                        let typevat = NSNumber(value: c.typevat).intValue  //Convert boolean to int
-                        
-                        
-                        //sqlite3_bind_double(statement, 4, disc)
-                        sqlite3_bind_text(statement, 1, code, -1, SQLITE_TRANSIENT)
-                        sqlite3_bind_text(statement, 2, name, -1, SQLITE_TRANSIENT)
-                        sqlite3_bind_text(statement, 3, crterm, -1, SQLITE_TRANSIENT)
-                        sqlite3_bind_text(statement, 4, disc, -1, SQLITE_TRANSIENT)
-                        sqlite3_bind_text(statement, 5, sale, -1, SQLITE_TRANSIENT)
-                        sqlite3_bind_text(statement, 6, sname, -1, SQLITE_TRANSIENT)
-                        sqlite3_bind_int(statement, 7, Int32(typevat))
+                        sqlite3_bind_text(statement, 1, (c.code as NSString).utf8String, -1, SQLITE_TRANSIENT)
+                        sqlite3_bind_text(statement, 2, (c.customer_name as NSString).utf8String, -1, SQLITE_TRANSIENT)
+                        sqlite3_bind_int(statement, 3, Int32(exactly: c.crterm)!)
+                        sqlite3_bind_double(statement, 4, c.disc)
+                        sqlite3_bind_text(statement, 5, c.saleman, -1, SQLITE_TRANSIENT)
+                        sqlite3_bind_text(statement, 6, c.salename, -1, SQLITE_TRANSIENT)
+                        sqlite3_bind_int(statement, 7, Int32(exactly: c.typevat ? 1 : 0)!)
                     
-                        
-                        CustomerViewController.GlobalValiable.saleid = sale //เก็บ รหัส sale
+                        CustomerViewController.GlobalValiable.saleid = c.saleman   //เก็บ รหัส sale
                         
                         //executing the query to insert values
                         if sqlite3_step(statement) != SQLITE_DONE
@@ -804,6 +599,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("เวอร์ชั่นแอพ : \(server_version)")
                 if (self.ver == server_version)
                    {
+                       print(" ✅ ผ่านการตรวจสอบ")
                        if let delegate = UIApplication.shared.delegate as? AppDelegate
                        {
                            let storyboard : UIStoryboard? = UIStoryboard(name: "Main", bundle: nil)

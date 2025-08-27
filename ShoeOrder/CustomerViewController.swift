@@ -31,8 +31,6 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         
         /* Setup delegates */
         SearchBar.delegate = self
-//        SearchBar.backgroundColor = UIColor.white
-//        SearchBar.barTintColor = UIColor.white
         
         self.navigationController?.navigationBar.titleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.black,
