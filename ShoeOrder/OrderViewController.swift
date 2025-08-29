@@ -41,6 +41,12 @@ class OrderViewController: UIViewController {
     @IBOutlet weak var btnPro: UIButton!
     var blnPro: Bool!
     
+    
+    //เพิ่มปุ่มเช็คธุรการสั่งจัด
+    @IBOutlet weak var btnPK: UIButton!
+    var blnPk: Bool!
+    
+    
     var db: OpaquePointer?
     let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         .appendingPathComponent("order.sqlite")
@@ -48,6 +54,7 @@ class OrderViewController: UIViewController {
     var json = [[String: Any]]()  //Declare empty dictionary
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         lblCode.text = CustomerViewController.GlobalValiable.myCode
@@ -154,6 +161,23 @@ class OrderViewController: UIViewController {
             self.present(navController, animated:true, completion: nil)
         }
     }
+    
+    //ปุ่มธุรการสั่งจัด
+    @IBAction func btnPK(_ sender: Any) {
+        if blnPk == true
+          {
+              btnPK.setImage(checkBox, for: UIControl.State.normal)
+              CustomerViewController.GlobalValiable.blnadmin_pk = true
+              blnPk = false
+          }
+          else
+          {
+              btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+              CustomerViewController.GlobalValiable.blnadmin_pk = false
+              blnPk = true
+          }
+    }
+    
 
     //บันทึกออร์เดอร์
     @IBAction func btnODSave(_ sender: Any)
@@ -161,6 +185,7 @@ class OrderViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.isConnectedToNetwork()
         {
+//            self.showAlert(title: "ธุรการสั่งจัด", message: "\(CustomerViewController.GlobalValiable.blnadmin_pk)")
             if self.CheckHaveData() == true
             {
                 let alertController = UIAlertController(title: "ยืนยันส่งข้อมูล..", message: "คุณต้องการส่งข้อมูลออเดอร์ ใช่หรือไม่?", preferredStyle: .alert)
@@ -169,11 +194,12 @@ class OrderViewController: UIViewController {
                     
                     let x = self.getODNumber()
                     CustomerViewController.GlobalValiable.odnumber = String(x!)
+        
                     self.UpdateOdNo()
                     self.PrepareOd()
-                    self.SendToOD()
-                    
-                    //self.GenHeadOd()
+//                    self.SendToOD()
+                    self.SendOD() // ตัวเทส
+            
                 }
                 
                 alertController.addAction(UIAlertAction(title: "ไม่ใช่", style: .default, handler: nil))
@@ -319,6 +345,43 @@ class OrderViewController: UIViewController {
         {
             btnVat.setImage(uncheckBox, for: UIControl.State.normal)
             blnCheckVate = true
+        }
+        
+        //ปุ่ม ธุรการสั่งจัด
+        //1. หากไม่มีการกรอก remark ไม่ต้องแสดงปุ่มธุรการสั่งจัด
+        //2. หากมี remark และใน remark ไม่มีคำว่า "ส่งได้" >> แสดงปุ่ม default เป็น ไม่ติ๊ก
+        //3. หากมี remark และมีคำว่า "ส่งได้" >> ไม่ต้องแสดงปุ่ม ค่าเป็น false (ไม่ติ๊ก)
+        let strFind:String = "ส่งได้"
+        let strRemark = CustomerViewController.GlobalValiable.remark
+        print("strRemark : \(strRemark)")
+        
+        if !strRemark.isEmpty && !strRemark.contains(strFind)
+        {
+            //ระบุหมายเหตุ ไม่มี "ส่งได้"
+            print("ระบุหมายเหตุ ไม่มีส่งได้")
+            btnPK.isHidden = false
+            blnPk = false
+            
+            btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+            blnPk = false
+        }
+        else if (!strRemark.isEmpty && strRemark.contains(strFind))
+        {
+            //ระบุหมายเหตุ แต่มี "ส่งได้"
+            print("ระบุหมายเหตุ แต่มีส่งได้")
+            btnPK.isHidden = true
+            blnPk = false
+            
+            btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+            blnPk = false
+        } else {
+            //ไม่ระบุหมายเหตุ
+            print("ไม่ระบุหมายเหตุ")
+            btnPK.isHidden = true
+            blnPk = false
+            
+            btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+            blnPk = false
         }
         
         Secment.selectedSegmentIndex = 0
@@ -668,7 +731,7 @@ class OrderViewController: UIViewController {
         var _ctrycode: String = ""
         var _store: String = ""
         var _logi_name: String = ""
-        var _fixdue: String = ""
+//        var _fixdue: String = ""
         
         //Get data from server
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK
@@ -755,6 +818,7 @@ class OrderViewController: UIViewController {
 
                 //Add data to dictionary 
                 let mydic : [String:Any] = [
+                    "admin_pk": CustomerViewController.GlobalValiable.blnadmin_pk ? 1 : 0,
                     "date": _date,
                     "delivery": _delivery,
                     "code": _code,
@@ -866,6 +930,128 @@ class OrderViewController: UIViewController {
         lblCredit.text = "0"
     }
     
+    // ช่วยห่อ Any ให้ Encodable ได้
+    // Helper: Wrapper ทำให้ค่า Any ส่งเข้า JSONEncoder ได้
+    struct AnyEncodable: Encodable {
+        private let _encode: (Encoder) throws -> Void
+        init<T: Encodable>(_ value: T) { self._encode = value.encode }
+        func encode(to encoder: Encoder) throws { try _encode(encoder) }
+    }
+
+    
+    struct SendODRequest: Encodable {
+        let od: [[String: AnyEncodable]]  // << od เป็น Array ของ Object
+        let user: String
+        let code: String
+    }
+
+    struct SendData: Decodable {
+        let success: Bool   // ให้ตรงกับ response จากเซิร์ฟเวอร์ เช่น { "result": true }
+        let message: String
+        // เพิ่มฟิลด์อื่น ๆ ถ้ามี
+    }
+    
+    // แปลง Any → AnyEncodable โดยแก้กรณี Decimal/NSDecimalNumber และทำงานแบบ recursive
+    func toEncodable(_ value: Any) -> AnyEncodable {
+        // 1) Decimal → Double
+        if let d = value as? Decimal {
+            return AnyEncodable(NSDecimalNumber(decimal: d).doubleValue)
+        }
+        // 2) NSDecimalNumber → Double
+        if let n = value as? NSDecimalNumber {
+            return AnyEncodable(n.doubleValue)
+        }
+        // 3) NSNumber → Double/Int/Bool (ปล่อยให้ Encodable เดิมทำงาน)
+        if let n = value as? NSNumber {
+            // NSNumber อาจเป็น Bool ด้วย
+            if CFGetTypeID(n) == CFBooleanGetTypeID() {
+                return AnyEncodable(n.boolValue)
+            } else {
+                return AnyEncodable(n.doubleValue) // บังคับเป็นตัวเลข
+            }
+        }
+        // 4) String / Bool / Int / Double ตรง ๆ
+        if let s = value as? String { return AnyEncodable(s) }
+        if let b = value as? Bool   { return AnyEncodable(b) }
+        if let i = value as? Int    { return AnyEncodable(i) }
+        if let d = value as? Double { return AnyEncodable(d) }
+        if let f = value as? Float  { return AnyEncodable(Double(f)) }
+
+        // 5) Array -> ทำ recursive
+        if let arr = value as? [Any] {
+            return AnyEncodable(arr.map { toEncodable($0) })
+        }
+
+        // 6) Dictionary -> ทำ recursive
+        if let dict = value as? [String: Any] {
+            let mapped = dict.mapValues { toEncodable($0) }
+            return AnyEncodable(mapped)
+        }
+
+        // 7) fallback — แปลงเป็น String
+        return AnyEncodable(String(describing: value))
+    }
+    
+    func SendOD() {
+        // แปลง [[String:Any]] → [[String:AnyEncodable]] พร้อมแก้ Decimal เป็น Double
+          let odArray: [[String: AnyEncodable]] = json.map { dict in
+              dict.mapValues { toEncodable($0) }
+          }
+        
+        let body = SendODRequest(
+            od: odArray,
+            user: AppDelegate.GlobalValiable.user,
+            code: CustomerViewController.GlobalValiable.myCode
+        )
+
+        let url = "http://111.223.38.24:4000/gentextfile_new"
+
+        // HUD
+        let progressHUD = ProgressHUD(text: "กำลังส่งข้อมูล...")
+        self.view.addSubview(progressHUD)
+        
+//        print(odArray)
+
+        // ถ้าบอดี้ใหญ่มาก แนะนำสร้าง Session กำหนด timeout เอง (ดูตัวอย่างส่วนล่าง)
+        AF.request(
+            url,
+            method: .post,
+            parameters: body,                       // ← ส่งเป็น Encodable
+            encoder: JSONParameterEncoder.default,  // ← เข้ารหัสเป็น JSON ใน HTTP Body
+            headers: [.accept("application/json")]
+        )
+        .validate(statusCode: 200..<300)
+        .responseDecodable(of: [SendData].self) { [weak self] response in
+            guard let self = self else { return }
+
+            // ให้แน่ใจว่า HUD ถูกซ่อนเสมอ
+            defer { progressHUD.hide() }
+
+            switch response.result {
+            case .success(let values):
+                // ถ้าคืนมาเป็น array เช่น [{ "result": "1" }]
+                guard let first = values.first else {
+                    self.showAlert(title: "Data is empty", message: "ไม่พบข้อมูลจากเซิร์ฟเวอร์")
+                    return
+                }
+            
+                if first.success {
+                    self.showAlert(title: "Success!", message: "ส่งข้อมูลออเดอร์สำเร็จ!..")
+                } else {
+                    self.showAlert(
+                        title: "ผิดพลาด!",
+                        message: "ERR03: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(first.message)"
+                    )
+                }
+
+
+            case .failure(let error):
+                self.showAlert(title: "ผิดพลาด!", message: "ERR: การส่งข้อมูลล้มเหลว\n\(error.localizedDescription)")
+            }
+        }
+    }
+
+    
     func SendToOD()
     {
         //ส่งผ่าน parameter แบบเดิมติดปัญหาไฟล์ขนาดใหญ่ส่งไม่ได้ เปลี่ยนเป็นส่งผ่าน BODY แทน 25/12/2019
@@ -879,7 +1065,7 @@ class OrderViewController: UIViewController {
         let progressHUD = ProgressHUD(text: "กำลังส่งข้อมูล...")
         self.view.addSubview(progressHUD)
         
-         var request = URLRequest(url: NSURL(string: "http://111.223.38.24:4000/gentextfile")! as URL)
+         var request = URLRequest(url: NSURL(string: "http://111.223.38.14:9999/gentextfile_new")! as URL)
          request.httpMethod = "POST"
          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
          let data = try! JSONSerialization.data(withJSONObject: params!, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -890,6 +1076,10 @@ class OrderViewController: UIViewController {
          }
          request.httpBody = json!.data(using: String.Encoding.utf8.rawValue);
 
+        
+        
+        
+        
 //        Alamofire.request(request as URLRequestConvertible)
 //             .responseJSON { response in
 //                

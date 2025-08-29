@@ -45,7 +45,7 @@ class ProdFilterViewController2: UIViewController {
     
     @IBAction func btnAccept(_ sender: Any)
     {
-//        let URL_USER_LOGIN = "http://111.223.38.24:3000/checklogin_test"
+
         
         if (prod.count > 0)
         {

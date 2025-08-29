@@ -114,12 +114,107 @@ class RemarkViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
+    struct Remark: Decodable {
+        let rmk: String
+    }
+    
+    
     func LoadRmkData()
     {
         let progressHUD = ProgressHUD(text: "Please wait..")
         self.view.addSubview(progressHUD)
         
-        let URLS = "http://consign-ios.adda.co.th/KeyOrders/getItem.php"
+        let URL = "http://consign-ios.adda.co.th/KeyOrders/getItem.php"
+        
+        AF.request(URL, method: .get, parameters: nil)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: [Remark].self) {  [weak self] response in
+                guard let self = self else { return }
+                
+                switch response.result {
+                    
+                case .success(let note):
+                    
+                    print("NOTE: ", note)
+                    
+                    if (note.count == 0) {
+                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูล กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
+                        self.present(alert, animated: true)
+                    }
+                    
+                    if sqlite3_open(self.fileURL.path, &self.db) != SQLITE_OK
+                    {
+                        print("error opening database")
+                    }
+                    else
+                    {
+                        //ลบข้อมูลเก่าออกก่อน
+                        let deleteStatementStirng = "DELETE FROM remarks WHERE type = '0'"
+                        var deleteStatement: OpaquePointer? = nil
+                        
+                        if sqlite3_prepare_v2(self.db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
+                        {
+                            if sqlite3_step(deleteStatement) != SQLITE_DONE
+                            {
+                                print("Could not delete row.")
+                            }
+                        } else
+                        {
+                            print("DELETE statement could not be prepared")
+                        }
+                        
+                        sqlite3_finalize(deleteStatement)
+                        
+                        //บันทึกข้อมูลชุดใหม่
+                        let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+                        
+                        for r in note {
+                            
+                            print("Remark: ", r.rmk)
+                            
+                            let update = "INSERT INTO remarks (remark, type)" + "VALUES (?,?);"
+                            var statement: OpaquePointer?
+                            
+                            //preparing the query
+                            if sqlite3_prepare_v2(self.db, update, -1, &statement, nil) == SQLITE_OK
+                            {
+                                
+                                sqlite3_bind_text(statement, 1, r.rmk, -1, SQLITE_TRANSIENT)
+                                sqlite3_bind_text(statement, 2, "0", -1, SQLITE_TRANSIENT)  //0 แทนข้อมูลที่มาจาก server
+                                
+                                //executing the query to insert values
+                                if sqlite3_step(statement) != SQLITE_DONE
+                                {
+                                    let errmsg = String(cString: sqlite3_errmsg(self.db)!)
+                                    print("failure inserting armstr: \(errmsg)")
+                                    return
+                                }
+                            }
+                            else
+                            {
+                                let errmsg = String(cString: sqlite3_errmsg(self.db)!)
+                                print("error preparing insert: \(errmsg)")
+                                return
+                            }
+                            
+                            sqlite3_finalize(statement)
+                        }
+                        
+                        sqlite3_close(self.db)
+                    }
+                    
+                  self.filterRmk(searchTxt: "")  //โหดลข้อมูลจาก SQLite ใหม่
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+                    break
+                }
+            }
+        
+        progressHUD.hide()
+    }
+                            
         
 //        Alamofire.request(URLS, method: .post, parameters: nil).responseJSON
 //            {
@@ -205,7 +300,6 @@ class RemarkViewController: UIViewController, UISearchBarDelegate {
 //            //ProgressIndicator.hide()
 //            progressHUD.hide()
 //        }
-    }
     
     func filterRmk(searchTxt:String)
     {

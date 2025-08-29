@@ -318,5 +318,8 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         //วันที่ Server
         static var sevdate = String()
         static var type_vat: Int = 0  //vat รายร้านค้า
+        
+        //ธุรการสั่งจัด
+        static var blnadmin_pk = false
     }
 }

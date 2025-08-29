@@ -108,6 +108,7 @@
 		84FB8A2221E79AFF006B01D1 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FB8A2121E79AFF006B01D1 /* ProductCell.swift */; };
 		9B02DC21F57F72FE197E07B1 /* Pods_ShoeOrder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB74C83AA67DC95612E45F47 /* Pods_ShoeOrder.framework */; };
 		D01D75794C2B4AA2754F1F6F /* libPods-ShoeOrderTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6529DCD644C401E3D0B720F /* libPods-ShoeOrderTests.a */; };
+		FD42B6CB2E60A3980027C1DB /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD42B6CA2E60A3890027C1DB /* AlertHelper.swift */; };
 		FDC6F1AA2E5C22FE007E1B0F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849E1C66216C8780007C216D /* Alamofire.framework */; };
 /* End PBXBuildFile section */
 
@@ -243,6 +244,7 @@
 		BC955FE1B58EB8366CF7A3EA /* Pods-ShoeOrderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoeOrderTests.release.xcconfig"; path = "Target Support Files/Pods-ShoeOrderTests/Pods-ShoeOrderTests.release.xcconfig"; sourceTree = "<group>"; };
 		E6529DCD644C401E3D0B720F /* libPods-ShoeOrderTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShoeOrderTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD8EF40C364F1DABC215231 /* libPods-ShoeOrderUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShoeOrderUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD42B6CA2E60A3890027C1DB /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +316,7 @@
 			children = (
 				842486FE217170DB002BD087 /* ProgressIndicator */,
 				8415EAA62167C52100397A37 /* AppDelegate.swift */,
+				FD42B6CA2E60A3890027C1DB /* AlertHelper.swift */,
 				8433775D2387925100EFEFC0 /* TimeOutViewController.swift */,
 				844A01572168FA6F00615059 /* ViewController.swift */,
 				84291F3F217B86B5008EAE0B /* MyTabbar.swift */,
@@ -782,6 +785,7 @@
 				84263F4B221A987F00C960BC /* OdtrnCell.swift in Sources */,
 				84311A472307F467003508DC /* Invoice30ViewController.swift in Sources */,
 				8415EAD52167C5A400397A37 /* LoginViewController.swift in Sources */,
+				FD42B6CB2E60A3980027C1DB /* AlertHelper.swift in Sources */,
 				842AA61222A4F75700CC5C73 /* Prod7SolidViewController.swift in Sources */,
 				84196D3E2215171D004982DA /* NotSendCell.swift in Sources */,
 				841C06E723C42E85006CEED0 /* CnViewController.swift in Sources */,
