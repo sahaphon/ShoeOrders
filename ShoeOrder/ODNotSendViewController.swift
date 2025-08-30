@@ -54,7 +54,32 @@ class ODNotSendViewController: UIViewController {
         LoadData()
     }
     
-    /// <#Description#>
+    struct Kard: Decodable {
+        let prodcode: String
+        let packtype: String
+        let color: String
+        let qty: Int
+        let kard: Int
+        let invqty: Int
+        let lastinv: String
+        let lastinvno: String
+        let orderno: String
+        let date: String
+        let code: String
+        let saleman: String
+        let pono: String
+        
+        
+        enum CodingKeys: String, CodingKey {
+            case prodcode, color, qty, kard, invqty, orderno, date, code, saleman, pono
+            case packtype = "pack_type"
+            case lastinv = "last_inv"
+            case lastinvno = "last_inv_no"
+        }
+        
+    }
+    
+
     func LoadData()
     {
         //ProgressBar
@@ -62,7 +87,7 @@ class ODNotSendViewController: UIViewController {
         self.view.addSubview(progressHUD)
         
         //let URL_USER_LOGIN = "http://consign-ios.adda.co.th/KeyOrders/getODkard.php"
-        let URL_USER_LOGIN = "http://111.223.38.24:3000/cal_odkard"  
+        let URL = "http://111.223.38.24:3000/cal_odkard"  
         
         //Set Parameter
         let parameters : Parameters=[
@@ -72,6 +97,42 @@ class ODNotSendViewController: UIViewController {
  
         print("ข้อมูลที่ส่งไป : ", CustomerViewController.GlobalValiable.saleid)
         print("Shop : ", CustomerViewController.GlobalValiable.myCode)
+        
+        AF.request(URL, method: .get, parameters: parameters)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: [Kard].self) {  [weak self] response in
+                guard let self = self else { return }
+                
+                switch response.result {
+                    
+                case .success(let value):
+                    
+                      self.OdNotSends.removeAll()
+                      var intKard: Int = 0
+                    
+                    for i in value {
+                        
+                        self.OdNotSends.append(notSend(prodcode: i.prodcode, packtype: i.packtype, color: i.color, qty: i.qty, qty_kard: i.kard, qty_send: i.invqty, invoice: i.lastinvno, inv_date: i.lastinv, od: i.orderno, od_date: i.date, pono: i.pono, code: i.code, sale: i.saleman))
+                        
+                    }
+                    
+                    let formattedInt = String(format: "%d", locale: Locale.current, intKard)
+                    self.lblQty.text = formattedInt
+                    self.lblTotprice.text = "0.00"
+
+                    progressHUD.hide()
+                    self.myTable.reloadData()
+                    
+                    break
+                    
+                case .failure(let error):
+                    break
+                    
+                }
+                
+            }
+        
+        
 //        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
 //        {
 //            response in

@@ -35,12 +35,13 @@ class OrderViewController: UIViewController {
     var version = ""
     
     
-    @IBOutlet weak var btnWSend: UIButton!
-    var blnCheckWSend:Bool!
-    
     @IBOutlet weak var btnPro: UIButton!
     var blnPro: Bool!
     
+    //ปุ่มวันส่ง
+    @IBOutlet weak var delivery: UIButton!
+    
+
     
     //เพิ่มปุ่มเช็คธุรการสั่งจัด
     @IBOutlet weak var btnPK: UIButton!
@@ -75,19 +76,34 @@ class OrderViewController: UIViewController {
             lblShipdate.text = result
         }
        
+        if CustomerViewController.GlobalValiable.blnadmin_pk
+        {
+            lblShipdate.alpha = 1
+        }
+        else
+        {
+            lblShipdate.alpha = 0.5
+        }
+        
         lblCredit.text = String(CustomerViewController.GlobalValiable.cr_term)
         lblItem.text = CustomerViewController.GlobalValiable.remark
         lblStore.text = CustomerViewController.GlobalValiable.logis
+        
     }
     
     //วันส่ง
     @IBAction func btnShip(_ sender: Any)
     {
-        if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Ship") as? ShipDateViewController
-        {
-            CustomerViewController.GlobalValiable.blnEditShip = true
-            menu.modalPresentationStyle = .fullScreen
-            self.present(menu, animated: true, completion: nil)
+        
+        if #available(iOS 13.4, *) {
+            if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Ship") as? ShipDateViewController
+            {
+                CustomerViewController.GlobalValiable.blnEditShip = true
+                menu.modalPresentationStyle = .fullScreen
+                self.present(menu, animated: true, completion: nil)
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
     
@@ -168,12 +184,16 @@ class OrderViewController: UIViewController {
           {
               btnPK.setImage(checkBox, for: UIControl.State.normal)
               CustomerViewController.GlobalValiable.blnadmin_pk = true
+              
+              delivery.isEnabled = true  //เปิดปุ่มวันส่ง
               blnPk = false
           }
           else
           {
               btnPK.setImage(uncheckBox, for: UIControl.State.normal)
               CustomerViewController.GlobalValiable.blnadmin_pk = false
+              
+              delivery.isEnabled = false  //ปิดปุ่มวันส่ง
               blnPk = true
           }
     }
@@ -240,42 +260,27 @@ class OrderViewController: UIViewController {
     {
         switch Secment.selectedSegmentIndex
         {
-        case 0:
-            print("First Segment Selected");
-            
-        case 1:
-            //print("Second Segment Selected");
-            if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Keyod") as? TakeOrderViewController
-            {
-                menu.modalPresentationStyle = .fullScreen
-                self.present(menu, animated: true, completion: nil)
+            case 0:
+                print("First Segment Selected");
+                
+            case 1:
+                //print("Second Segment Selected");
+                if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Keyod") as? TakeOrderViewController
+                {
+                    menu.modalPresentationStyle = .fullScreen
+                    self.present(menu, animated: true, completion: nil)
+                }
+                
+            default:
+                break
             }
-            
-        default:
-            break
-        }
     }
-    
-    @IBAction func btnSWait(_ sender: Any)
-    {
-            if blnCheckWSend == true
-              {
-                  CustomerViewController.GlobalValiable.waitsend = 1
-                  btnWSend.setImage(checkBox, for: UIControl.State.normal)
-                  blnCheckWSend = false
-              }
-              else
-              {
-                  CustomerViewController.GlobalValiable.waitsend = 0
-                  btnWSend.setImage(uncheckBox, for: UIControl.State.normal)
-                  blnCheckWSend = true
-              }
-    }
-    
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //print("viewWillAppear")
+//        print("viewWillAppear")
+//        showAlert(title: "สถานะ ธุรการสั่งจัด", message: "\(CustomerViewController.GlobalValiable.blnadmin_pk)")
         
         if (CustomerViewController.GlobalValiable.pro == 1)
         {
@@ -308,21 +313,8 @@ class OrderViewController: UIViewController {
             lblItem.text = CustomerViewController.GlobalValiable.remark
             CustomerViewController.GlobalValiable.blnEditRemark = false
         }
-        
-        //ปุ่มรอส่ง
-        if CustomerViewController.GlobalValiable.waitsend == 1
-         {
-             btnWSend.setImage(checkBox, for: UIControl.State.normal)
-             blnCheckWSend = false
-         }
-         else
-         {
-             btnWSend.setImage(uncheckBox, for: UIControl.State.normal)
-             blnCheckWSend = true
-         }
-        
-    
-        
+
+
         //ปุ่มงานสั่งทำ
         if CustomerViewController.GlobalValiable.recfirm == 1
         {
@@ -347,43 +339,52 @@ class OrderViewController: UIViewController {
             blnCheckVate = true
         }
         
-        //ปุ่ม ธุรการสั่งจัด
-        //1. หากไม่มีการกรอก remark ไม่ต้องแสดงปุ่มธุรการสั่งจัด
-        //2. หากมี remark และใน remark ไม่มีคำว่า "ส่งได้" >> แสดงปุ่ม default เป็น ไม่ติ๊ก
-        //3. หากมี remark และมีคำว่า "ส่งได้" >> ไม่ต้องแสดงปุ่ม ค่าเป็น false (ไม่ติ๊ก)
-        let strFind:String = "ส่งได้"
-        let strRemark = CustomerViewController.GlobalValiable.remark
-        print("strRemark : \(strRemark)")
-        
-        if !strRemark.isEmpty && !strRemark.contains(strFind)
+        if CustomerViewController.GlobalValiable.blnadmin_pk
         {
-            //ระบุหมายเหตุ ไม่มี "ส่งได้"
-            print("ระบุหมายเหตุ ไม่มีส่งได้")
-            btnPK.isHidden = false
-            blnPk = false
-            
-            btnPK.setImage(uncheckBox, for: UIControl.State.normal)
-            blnPk = false
+            btnPK.setImage(checkBox, for: UIControl.State.normal)
+            delivery.isEnabled = true
+            lblShipdate.alpha = 1
         }
-        else if (!strRemark.isEmpty && strRemark.contains(strFind))
+        else
         {
-            //ระบุหมายเหตุ แต่มี "ส่งได้"
-            print("ระบุหมายเหตุ แต่มีส่งได้")
-            btnPK.isHidden = true
-            blnPk = false
             
-            btnPK.setImage(uncheckBox, for: UIControl.State.normal)
-            blnPk = false
-        } else {
-            //ไม่ระบุหมายเหตุ
-            print("ไม่ระบุหมายเหตุ")
-            btnPK.isHidden = true
-            blnPk = false
+            //ปุ่ม ธุรการสั่งจัด
+            //1. หากไม่มีการกรอก remark ไม่ต้องแสดงปุ่มธุรการสั่งจัด
+            //2. หากมี remark และใน remark ไม่มีคำว่า "ส่งได้" >> แสดงปุ่ม default เป็น ไม่ติ๊ก
+            //3. หากมี remark และมีคำว่า "ส่งได้" >> ไม่ต้องแสดงปุ่ม ค่าเป็น false (ไม่ติ๊ก)
+            let strFind:String = "ส่งได้"
+            let strRemark = CustomerViewController.GlobalValiable.remark
+//            print("strRemark : \(strRemark)")
             
-            btnPK.setImage(uncheckBox, for: UIControl.State.normal)
-            blnPk = false
+            if !strRemark.isEmpty && !strRemark.contains(strFind)
+            {
+                //ระบุหมายเหตุ ไม่มี "ส่งได้"
+                print("ระบุหมายเหตุ ไม่มีส่งได้")
+                btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+                btnPK.isHidden = false
+                blnPk = false
+            }
+            else if (!strRemark.isEmpty && strRemark.contains(strFind))
+            {
+                //ระบุหมายเหตุ แต่มี "ส่งได้"
+                print("ระบุหมายเหตุ แต่มีส่งได้")
+                btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+                btnPK.isHidden = true
+                blnPk = false
+            } else {
+                //ไม่ระบุหมายเหตุ
+                print("ไม่ระบุหมายเหตุ")
+                btnPK.setImage(uncheckBox, for: UIControl.State.normal)
+                btnPK.isHidden = true
+                blnPk = false
+            }
+            
+            
+            delivery.isEnabled = false
+            lblShipdate.alpha = 0.5
         }
         
+       
         Secment.selectedSegmentIndex = 0
     }
     
@@ -470,8 +471,6 @@ class OrderViewController: UIViewController {
             
         }
     }
-    
-    
     
     @IBAction func CheckVate(_ sender: Any)
     {
@@ -882,7 +881,6 @@ class OrderViewController: UIViewController {
             
             intYear = intYear! - 543
             result = mySubstring + String(intYear!)
-//            print("-----------> ", result)
         }
         
         return result
@@ -920,6 +918,8 @@ class OrderViewController: UIViewController {
         CustomerViewController.GlobalValiable.oldprod = ""
         CustomerViewController.GlobalValiable.blnSolidPackAsort = false
         CustomerViewController.GlobalValiable.pro = 0
+        
+//        CustomerViewController.GlobalValiable.blnadmin_pk = false
         
         //Reset control
         lblStore.text = ""
@@ -1051,7 +1051,6 @@ class OrderViewController: UIViewController {
         }
     }
 
-    
     func SendToOD()
     {
         //ส่งผ่าน parameter แบบเดิมติดปัญหาไฟล์ขนาดใหญ่ส่งไม่ได้ เปลี่ยนเป็นส่งผ่าน BODY แทน 25/12/2019
@@ -1075,96 +1074,6 @@ class OrderViewController: UIViewController {
              print(json)
          }
          request.httpBody = json!.data(using: String.Encoding.utf8.rawValue);
-
-        
-        
-        
-        
-//        Alamofire.request(request as URLRequestConvertible)
-//             .responseJSON { response in
-//                
-//                   switch response.result
-//                    {
-//                    case .success(_): //หาก success
-//    //                    print("Success")
-//
-//                        print(response.result.value as? [[String: Any]] as Any)
-//                        if let array = response.result.value as? [[String: Any]]
-//                        {
-//                            var result:String = ""
-//                            
-//                            for personDict in array
-//                            {
-//                                result = (personDict["result"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-//                                                                                       
-//    //                          print("result = ", result)
-//                                if ( result == "1" )
-//                                {
-//                                   self.AlertResult(mainTxt: "Success!", Title: "ส่งข้อมูลออเดอร์ สำเร็จ!..")
-//                                }
-//                                else
-//                                {
-//                                    let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERR03: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(result)", preferredStyle: .alert)
-//                                                                                              
-//                                          let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-//                                              
-//                                              self.ClearAllData()
-//                                              
-//                                              //back viewcontroller
-//                                              if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
-//                                              {
-//                                                  self.present(menu, animated: true, completion: nil)
-//                                              }
-//                                          }
-//                                          
-//                                          let Resend = UIAlertAction(title: "ลองใหม่", style: .default) { (action:UIAlertAction!) in
-//                                              self.RollBackOD() //แก้สถานะ od ใหม่
-//                                              //หากเกิด error ขณะบันทึกให้ลบ od ใน SQL Server cat ทั้งโดยรับค่ารหัส od มา  ==> รอทำต่อ..
-//                                              
-//                                              self.Secment.selectedSegmentIndex = 1
-//                                              self.Secment.sendActions(for: UIControl.Event.valueChanged)
-//                                          }
-//                                          
-//                                          alertController.addAction(Resend)
-//                                          alertController.addAction(OKAction)
-//                                          self.present(alertController, animated: true, completion:nil)
-//
-//                                }
-//                            }
-//                        }
-//                        
-//                        progressHUD.hide()
-//                        
-//                    case .failure(let error): //หาก process error
-//    //                    print(error)
-//                        let alertController = UIAlertController(title: "ผิดพลาด!", message: "ERR: การส่งข้อมูลล้มเหลว กรุณาลองใหม่อีกครั้ง! \(error)", preferredStyle: .alert)
-//                                                                                              
-//                          let OKAction = UIAlertAction(title: "ปิด", style: .default) { (action:UIAlertAction!) in
-//                                                              
-//                              self.ClearAllData()
-//                                                                  
-//                              //back viewcontroller
-//                              if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
-//                              {
-//                                   self.present(menu, animated: true, completion: nil)
-//                              }
-//                           }
-//                                                          
-//                            let Resend = UIAlertAction(title: "ลองใหม่", style: .default) { (action:UIAlertAction!) in
-//                            self.RollBackOD() //แก้สถานะ od ใหม่
-//                            //หากเกิด error ขณะบันทึกให้ลบ od ใน SQL Server cat ทั้งโดยรับค่ารหัส od มา  ==> รอทำต่อ..
-//                                                              
-//                            self.Secment.selectedSegmentIndex = 1
-//                            self.Secment.sendActions(for: UIControl.Event.valueChanged)
-//                            }
-//                                                          
-//
-//                            alertController.addAction(Resend)
-//                            alertController.addAction(OKAction)
-//                            self.present(alertController, animated: true, completion:nil)
-//                    }
-//
-//         }
     }
     
     //Alert function

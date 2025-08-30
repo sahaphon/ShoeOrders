@@ -26,7 +26,7 @@ class OdTransViewController: UIViewController
 
         navigationController?.navigationBar.barTintColor = UIColor(red: 256.0 / 255.0, green: 69.0 / 255.0, blue: 0.0 / 255.0, alpha: 100.0)
        
-        btnBack.tintColor = UIColor.yellow
+        btnBack.tintColor = UIColor.red
         
         self.navigationController?.navigationBar.titleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.black,
@@ -44,12 +44,49 @@ class OdTransViewController: UIViewController
         }
     }
     
+    struct DataInvoice: Decodable
+    {
+        let no: Int
+        let docno: String
+        let code: String
+        let refno: String
+        let retdate: String
+        let prodcode: String
+        let colorcode: String
+        let color: String
+        let size: String
+        let qty: Int
+        let packcode: String
+    }
+    
+    struct OD: Decodable
+    {
+        let date: String
+        let no: Int
+        let orderno: String
+        let prodcode: String
+        let packcode: String
+        let colorcode: String
+        let qty: Int
+        let amt: Double
+        let code: String
+        let pkqty: Int
+        let store: String
+        let color: String
+        let size: String
+        
+        enum CodingKeys: String, CodingKey {
+            case date, no, orderno, prodcode, packcode, colorcode, qty, amt, code, pkqty, store, color
+            case size = "pack_desc"
+        }
+    }
+    
     func LoadDataFromInvoice()
     {
         let progressHUD = ProgressHUD(text: "LOADING...")
         self.view.addSubview(progressHUD)
         
-        let URL_USER_LOGIN = "http://111.223.38.24:3000/cal_invtran"
+        let URL = "http://111.223.38.24:3000/cal_invtran"
         
         //Set Parameter
         let parameters : Parameters=[
@@ -59,166 +96,113 @@ class OdTransViewController: UIViewController
         ]
         //print(CustomerViewController.GlobalValiable.od)
         
-//        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-//            {
-//                
-//                response in
-//                //print(response)
-//                
-//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-//                {
-//                    //Check nil data
-//                    var blnHaveData = false
-//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-//                    {
-//                        blnHaveData = true
-//                        break
-//                    }
-//                    
-//                    //เช็คสิทธิการเข้าใช้งาน
-//                    if (blnHaveData)
-//                    {
-//                        self.Odtrans.removeAll()
-//                        var intQty: Int = 0
-//                        var dblAmt: Double = 0
-//                        
-//                        for personDict in array
-//                        {
-//                            let No: Int
-//                            var Prodcode: String
-//                            let Color: String
-//                            let Size: String
-//                            let Qty: Int
-//                            let pkqty: Int
-//                            let Amt: Double
-//                            let Store: String
-//                            let Packcode: String
-//                            
-//                            No = personDict["no"] as! Int
-//                            Prodcode = personDict["prodcode"] as! String
-//                            Size = personDict["size"] as! String
-//                            Color = personDict["color"] as! String
-//                            Qty = personDict["qty"] as! Int
-//                            pkqty = 0
-//                            Amt = 0
-//                            Store = ""
-//                            Packcode = personDict["packcode"] as! String
-//                            
-//                            intQty = intQty + Qty
-//                            dblAmt = dblAmt + Amt
-//                            
-//                            //Add data to dictionary
-//                            self.Odtrans.append(Odtrn(no: No, prodcode: Prodcode, size: Size, color: Color, qty: Qty, pkqty: pkqty, amt: Amt, store: Store, packcode: Packcode))
-//                        }
-//                        
-//                        self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
-//                        self.lblTot.text = String(format: "%.2f", locale: Locale.current, dblAmt)  //ไม่แสดงราคา
-//                        
-//                        //ProgressIndicator.hide()
-//                        progressHUD.hide()
-//                        self.myTable.reloadData()
-//                    }
-//                    else
-//                    {
-//                        progressHUD.hide()
-//                        ProgressIndicator.hide()
-//                        //Alert
-//                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-//                        
-//                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-//                        self.present(alert, animated: true)
-//                    }
-//                }
-//        }
+        AF.request(URL, method: .get, parameters: parameters)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: [DataInvoice].self) {  [weak self] response in
+                guard let self = self else { return }
+                
+                switch response.result {
+                    
+                    case .success(let value):
+                    
+                        if value.count == 0 {
+                            showAlert(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..")
+                            progressHUD.hide()
+                            ProgressIndicator.hide()
+                            return
+                        }
+
+                         self.Odtrans.removeAll()
+                   
+                         var intQty: Int = 0
+                    
+                        for i in value {
+                        
+                            intQty = intQty + i.qty
+                            
+                            //Add data to dictionary
+                            self.Odtrans.append(Odtrn(no: i.no, prodcode: i.prodcode, size: i.size, color: i.colorcode, qty: i.qty, pkqty: 0, amt: 0, store: "", packcode: i.packcode))
+                        }
+                    
+                           self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
+                           self.lblTot.text = String(format: "%.2f", locale: Locale.current, 0)  //ไม่แสดงราคา
+ 
+                           progressHUD.hide()
+                           self.myTable.reloadData()
+                        
+                        break
+                        
+                    case .failure(let error):
+                        print("Error: \(error)")
+                        progressHUD.hide()
+                        showAlert(title: "เกิดข้อผิลพลาด", message: "\(error) โปรดลองใหม่อีกครั้ง")
+                    
+                        break
+                }
+                
+        }
+        
     }
     
     func LoadData()
     {
-        print("LoadData")
-        let progressHUD = ProgressHUD(text: "LOADING...")
+        let progressHUD = ProgressHUD(text: "กำลังโหลดข้อมูล...")
         self.view.addSubview(progressHUD)
         
-        //URL
-        let URL_USER_LOGIN = "http://consign-ios.adda.co.th/KeyOrders/getODtrn_new.php"
+        let URL = "http://111.223.38.24:3000/cal_odtrans"
         
         //Set Parameter
         let parameters : Parameters=[
             "odno": CustomerViewController.GlobalValiable.od
         ]
-        print(CustomerViewController.GlobalValiable.od)
+        print("OD: ", CustomerViewController.GlobalValiable.od)
         
-//        Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
-//        {
-//           
-//                response in
-//                //print(response)
-//                
-//                if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-//                {
-//                    //Check nil data
-//                    var blnHaveData = false
-//                    for _ in array  //วนลูปเช็คค่าที่ส่งมา
-//                    {
-//                        blnHaveData = true
-//                        break
-//                    }
-//                    
-//                    //เช็คสิทธิการเข้าใช้งาน
-//                    if (blnHaveData)
-//                    {
-//
-//                        self.Odtrans.removeAll()
-//                        var intQty: Int = 0
-//                        var dblAmt: Double = 0
-//                        
-//                        for personDict in array
-//                        {
-//                            let No: Int
-//                            var Prodcode: String
-//                            let Color: String
-//                            let Size: String
-//                            let Qty: Int
-//                            let pkqty: Int
-//                            let Amt: Double
-//                            let Store: String
-//                            let Packcode: String
-//                            
-//                            No = personDict["no"] as! Int
-//                            Prodcode = personDict["prodcode"] as! String
-//                            Size = personDict["size"] as! String
-//                            Color = personDict["color"] as! String
-//                            Qty = personDict["qty"] as! Int
-//                            pkqty = personDict["pkqty"] as! Int
-//                            Amt = Double(personDict["amt"] as! String)!
-//                            Store = personDict["store"] as! String
-//                            Packcode = personDict["packcode"] as! String
-//                            
-//                            intQty = intQty + Qty
-//                            dblAmt = dblAmt + Amt
-//                            
-//                            //Add data to dictionary
-//                            self.Odtrans.append(Odtrn(no: No, prodcode: Prodcode, size: Size, color: Color, qty: Qty, pkqty: pkqty, amt: Amt, store: Store, packcode: Packcode))
-//                        }
-//                        
-//                        self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
-//                        self.lblTot.text = String(format: "%.2f", locale: Locale.current, dblAmt)  //ไม่แสดงราคา
-//                        
-//                        //ProgressIndicator.hide()
-//                        progressHUD.hide()
-//                        self.myTable.reloadData()
-//                    }
-//                    else
-//                    {
-//                        progressHUD.hide()
-//                        ProgressIndicator.hide()
-//                        //Alert
-//                        let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-//                        
-//                        alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-//                        self.present(alert, animated: true)
-//                    }
-//                }
-//        }
+    
+        AF.request(URL, method: .post, parameters: parameters)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: [OD].self) {  [weak self] response in
+                guard let self = self else { return }
+                
+                switch response.result {
+                    
+                    case .success(let value):
+                    
+                        if value.count == 0 {
+                            showAlert(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..")
+                            progressHUD.hide()
+                            ProgressIndicator.hide()
+                            return
+                        }
+                    
+                         self.Odtrans.removeAll()
+                         var intQty: Int = 0
+                    
+                        for i in value {
+                        
+                            intQty = intQty + i.qty
+                            
+                            //Add data to dictionary
+                            self.Odtrans.append(Odtrn(no: i.no, prodcode: i.prodcode, size: i.size, color: i.color, qty: i.qty, pkqty: i.pkqty, amt: i.amt, store: i.store, packcode: i.packcode))
+                            
+                        }
+                    
+                           self.lblQty.text = String(format: "%d", locale: Locale.current, intQty)
+                           self.lblTot.text = String(format: "%.2f", locale: Locale.current, 0)  //ไม่แสดงราคา
+   
+                           progressHUD.hide()
+                           self.myTable.reloadData()
+                        
+                        break
+                        
+                    case .failure(let error):
+                        print("Error: \(error)")
+                        progressHUD.hide()
+                        showAlert(title: "เกิดข้อผิลพลาด", message: "\(error) โปรดลองใหม่อีกครั้ง")
+                        break
+                }
+                
+        }
+        
     }
     
     @IBAction func btnBack(_ sender: Any)

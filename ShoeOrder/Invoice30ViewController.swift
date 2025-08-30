@@ -34,6 +34,19 @@ class Invoice30ViewController: UIViewController {
         LoadData()
     }
     
+    struct Inv: Decodable {
+        let date: String
+        let docno: String
+        let code: String
+        let refno: String
+        let retdate: String
+        let prod: String
+        let colorcode: String
+        let orderno: String
+        let qty: Int
+        let color: String
+    }
+    
     func LoadData()
     {
             //ProgressBar
@@ -41,7 +54,7 @@ class Invoice30ViewController: UIViewController {
             self.view.addSubview(progressHUD)
                         
             //URL
-            let URL_USER_LOGIN = "http://111.223.38.24:3000/lstinv"
+            let URL = "http://111.223.38.24:3000/lstinv"
             
             //Set Parameter
             let parameters : Parameters=[
@@ -50,66 +63,42 @@ class Invoice30ViewController: UIViewController {
             ]
             print(CustomerViewController.GlobalValiable.saleid, CustomerViewController.GlobalValiable.myCode)
             
-//            Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
-//                {
-//                    
-//                    response in
-//                    //print(response)
-//                    
-//                    if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-//                    {
-//                        //Check nil data
-//                        var blnHaveData = false
-//                        for _ in array  //วนลูปเช็คค่าที่ส่งมา
-//                        {
-//                            blnHaveData = true
-//                            break
-//                        }
-//                        
-//                        //เช็คสิทธิการเข้าใช้งาน
-//                        if (blnHaveData)
-//                        {
-//                            self.inv30.removeAll()
-//                            
-//                            for personDict in array
-//                            {
-//                                var date: String
-//                                let invno: String
-//                                let prodcode: String
-//                                let color: String
-//                                let qty: Int
-//                                let snddate: String
-//                                let orderno: String
-//                                
-//                                date = personDict["date"] as! String
-//                                
-//                                invno = personDict["docno"] as! String
-//                                prodcode = personDict["prod"] as! String
-//                                color = personDict["color"] as! String
-//                                qty = personDict["qty"] as! Int
-//                                snddate = personDict["retdate"] as! String
-//                                orderno = ""
-//                                
-//                                //Add data to dictionary
-//                                self.inv30.append(Invoice30(date: date, invno: invno, prodcode: prodcode, color: color, qty: qty, snddate: snddate, orderno: orderno))
-//                            }
-//                            
-//                            //ProgressIndicator.hide()
-//                            progressHUD.hide()
-//                            self.myTable.reloadData()
-//                        }
-//                        else
-//                        {
-//                            progressHUD.hide()
-//                            ProgressIndicator.hide()
-//                            //Alert
-//                            let alert = UIAlertController(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..", preferredStyle: .alert)
-//                            
-//                            alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
-//                            self.present(alert, animated: true)
-//                        }
-//                    }
-//            }
+            AF.request(URL, method: .get, parameters: parameters)
+                .validate(statusCode: 200..<300)
+                .responseDecodable(of: [Inv].self) {  [weak self] response in
+                    guard let self = self else { return }
+                    
+                    switch response.result {
+                            
+                        case .success(let value):
+                        
+                        
+                            if value.count == 0 {
+                                showAlert(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..")
+                                progressHUD.hide()
+                                ProgressIndicator.hide()
+                                return
+                            }
+                        
+                            for i in value {
+                            
+                                //Add data to dictionary
+                                self.inv30.append(Invoice30(date: i.date, invno: i.docno, prodcode: i.prod, color: i.color, qty: i.qty, snddate: i.retdate, orderno: i.orderno))
+                            
+                            }
+                        
+                                progressHUD.hide()
+                                self.myTable.reloadData()
+                            break
+                            
+                        case .failure(let error):
+                            print("Error: \(error)")
+                            showAlert(title: "Error", message: "\(error)")
+                            break
+                    }
+                    
+                }
+                    
     }
     
     @IBAction func btnBack(_ sender: Any)

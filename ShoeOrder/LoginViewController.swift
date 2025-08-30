@@ -203,7 +203,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 
 //                            print("response -----> ", customers)
 //                            for customer in customers {
-//                                print("รหัส:", customer.code,
+//                                print("เซล:", customer.saleman,
 //                                         "ชื่อร้าน:", customer.customer_name,
 //                                         "เครดิตเทอม:", customer.crterm,
 //                                         "ผู้ติดต่อ:", customer.customer_name,

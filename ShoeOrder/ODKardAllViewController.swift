@@ -227,6 +227,26 @@ class ODKardAllViewController: UIViewController, UISearchBarDelegate, UITextFiel
         self.query()
     }
     
+    struct odnotsend: Decodable {
+        var prodcode: String
+        var packtype: String
+        var color: String
+        var qty: Int
+        var kard: Int
+        var orderno: String
+        var date: String
+        var code: String
+        var saleman: String
+        var pono: String
+        var custname: String
+        var amt: Double
+        
+        enum CodingKeys: String, CodingKey {
+            case prodcode, color, qty, kard, orderno, date, code, saleman, pono, custname, amt
+            case packtype = "pack_type"
+        }
+    }
+    
     func LoadData()
     {
         //ProgressBar
@@ -234,13 +254,129 @@ class ODKardAllViewController: UIViewController, UISearchBarDelegate, UITextFiel
         self.view.addSubview(progressHUD)
         
         //URL
-        let URL_USER_LOGIN = "http://111.223.38.24:3000/cal_odkardall"
+        let URL = "http://111.223.38.24:3000/cal_odkardall"
         
         //Set Parameter
         let parameters : Parameters=[
             "sale": CustomerViewController.GlobalValiable.saleid
         ]
         
+        AF.request(URL, method: .get, parameters: parameters)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: [odnotsend].self) {  [weak self] response in
+                guard let self = self else { return }
+                
+                    switch response.result {
+                        
+                        case .success(let value):
+                        
+                            if value.count == 0 {
+                                showAlert(title: "Not found data!", message: "ไม่พบข้อมูลในระบบ กรุณาลองใหม่อีกครั้ง..")
+                                progressHUD.hide()
+                                ProgressIndicator.hide()
+                                return
+                            }
+
+                            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                            .appendingPathComponent("order.sqlite")
+                      
+                            var db: OpaquePointer?
+                        
+                        if sqlite3_open(fileURL.path, &db) != SQLITE_OK
+                               {
+                                   print("error opening database")
+                               }
+                               else
+                               {
+                                   //ลบข้อมูลเก่าออกก่อน
+                                   let deleteStatementStirng = "DELETE FROM kardall"
+                                   var deleteStatement: OpaquePointer? = nil
+       
+                                   if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK
+                                   {
+                                       if sqlite3_step(deleteStatement) != SQLITE_DONE
+                                       {
+                                           print("Could not delete row.")
+                                       }
+                                   } else
+                                   {
+                                       print("DELETE statement could not be prepared")
+                                   }
+       
+                                   sqlite3_finalize(deleteStatement)
+       
+                                   //บันทึกข้อมูลชุดใหม่
+                                   let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+       
+                                   self.OdK_All.removeAll()
+                                   var intKard: Int = 0
+                                   var dblAmt: Double = 0
+       
+                                   for i in value
+                                   {
+
+                                       intKard = intKard + i.kard
+                                       dblAmt = dblAmt + i.amt
+       
+                                       //Add data to dictionary
+                                       self.OdK_All.append(OdKardAll(customer: i.custname, prod: i.prodcode, pack: i.packtype, color: i.color, qty: i.qty, pkqty: i.kard, orderno: i.orderno, date: i.date, remark: i.pono))
+       
+                                       let insert = "INSERT INTO kardall (code, custname, prodcode, pack, color, qty, kardqty, orderno, date, pono, amt)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?);"
+                                       var statement: OpaquePointer?
+       
+                                       //preparing the query
+                                       if sqlite3_prepare_v2(db, insert, -1, &statement, nil) == SQLITE_OK
+                                       {
+                                           sqlite3_bind_text(statement, 1, i.code, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_text(statement, 2, i.custname, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_text(statement, 3, i.prodcode, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_text(statement, 4, i.packtype, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_text(statement, 5, i.color, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_int(statement, 6, Int32(i.qty))
+                                           sqlite3_bind_int(statement, 7, Int32(i.kard))
+                                           sqlite3_bind_text(statement, 8, i.orderno, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_text(statement, 9, i.date, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_text(statement, 10, i.pono, -1, SQLITE_TRANSIENT)
+                                           sqlite3_bind_double(statement, 11, i.amt)
+       
+                                           //executing the query to insert values
+                                           if sqlite3_step(statement) != SQLITE_DONE
+                                           {
+                                               let errmsg = String(cString: sqlite3_errmsg(db)!)
+                                               print("failure inserting armstr: \(errmsg)")
+                                               return
+                                           }
+                                       }
+                                       else
+                                       {
+                                           let errmsg = String(cString: sqlite3_errmsg(db)!)
+                                           print("error preparing insert: \(errmsg)")
+                                           return
+                                       }
+       
+                                       sqlite3_finalize(statement)
+                                   }
+       
+                                   let formattedInt = String(format: "%d", locale: Locale.current, intKard)
+                                   let formatDbl = String(format: "%.2f", locale: Locale.current, dblAmt)
+       
+                                   self.lblQty.text = formattedInt
+                                   self.lblAmt.text = formatDbl
+       
+                                   //ProgressIndicator.hide()
+                                   progressHUD.hide()
+                                   self.myTable.reloadData()
+                               }
+                        
+                            break
+                            
+                        case .failure(let error):
+                            print("Error: \(error)")
+                            break
+                        
+                    }
+                
+            }
 //        Alamofire.request(URL_USER_LOGIN, method: .get, parameters: parameters).responseJSON
 //            {
 //                response in
