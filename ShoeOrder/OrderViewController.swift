@@ -76,7 +76,7 @@ class OrderViewController: UIViewController {
             lblShipdate.text = result
         }
        
-        if CustomerViewController.GlobalValiable.blnadmin_pk
+        if CustomerViewController.GlobalValiable.sale_type
         {
             lblShipdate.alpha = 1
         }
@@ -87,7 +87,7 @@ class OrderViewController: UIViewController {
         
         lblCredit.text = String(CustomerViewController.GlobalValiable.cr_term)
         lblItem.text = CustomerViewController.GlobalValiable.remark
-        lblStore.text = CustomerViewController.GlobalValiable.logis
+        lblStore.text = CustomerViewController.GlobalValiable.logiCode +  " " + CustomerViewController.GlobalValiable.logiName + " " + CustomerViewController.GlobalValiable.logisCode
         
     }
     
@@ -183,7 +183,7 @@ class OrderViewController: UIViewController {
         if blnPk == true
           {
               btnPK.setImage(checkBox, for: UIControl.State.normal)
-              CustomerViewController.GlobalValiable.blnadmin_pk = true
+              CustomerViewController.GlobalValiable.sale_type = true
               
               delivery.isEnabled = true  //เปิดปุ่มวันส่ง
               blnPk = false
@@ -191,7 +191,7 @@ class OrderViewController: UIViewController {
           else
           {
               btnPK.setImage(uncheckBox, for: UIControl.State.normal)
-              CustomerViewController.GlobalValiable.blnadmin_pk = false
+              CustomerViewController.GlobalValiable.sale_type = false
               
               delivery.isEnabled = false  //ปิดปุ่มวันส่ง
               blnPk = true
@@ -202,10 +202,18 @@ class OrderViewController: UIViewController {
     //บันทึกออร์เดอร์
     @IBAction func btnODSave(_ sender: Any)
     {
+//        self.UpdateOdNo()
+//        self.PrepareOd()
+//        
+//        if (json.count == 0) {
+//            showAlert(title: "แจ้งเตือน!", message: "โปรดเพิ่มรายการก่อนส่งข้อมูล")
+//            return
+//        }
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.isConnectedToNetwork()
         {
-//            self.showAlert(title: "ธุรการสั่งจัด", message: "\(CustomerViewController.GlobalValiable.blnadmin_pk)")
+
             if self.CheckHaveData() == true
             {
                 let alertController = UIAlertController(title: "ยืนยันส่งข้อมูล..", message: "คุณต้องการส่งข้อมูลออเดอร์ ใช่หรือไม่?", preferredStyle: .alert)
@@ -280,7 +288,6 @@ class OrderViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        print("viewWillAppear")
-//        showAlert(title: "สถานะ ธุรการสั่งจัด", message: "\(CustomerViewController.GlobalValiable.blnadmin_pk)")
         
         if (CustomerViewController.GlobalValiable.pro == 1)
         {
@@ -304,7 +311,7 @@ class OrderViewController: UIViewController {
        
         if CustomerViewController.GlobalValiable.blnEditLogistic
         {
-            lblStore.text = CustomerViewController.GlobalValiable.logis
+            lblStore.text = CustomerViewController.GlobalValiable.logiCode + " " + CustomerViewController.GlobalValiable.logiName + " " + CustomerViewController.GlobalValiable.logisCode
             CustomerViewController.GlobalValiable.blnEditLogistic = false
         }
         
@@ -339,7 +346,7 @@ class OrderViewController: UIViewController {
             blnCheckVate = true
         }
         
-        if CustomerViewController.GlobalValiable.blnadmin_pk
+        if CustomerViewController.GlobalValiable.sale_type
         {
             btnPK.setImage(checkBox, for: UIControl.State.normal)
             delivery.isEnabled = true
@@ -639,15 +646,14 @@ class OrderViewController: UIViewController {
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK
         {
             //หากมีการเพิ่มสถานที่สงใหม่
-            //print(" == CustomerViewController.GlobalValiable.logis  == > ", CustomerViewController.GlobalValiable.logis)
             var logist_nm = ""
-            if (CustomerViewController.GlobalValiable.locat_name.count > 0 && CustomerViewController.GlobalValiable.logis.count == 0)
+            if (CustomerViewController.GlobalValiable.locat_name.count > 0 && CustomerViewController.GlobalValiable.logiCode == "00")
             {
                 logist_nm = CustomerViewController.GlobalValiable.locat_name
             }
             else
             {
-                logist_nm = CustomerViewController.GlobalValiable.logis
+                logist_nm = CustomerViewController.GlobalValiable.logiName
             }
             //print("===> ",logist_nm)
             
@@ -816,8 +822,45 @@ class OrderViewController: UIViewController {
                 }
 
                 //Add data to dictionary 
+//                let mydic : [String:Any] = [
+//                    "date": _date,
+//                    "delivery": _delivery,
+//                    "code": _code,
+//                    "orderno": _odno,
+//                    "no": _no,
+//                    "prodcode": _prodcode,
+//                    "n_pack": _npack,
+//                    "packcode": _packcode,
+//                    "sizedesc": _sizedesc,
+//                    "colorcode": _color,
+//                    "colordesc": _colordesc,
+//                    "qty": _qty,
+//                    "price": _price,
+//                    "amt": _amt,
+//                    "packno": _packno,
+//                    "pairs": _pairs,
+//                    "dozen": _dozen,
+//                    "disc": _disc,
+//                    "pono": _pono,
+//                    "tax_rate": _taxrate,
+//                    "vat_type": _vattype,
+//                    "tax_amt": _tax_amt,
+//                    "net_amt": _netamt,
+//                    "cr_term": _crterm,
+//                    "saleman": _saleman,
+//                    "remark": _remark,
+//                    "recfirm": _recfirm,
+//                    "incvat": _incvat,
+//                    "logis_code": _logis_code,
+//                    "logicode": _logicode,
+//                    "ctrycode": _ctrycode,
+//                    "store": _store,
+//                    "logi_name": _logi_name,
+//                    "sale_type":  CustomerViewController.GlobalValiable.sale_type,
+//                    "fixdue": CustomerViewController.GlobalValiable.pro
+//                ]
+                
                 let mydic : [String:Any] = [
-                    "admin_pk": CustomerViewController.GlobalValiable.blnadmin_pk ? 1 : 0,
                     "date": _date,
                     "delivery": _delivery,
                     "code": _code,
@@ -846,12 +889,12 @@ class OrderViewController: UIViewController {
                     "remark": _remark,
                     "recfirm": _recfirm,
                     "incvat": _incvat,
-                    "logis_code": _logis_code,
-                    "logicode": _logicode,
+                    "logis_code": CustomerViewController.GlobalValiable.logisCode,
+                    "logicode": CustomerViewController.GlobalValiable.logiCode,
                     "ctrycode": _ctrycode,
                     "store": _store,
-                    "logi_name": _logi_name,
-                    "sale_type":  CustomerViewController.GlobalValiable.waitsend,
+                    "logi_name": CustomerViewController.GlobalValiable.logiName,
+                    "sale_type":  CustomerViewController.GlobalValiable.sale_type,
                     "fixdue": CustomerViewController.GlobalValiable.pro
                 ]
                 
@@ -896,12 +939,18 @@ class OrderViewController: UIViewController {
         CustomerViewController.GlobalValiable.blnEditRemark = false
         
         CustomerViewController.GlobalValiable.strShipDate = ""
-        CustomerViewController.GlobalValiable.logis = ""
+        
+        //ส่งของที่
+        CustomerViewController.GlobalValiable.logiCode = ""
+        CustomerViewController.GlobalValiable.logiName = ""
+        CustomerViewController.GlobalValiable.logisCode = ""
+        
+        
         CustomerViewController.GlobalValiable.remark = ""
   
         CustomerViewController.GlobalValiable.recfirm = 0
         CustomerViewController.GlobalValiable.vat = 0
-        CustomerViewController.GlobalValiable.waitsend = 0   //รอส่ง
+        CustomerViewController.GlobalValiable.sale_type = false  //รอส่ง
         
         CustomerViewController.GlobalValiable.prod = ""
         CustomerViewController.GlobalValiable.n_pack = 0
@@ -919,8 +968,7 @@ class OrderViewController: UIViewController {
         CustomerViewController.GlobalValiable.blnSolidPackAsort = false
         CustomerViewController.GlobalValiable.pro = 0
         
-//        CustomerViewController.GlobalValiable.blnadmin_pk = false
-        
+
         //Reset control
         lblStore.text = ""
         btnVat.setImage(uncheckBox, for: UIControl.State.normal)
@@ -1036,7 +1084,27 @@ class OrderViewController: UIViewController {
                 }
             
                 if first.success {
-                    self.showAlert(title: "Success!", message: "ส่งข้อมูลออเดอร์สำเร็จ!..")
+                    //ปุ่มส่งสำเร็จ
+                    let alert = UIAlertController(title: "Success!",
+                                                  message: "ส่งข้อมูลออเดอร์สำเร็จ!..",
+                                                  preferredStyle: .alert)
+
+                    let okAction = UIAlertAction(title: "ตกลง", style: .default) { _ in
+                        // ปิด ViewController ปัจจุบัน
+//                      self.dismiss(animated: true, completion: nil)
+                        
+                        //back viewcontroller
+                        if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
+                        {
+                            menu.modalPresentationStyle = .fullScreen
+                            self.present(menu, animated: true, completion: nil)
+                        }
+                    }
+                    
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true)
+
+                    
                 } else {
                     self.showAlert(
                         title: "ผิดพลาด!",

@@ -73,7 +73,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var ver = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
     //URL
-    let URL_USER_LOGIN = "http://111.223.38.24:3000/checklogin_test"
+    let URL_USER_LOGIN = "http://111.223.38.24:3000/login"
     
     override func viewDidLoad() {
         

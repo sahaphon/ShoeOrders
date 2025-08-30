@@ -36,6 +36,12 @@ class Prod7SolidViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        showAlert(title: "บันทึก Solid: ", message: CustomerViewController.GlobalValiable.logiCode + " " + CustomerViewController.GlobalValiable.logiName)
+        
+        print(">>>>> logiCode: ", CustomerViewController.GlobalValiable.logiCode)
+        print(">>>>> logiName: ", CustomerViewController.GlobalValiable.logiName)
+        print(">>>>> logisCode: ", CustomerViewController.GlobalValiable.logisCode)
 
         UILabel.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).font = UIFont.boldSystemFont(ofSize: 25)
         
@@ -286,8 +292,8 @@ class Prod7SolidViewController: UIViewController {
                     //let numRec = getNumberOfRec()
                     let intQty:Int = prod7[intRownumber].qty!
                     let intDozen:Int = intQty / 12
-                    var send = CustomerViewController.GlobalValiable.logis
-                    send = String(send.prefix(2))
+//                    var send = CustomerViewController.GlobalValiable.logiCode
+//                    send = String(send.prefix(2))
                     
                     sqlite3_bind_text(statement, 1, "N", -1, SQLITE_TRANSIENT)
                     sqlite3_bind_text(statement, 2, dateFormatter.string(from: date), -1, SQLITE_TRANSIENT)
@@ -318,8 +324,8 @@ class Prod7SolidViewController: UIViewController {
                     sqlite3_bind_text(statement, 27, "", -1, SQLITE_TRANSIENT)
                     sqlite3_bind_int(statement, 28, Int32(CustomerViewController.GlobalValiable.recfirm))  //งานสั่งทำ
                     sqlite3_bind_int(statement, 29, 1)  //incvat
-                    sqlite3_bind_text(statement, 30, "", -1, SQLITE_TRANSIENT) //logis_code
-                    sqlite3_bind_text(statement, 31, send, -1, SQLITE_TRANSIENT)
+                    sqlite3_bind_text(statement, 30, CustomerViewController.GlobalValiable.logisCode, -1, SQLITE_TRANSIENT) //logis_code
+                    sqlite3_bind_text(statement, 31, CustomerViewController.GlobalValiable.logiCode, -1, SQLITE_TRANSIENT)
                     sqlite3_bind_text(statement, 32, "TH", -1, SQLITE_TRANSIENT)
                     sqlite3_bind_text(statement, 33, "", -1, SQLITE_TRANSIENT)
                     
@@ -356,8 +362,8 @@ class Prod7SolidViewController: UIViewController {
                         
                         let intQty:Int = prod7[intRownumber].qty_free!
                         let intDozen:Int = intQty / 12
-                        var send = CustomerViewController.GlobalValiable.logis
-                        send = String(send.prefix(2))
+//                        var send = CustomerViewController.GlobalValiable.logiCode
+//                        send = String(send.prefix(2))
                         
                         sqlite3_bind_text(statement2, 1, "N", -1, SQLITE_TRANSIENT)
                         sqlite3_bind_text(statement2, 2, dateFormatter.string(from: date), -1, SQLITE_TRANSIENT)
@@ -388,8 +394,8 @@ class Prod7SolidViewController: UIViewController {
                         sqlite3_bind_text(statement2, 27, "", -1, SQLITE_TRANSIENT)
                         sqlite3_bind_int(statement2, 28, Int32(CustomerViewController.GlobalValiable.recfirm))  //งานสั่งทำ
                         sqlite3_bind_int(statement2, 29, 1)  //incvat
-                        sqlite3_bind_text(statement2, 30, "", -1, SQLITE_TRANSIENT) //logis_code
-                        sqlite3_bind_text(statement2, 31, send, -1, SQLITE_TRANSIENT)
+                        sqlite3_bind_text(statement2, 30, CustomerViewController.GlobalValiable.logisCode, -1, SQLITE_TRANSIENT) //logis_code
+                        sqlite3_bind_text(statement2, 31, CustomerViewController.GlobalValiable.logiCode, -1, SQLITE_TRANSIENT)
                         sqlite3_bind_text(statement2, 32, "TH", -1, SQLITE_TRANSIENT)
                         sqlite3_bind_text(statement2, 33, "แถม", -1, SQLITE_TRANSIENT)
                         

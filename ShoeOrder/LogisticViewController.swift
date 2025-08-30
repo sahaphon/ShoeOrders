@@ -30,7 +30,10 @@ class LogisticViewController: UIViewController
     
     @IBAction func btmCancel(_ sender: Any)
     {
-        CustomerViewController.GlobalValiable.logis = ""
+        CustomerViewController.GlobalValiable.logiCode = ""
+        CustomerViewController.GlobalValiable.logiName = ""
+        CustomerViewController.GlobalValiable.logisCode = ""
+        
         self.dismiss(animated: false, completion: nil)
     }
     
@@ -103,12 +106,20 @@ class LogisticViewController: UIViewController
     
     @IBAction func btnAccept(_ sender: Any)
     {
+        print("1111")
         if((self.presentingViewController) != nil)
         {
-            
-            if (store.count > 0 && CustomerViewController.GlobalValiable.logis.count == 0)
+            print("22222")
+            if (store.count > 0 && CustomerViewController.GlobalValiable.logiCode == "00")
             {
-                CustomerViewController.GlobalValiable.logis = String(store[0])
+//                print("logicode: ", store[0])
+//                print("logiName: ", store[1])
+//                print("logisCode: ", store[2])
+//                
+//                CustomerViewController.GlobalValiable.logiCode = String(store[0])
+//                CustomerViewController.GlobalValiable.logiName = String(store[1])
+//                CustomerViewController.GlobalValiable.logisCode = String(store[2])
+                
                 
                 if (logiArr.count > 0) //หากมีสถานที่ส่งเก่าในระบบ shoenew ให้เช็คว่ารายการที่เลือกเป็นสถานที่ส่งเก่าหรือเพิ่มมาใหม่
                 {
@@ -159,7 +170,7 @@ class LogisticViewController: UIViewController
         let parameters : Parameters=[
             "code": CustomerViewController.GlobalValiable.myCode
         ]
-        print("code: ", CustomerViewController.GlobalValiable.myCode)
+//        print("code: ", CustomerViewController.GlobalValiable.myCode)
         let progressHUD = ProgressHUD(text: "Please wait..")
         self.view.addSubview(progressHUD)
         
@@ -172,171 +183,45 @@ class LogisticViewController: UIViewController
                 
                 switch response.result {
                     
-                case .success(let data):
-                    
-                    print("data: ", data)
-                    if (data.count == 0) {
-                        showAlert(title: "Not found data", message: "โปรดลองใหม่อีกครั้ง")
+                    case .success(let data):
+                        
+                        //print("data: ", data)
+                        if (data.count == 0) {
+                            showAlert(title: "Not found data", message: "โปรดลองใหม่อีกครั้ง")
+                            progressHUD.hide()
+                            return
+                        }
+                        
+                        for item in data {
+                            //Add data to dictionary
+                            let line = item.logicode + " : " + item.description + " : " + item.logisCode
+                            self.store.append(line)
+                            self.logiArr.append(item.logicode)  //Add data to record logicode
+                        }
+                        
+                        
+                        //กรณีมีเพิ่มสถานที่ส่งใหม่ให้ต่อท้าย
+                        if (CustomerViewController.GlobalValiable.locat_name.count > 0)
+                        {
+                            self.store.append(CustomerViewController.GlobalValiable.locat_name)
+                        }
+                        
+                        self.picRem.reloadAllComponents()
                         progressHUD.hide()
-                        return
+                        break
+                        
+                    case .failure(let error):
+                        
+                        showAlert(title: "เกิดข้อผิลพลาด", message: "\(error) โปรดลองใหม่อีกครั้ง")
+                        progressHUD.hide()
+                        break
                     }
-                    
-                    for item in data {
-                        //Add data to dictionary
-                        let line = "\(item.logicode) \(item.description) \(item.logisCode)"
-                        self.store.append(line)
-                        self.logiArr.append(item.logicode)  //Add data to record logicode
-                    }
-                    
-                    
-                    //กรณีมีเพิ่มสถานที่ส่งใหม่ให้ต่อท้าย
-                    if (CustomerViewController.GlobalValiable.locat_name.count > 0)
-                    {
-                        self.store.append(CustomerViewController.GlobalValiable.locat_name)
-                    }
-                    
-                    self.picRem.reloadAllComponents()
-                    progressHUD.hide()
-                    break
-                    
-                case .failure(let error):
-                    
-                    showAlert(title: "เกิดข้อผิลพลาด", message: "\(error) โปรดลองใหม่อีกครั้ง")
-                    progressHUD.hide()
-                    break
-                }
             }
-        
-        //making a post request
-        //        Alamofire.request(URL_USER_LOGIN, method: .post, parameters: parameters).responseJSON
-        //        {
-        //           response in
-        //
-        //            if let array = response.result.value as? [[String: Any]] //หากมีข้อมูล
-        //            {
-        //                //Check nil data
-        //                var blnHaveData = false
-        //                for _ in array  //วนลูปเช็คค่าที่ส่งมา
-        //                {
-        //                    blnHaveData = true
-        //                    break
-        //                }
-        //
-        //                if (blnHaveData)
-        //                {
-        //                    var Desc:String = ""
-        //                    var logiscode:String = ""
-        //                    var logis_code:String = ""
-        //
-        //                    self.store.removeAll() //Clear data
-        //                    self.logiArr.removeAll()
-        //
-        //                    for personDict in array
-        //                    {
-        //
-        //                            logiscode = (personDict["logiscode"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-        //                            Desc = (personDict["description"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-        //                            logis_code = (personDict["logis_code"] as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-        //
-        //                            //Add data to dictionary
-        //                        self.store.append(String(logiscode) + " " + String(Desc) + " " + String(logis_code))
-        //                        self.logiArr.append(logiscode)  //Add data to record logicode
-        //                    }
-        //
-        //                }
-        //                else
-        //                {
-        //                    print("ไม่มีข้อมูล")
-        //                }
-        //
-        //                //กรณีมีเพิ่มสถานที่ส่งใหม่ให้ต่อท้าย
-        //                if (CustomerViewController.GlobalValiable.locat_name.count > 0)
-        //                {
-        //                    self.store.append(CustomerViewController.GlobalValiable.locat_name)
-        //                }
-        //
-        //                    self.picRem.reloadAllComponents()
-        //                    progressHUD.hide()
-        //                }
-        //
-        //            }
-        //        }
         
     }
 }
 
-    /*
-     extension LogisticViewController: UIPickerViewDelegate, UIPickerViewDataSource
-     {
-     // Number of columns of data
-     func numberOfComponents(in pickerView: UIPickerView) -> Int
-     {
-     return 1
-     }
-     
-     // The number of rows of data
-     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-     {
-     return store.count
-     }
-     
-     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-     {
-     return String(store[row])
-     }
-     
-     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView
-     {
-     var pickerLabel: UILabel? = (view as? UILabel)
-     if pickerLabel == nil {
-     pickerLabel = UILabel()
-     pickerLabel?.font = UIFont(name: "PSL Display", size:30)
-     pickerLabel?.textAlignment = .center
-     }
-     
-     pickerLabel?.text = String(store[row])
-     pickerLabel?.textColor = UIColor.black
-     
-     return pickerLabel!
-     }
-     
-     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-     {
-     if store.count > 0
-     {
-     //print("logiscode : ",String(store[row].prefix(2)))  //ตัดเอา 2 ตัวแรก
-     CustomerViewController.GlobalValiable.logis = String(store[row])
-     
-     if (logiArr.count > 0) //หากมีสถานที่ส่งเก่าในระบบ shoenew ให้เช็คว่ารายการที่เลือกเป็นสถานที่ส่งเก่าหรือเพิ่มมาใหม่
-     {
-     for item in logiArr
-     {
-     if (item == String(store[row].prefix(2)))
-     {
-     //print("ซำ้กัน \(item) = \(String(store[row].prefix(2)))")
-     CustomerViewController.GlobalValiable.blnNewLogicode = 0
-     }
-     else
-     {
-     //print("ไม่ซ้ำกัน \(item) = \(String(store[row].prefix(2)))")
-     CustomerViewController.GlobalValiable.blnNewLogicode = 1
-     }
-     
-     }
-     }
-     else
-     {
-     CustomerViewController.GlobalValiable.blnNewLogicode = 1
-     }
-     
-     }
-     }
-     }
-     }
-    */
 
-
-// ===== วางนอกคลาส =====
 extension LogisticViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
@@ -361,7 +246,18 @@ extension LogisticViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         guard store.indices.contains(row) else { return }
-        CustomerViewController.GlobalValiable.logis = store[row]
+        
+//        showAlert(title: "เลอกรายการ", message: "\(store[row])")
+        
+        let sepLogis = store[row].components(separatedBy: " : ")
+//        print(">>> 1: ", sepLogis[0])
+//        print(">>> 2: ", sepLogis[1])
+//        print(">>> 3: ", sepLogis[2])
+        
+        //เก็บค่า
+        CustomerViewController.GlobalValiable.logiCode = sepLogis[0]
+        CustomerViewController.GlobalValiable.logiName = sepLogis[1]
+        CustomerViewController.GlobalValiable.logisCode = sepLogis[2]
 
         let candidateCode = String(store[row].prefix(2))
         let isOld = logiArr.contains(candidateCode)

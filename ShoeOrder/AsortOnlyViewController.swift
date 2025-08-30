@@ -266,8 +266,8 @@ class AsortOnlyViewController: UIViewController {
                             let numRec = getNumberOfRecAs()
                             //let intQty:Int = product[intRownumber].qty!
                             let intDozen:Int = value.qty! / 12
-                            var send = CustomerViewController.GlobalValiable.logis
-                            send = String(send.prefix(2))
+//                            var send = CustomerViewController.GlobalValiable.logiCode
+//                            send = String(send.prefix(2))
                             
                             sqlite3_bind_text(statement, 1, "", -1, SQLITE_TRANSIENT)
                             sqlite3_bind_text(statement, 2, dateFormatter.string(from: date), -1, SQLITE_TRANSIENT)
@@ -298,8 +298,8 @@ class AsortOnlyViewController: UIViewController {
                             sqlite3_bind_text(statement, 27, "", -1, SQLITE_TRANSIENT)
                             sqlite3_bind_int(statement, 28, Int32(CustomerViewController.GlobalValiable.recfirm))  //งานสั่งทำ
                             sqlite3_bind_int(statement, 29, 1)  //incvat
-                            sqlite3_bind_text(statement, 30, "", -1, SQLITE_TRANSIENT) //logis_code
-                            sqlite3_bind_text(statement, 31, send, -1, SQLITE_TRANSIENT)
+                            sqlite3_bind_text(statement, 30, CustomerViewController.GlobalValiable.logisCode, -1, SQLITE_TRANSIENT) //logis_code
+                            sqlite3_bind_text(statement, 31, CustomerViewController.GlobalValiable.logiCode, -1, SQLITE_TRANSIENT)
                             sqlite3_bind_text(statement, 32, "TH", -1, SQLITE_TRANSIENT)
                             sqlite3_bind_text(statement, 33, CustomerViewController.GlobalValiable.free, -1, SQLITE_TRANSIENT)
                             

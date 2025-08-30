@@ -274,7 +274,15 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         static var strShipDate = String()
         static var cr_term : Int = 0  //เดิม Int
         static var saleid = String()
-        static var logis = String()
+        
+        
+        //ส่งที่
+        static var logiCode = String()  //เช่น 01
+        static var logiName = String()   //เช่น เบบี้
+        static var logisCode = String() //เช่่น สพ.
+        
+        
+        
         static var remark = String()
         static var disc : Int = 0
         static var recfirm : Int = 0 //งานสั่งทำ
@@ -282,8 +290,10 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         static var pono = String()
         static var pro : Int = 0 //จัดโปรโมชั่น
         
+        
+        
         //ปุ่มรอส่ง
-        static var waitsend : Int = 0 //งานสั่งทำ
+        static var sale_type = false //งานสั่งทำ(เลิกใช้) เดิม waitsend
         
         
         static var prod = String() //รุ่นที่เลือก
@@ -320,6 +330,6 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         static var type_vat: Int = 0  //vat รายร้านค้า
         
         //ธุรการสั่งจัด
-        static var blnadmin_pk = false
+//        static var blnadmin_pk = false
     }
 }
