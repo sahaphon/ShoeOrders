@@ -57,6 +57,8 @@ class OrderViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        btnRec.isHidden = true  //ซ่อนปุ่มงานสั่งทำ
 
         lblCode.text = CustomerViewController.GlobalValiable.myCode
         lblDesc.text = CustomerViewController.GlobalValiable.desc
@@ -159,23 +161,30 @@ class OrderViewController: UIViewController {
     @IBAction func btnCredit(_ sender: Any)
     {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.isConnectedToNetwork()
+        
+        if CustomerViewController.GlobalValiable.blnEditCrterm
         {
-            if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "credit") as? CrViewController
+            if appDelegate.isConnectedToNetwork()
             {
-                menu.modalPresentationStyle = .fullScreen
-                self.present(menu, animated: true, completion: nil)
+                if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "credit") as? CrViewController
+                {
+                    menu.modalPresentationStyle = .fullScreen
+                    self.present(menu, animated: true, completion: nil)
+                }
             }
+            else
+            {
+                print("Internet Connection not Available!")
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let chkView = storyboard.instantiateViewController(withIdentifier: "internet") as! CheckIntenetViewController
+                let navController = UINavigationController(rootViewController: chkView)
+                navController.modalPresentationStyle = .fullScreen
+                self.present(navController, animated:true, completion: nil)
+            }
+        } else {
+            showAlert(title: "แจ้งเตือน", message: "ไม่สามารถเปลี่ยนเครดิตเทอมได้")
         }
-        else
-        {
-            print("Internet Connection not Available!")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let chkView = storyboard.instantiateViewController(withIdentifier: "internet") as! CheckIntenetViewController
-            let navController = UINavigationController(rootViewController: chkView)
-            navController.modalPresentationStyle = .fullScreen
-            self.present(navController, animated:true, completion: nil)
-        }
+        
     }
     
     //ปุ่มธุรการสั่งจัด
@@ -195,6 +204,16 @@ class OrderViewController: UIViewController {
               
               delivery.isEnabled = false  //ปิดปุ่มวันส่ง
               blnPk = true
+              
+              //Clear วันทีส่งเป็นวันปัจจุบัน
+              CustomerViewController.GlobalValiable.strShipDate = getCurrDate()
+              lblShipdate.text = getCurrDate()
+              
+              //Clear remark ออก
+//              CustomerViewController.GlobalValiable.remark = ""
+//              lblItem.text = ""
+//              CustomerViewController.GlobalValiable.sale_type = false
+//              btnPK.isHidden = true
           }
     }
     
@@ -202,14 +221,7 @@ class OrderViewController: UIViewController {
     //บันทึกออร์เดอร์
     @IBAction func btnODSave(_ sender: Any)
     {
-//        self.UpdateOdNo()
-//        self.PrepareOd()
-//        
-//        if (json.count == 0) {
-//            showAlert(title: "แจ้งเตือน!", message: "โปรดเพิ่มรายการก่อนส่งข้อมูล")
-//            return
-//        }
-        
+
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.isConnectedToNetwork()
         {
@@ -303,11 +315,11 @@ class OrderViewController: UIViewController {
             CustomerViewController.GlobalValiable.blnEditShip = false
         }
         
-        if CustomerViewController.GlobalValiable.blnEditCrterm
-        {
-            lblCredit.text = String(CustomerViewController.GlobalValiable.cr_term)
-            CustomerViewController.GlobalValiable.blnEditCrterm =  false
-        }
+//        if CustomerViewController.GlobalValiable.blnEditCrterm
+//        {
+//            lblCredit.text = String(CustomerViewController.GlobalValiable.cr_term)
+//            CustomerViewController.GlobalValiable.blnEditCrterm =  false
+//        }
        
         if CustomerViewController.GlobalValiable.blnEditLogistic
         {
@@ -323,16 +335,16 @@ class OrderViewController: UIViewController {
 
 
         //ปุ่มงานสั่งทำ
-        if CustomerViewController.GlobalValiable.recfirm == 1
-        {
-            btnRec.setImage(checkBox, for: UIControl.State.normal)
-            blnCheckRec = false
-        }
-        else
-        {
-            btnRec.setImage(uncheckBox, for: UIControl.State.normal)
-            blnCheckRec = true
-        }
+//        if CustomerViewController.GlobalValiable.recfirm == 1
+//        {
+//            btnRec.setImage(checkBox, for: UIControl.State.normal)
+//            blnCheckRec = false
+//        }
+//        else
+//        {
+//            btnRec.setImage(uncheckBox, for: UIControl.State.normal)
+//            blnCheckRec = true
+//        }
         
         //ปุ่ม vat
         if  CustomerViewController.GlobalValiable.vat == 1
@@ -345,6 +357,13 @@ class OrderViewController: UIViewController {
             btnVat.setImage(uncheckBox, for: UIControl.State.normal)
             blnCheckVate = true
         }
+        
+        //หากไม่มี remark ไม่ต้องเช็ค
+        if CustomerViewController.GlobalValiable.remark == ""
+        {
+            CustomerViewController.GlobalValiable.sale_type = false
+        }
+
         
         if CustomerViewController.GlobalValiable.sale_type
         {
@@ -370,6 +389,7 @@ class OrderViewController: UIViewController {
                 btnPK.setImage(uncheckBox, for: UIControl.State.normal)
                 btnPK.isHidden = false
                 blnPk = false
+                CustomerViewController.GlobalValiable.strShipDate = CustomerViewController.GlobalValiable.sevdate
             }
             else if (!strRemark.isEmpty && strRemark.contains(strFind))
             {
@@ -378,13 +398,19 @@ class OrderViewController: UIViewController {
                 btnPK.setImage(uncheckBox, for: UIControl.State.normal)
                 btnPK.isHidden = true
                 blnPk = false
+                CustomerViewController.GlobalValiable.strShipDate = CustomerViewController.GlobalValiable.sevdate
+                
             } else {
                 //ไม่ระบุหมายเหตุ
                 print("ไม่ระบุหมายเหตุ")
                 btnPK.setImage(uncheckBox, for: UIControl.State.normal)
                 btnPK.isHidden = true
                 blnPk = false
+                CustomerViewController.GlobalValiable.strShipDate = CustomerViewController.GlobalValiable.sevdate
             }
+            
+            CustomerViewController.GlobalValiable.strShipDate = getCurrDate()
+            lblShipdate.text = getCurrDate()
             
             
             delivery.isEnabled = false
@@ -821,44 +847,6 @@ class OrderViewController: UIViewController {
                     _logi_name = ""
                 }
 
-                //Add data to dictionary 
-//                let mydic : [String:Any] = [
-//                    "date": _date,
-//                    "delivery": _delivery,
-//                    "code": _code,
-//                    "orderno": _odno,
-//                    "no": _no,
-//                    "prodcode": _prodcode,
-//                    "n_pack": _npack,
-//                    "packcode": _packcode,
-//                    "sizedesc": _sizedesc,
-//                    "colorcode": _color,
-//                    "colordesc": _colordesc,
-//                    "qty": _qty,
-//                    "price": _price,
-//                    "amt": _amt,
-//                    "packno": _packno,
-//                    "pairs": _pairs,
-//                    "dozen": _dozen,
-//                    "disc": _disc,
-//                    "pono": _pono,
-//                    "tax_rate": _taxrate,
-//                    "vat_type": _vattype,
-//                    "tax_amt": _tax_amt,
-//                    "net_amt": _netamt,
-//                    "cr_term": _crterm,
-//                    "saleman": _saleman,
-//                    "remark": _remark,
-//                    "recfirm": _recfirm,
-//                    "incvat": _incvat,
-//                    "logis_code": _logis_code,
-//                    "logicode": _logicode,
-//                    "ctrycode": _ctrycode,
-//                    "store": _store,
-//                    "logi_name": _logi_name,
-//                    "sale_type":  CustomerViewController.GlobalValiable.sale_type,
-//                    "fixdue": CustomerViewController.GlobalValiable.pro
-//                ]
                 
                 let mydic : [String:Any] = [
                     "date": _date,
@@ -934,7 +922,7 @@ class OrderViewController: UIViewController {
         ClearListOD()  //เคลียร์ตาราง odmst, prodlist
         
         CustomerViewController.GlobalValiable.blnEditShip = false
-        CustomerViewController.GlobalValiable.blnEditCrterm = false
+        CustomerViewController.GlobalValiable.blnEditCrterm = true
         CustomerViewController.GlobalValiable.blnEditLogistic = false
         CustomerViewController.GlobalValiable.blnEditRemark = false
         
@@ -968,7 +956,7 @@ class OrderViewController: UIViewController {
         CustomerViewController.GlobalValiable.blnSolidPackAsort = false
         CustomerViewController.GlobalValiable.pro = 0
         
-
+        
         //Reset control
         lblStore.text = ""
         btnVat.setImage(uncheckBox, for: UIControl.State.normal)
@@ -1253,6 +1241,17 @@ class OrderViewController: UIViewController {
             sqlite3_finalize(updateStatement)
             sqlite3_close(db)
         }
+    }
+    
+    func getCurrDate() -> String
+    {
+        //วันที่ส่ง
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        let result = formatter.string(from: date)
+    
+        return result
     }
 
 }

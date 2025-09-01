@@ -75,6 +75,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //URL
     let URL_USER_LOGIN = "http://111.223.38.24:3000/login"
     
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -600,6 +601,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 if (self.ver == server_version)
                    {
                        print(" ✅ ผ่านการตรวจสอบ")
+                    CustomerViewController.GlobalValiable.blnEditCrterm =  true
+                    CustomerViewController.GlobalValiable.isProduct4 = false
+                    
                        if let delegate = UIApplication.shared.delegate as? AppDelegate
                        {
                            let storyboard : UIStoryboard? = UIStoryboard(name: "Main", bundle: nil)

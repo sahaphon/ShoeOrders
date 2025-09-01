@@ -329,6 +329,10 @@ class CustomerViewController: UIViewController, UITableViewDelegate, UITableView
         static var sevdate = String()
         static var type_vat: Int = 0  //vat รายร้านค้า
         
+        //เช็คว่าเป็น Product = 4 หรือไม่ ทั้งโค้ดปกติ และ โค้ด 2 ปล่อยให้เลือกวันส่งได้ไม่จำกัด จากเดิมล็อกที่ 45 วัน
+        static var isProduct4: Bool = false
+        
+        
         //ธุรการสั่งจัด
 //        static var blnadmin_pk = false
     }

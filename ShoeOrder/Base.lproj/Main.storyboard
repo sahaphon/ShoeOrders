@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="PSL030.ttf">
+        <array key="PSL029.ttf">
             <string>PSLDisplay</string>
         </array>
     </customFonts>
@@ -1164,7 +1164,7 @@
                                         <color key="textColor" red="0.58081901069999997" green="0.088427625600000004" blue="0.31863921880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="งานสั่งทำ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uk6-b7-zVf">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uk6-b7-zVf">
                                         <rect key="frame" x="307" y="119" width="94" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="eQt-aG-WVh"/>
@@ -3288,21 +3288,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sqn-GM-VHd">
-                                <rect key="frame" x="176" y="284" width="416" height="456"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqn-GM-VHd">
+                                <rect key="frame" x="136" y="225" width="496" height="574"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="กำหนดส่ง" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rm5-xv-DYl">
-                                        <rect key="frame" x="0.0" y="0.0" width="416" height="74"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="กำหนดส่ง" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rm5-xv-DYl">
+                                        <rect key="frame" x="8" y="8" width="480" height="51"/>
                                         <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="51" id="jap-oT-itH"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="PSLDisplay" family="PSL Display" pointSize="32"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="jx2-0f-esg">
-                                        <rect key="frame" x="8" y="97" width="400" height="255"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="jx2-0f-esg">
+                                        <rect key="frame" x="8" y="67" width="480" height="443"/>
                                         <date key="minimumDate" timeIntervalSinceReferenceDate="-978267600">
                                             <!--1970-01-01 11:00:00 +0000-->
                                         </date>
@@ -3311,10 +3311,12 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="font" value="PSL Display"/>
                                         </userDefinedRuntimeAttributes>
                                     </datePicker>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Zs-5Y-phT">
-                                        <rect key="frame" x="19" y="377" width="379" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Zs-5Y-phT">
+                                        <rect key="frame" x="8" y="518" width="480" height="48"/>
                                         <color key="backgroundColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="pf2-TO-IMB"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="PSLDisplay" family="PSL Display" pointSize="30"/>
                                         <state key="normal" title="ตกลง">
                                             <color key="titleColor" red="1" green="0.13330726640000001" blue="0.051974754730000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3328,10 +3330,29 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="rm5-xv-DYl" firstAttribute="top" secondItem="sqn-GM-VHd" secondAttribute="top" constant="8" id="496-Dj-dAl"/>
+                                    <constraint firstItem="1Zs-5Y-phT" firstAttribute="top" secondItem="jx2-0f-esg" secondAttribute="bottom" constant="8" id="62Y-pW-Q2J"/>
+                                    <constraint firstItem="jx2-0f-esg" firstAttribute="top" secondItem="rm5-xv-DYl" secondAttribute="bottom" constant="8" symbolic="YES" id="FWE-nH-d6t"/>
+                                    <constraint firstAttribute="bottom" secondItem="1Zs-5Y-phT" secondAttribute="bottom" constant="8" id="H10-tb-BsM"/>
+                                    <constraint firstAttribute="width" secondItem="sqn-GM-VHd" secondAttribute="height" multiplier="52:57" constant="-27.649122807017534" id="M4d-th-ubE"/>
+                                    <constraint firstAttribute="trailing" secondItem="jx2-0f-esg" secondAttribute="trailing" constant="8" id="cdz-hB-vCY"/>
+                                    <constraint firstItem="rm5-xv-DYl" firstAttribute="leading" secondItem="sqn-GM-VHd" secondAttribute="leading" constant="8" id="ctg-L1-Ooi"/>
+                                    <constraint firstItem="jx2-0f-esg" firstAttribute="leading" secondItem="sqn-GM-VHd" secondAttribute="leading" constant="8" id="e6P-yK-vXA"/>
+                                    <constraint firstAttribute="trailing" secondItem="rm5-xv-DYl" secondAttribute="trailing" constant="8" id="jQ0-zA-uts"/>
+                                    <constraint firstAttribute="trailing" secondItem="1Zs-5Y-phT" secondAttribute="trailing" constant="8" id="l9p-Xo-yVg"/>
+                                    <constraint firstItem="1Zs-5Y-phT" firstAttribute="leading" secondItem="sqn-GM-VHd" secondAttribute="leading" constant="8" id="tQN-xG-eVJ"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="X39-V2-7w7"/>
                         <color key="backgroundColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="sqn-GM-VHd" firstAttribute="leading" secondItem="X39-V2-7w7" secondAttribute="leading" constant="136" id="Bpo-yv-R0x"/>
+                            <constraint firstItem="X39-V2-7w7" firstAttribute="bottom" secondItem="sqn-GM-VHd" secondAttribute="bottom" constant="225" id="b2H-Mq-efK"/>
+                            <constraint firstItem="sqn-GM-VHd" firstAttribute="top" secondItem="X39-V2-7w7" secondAttribute="top" constant="205" id="gSF-v0-7QD"/>
+                            <constraint firstItem="X39-V2-7w7" firstAttribute="trailing" secondItem="sqn-GM-VHd" secondAttribute="trailing" constant="136" id="or0-F3-fCK"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="Shipdate" destination="jx2-0f-esg" id="oXq-Mh-Jsx"/>
@@ -3978,19 +3999,19 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

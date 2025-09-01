@@ -491,6 +491,7 @@ extension RemarkViewController: UIPickerViewDelegate, UIPickerViewDataSource
         }
         else
         {
+            CustomerViewController.GlobalValiable.sale_type = false
             print("เป็นค่่าว่าง")
         }
     }

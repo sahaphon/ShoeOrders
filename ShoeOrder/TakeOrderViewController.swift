@@ -20,6 +20,7 @@ class TakeOrderViewController: UIViewController{
     
     @IBOutlet weak var lblTitles: UILabel!
     var Orders = [Order]()  //ประกาศตัวแปรของคลาส
+//    var blnLockCredit: Bool = false
     
     var db: OpaquePointer?
     let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -27,12 +28,24 @@ class TakeOrderViewController: UIViewController{
     
     @IBAction func btnCrterm(_ sender: Any)
     {
-        CustomerViewController.GlobalValiable.blnEditCrterm =  true
-        if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "credit") as? CrViewController
+//        CustomerViewController.GlobalValiable.blnEditCrterm =  true
+        
+        //เช็คว่าหากมีรายการแล้วจะเปลี่ยน Credit ไม่ได้
+        if CustomerViewController.GlobalValiable.blnEditCrterm
         {
-            menu.modalPresentationStyle = .fullScreen
-            self.present(menu, animated: true, completion: nil)
+            if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "credit") as? CrViewController
+            {
+                menu.modalPresentationStyle = .fullScreen
+                self.present(menu, animated: true, completion: nil)
+            }
+            
         }
+        else
+        {
+            CustomerViewController.GlobalValiable.blnEditCrterm = false
+            showAlert(title: "แจ้งเตือน", message: "ไม่สามารถเปลี่ยนเครดิตได้")
+        }
+        
     }
     
     @IBAction func btnAdd(_ sender: Any)
@@ -110,8 +123,14 @@ class TakeOrderViewController: UIViewController{
             var sumAmt = 0.00
             var _qtyFree = 0
             
+//            blnLockCredit = false
+            CustomerViewController.GlobalValiable.blnEditCrterm =  true
+            
             while(sqlite3_step(stmt) == SQLITE_ROW)
             {
+//                blnLockCredit = true
+                CustomerViewController.GlobalValiable.blnEditCrterm =  false
+                
                 let _prod = String(cString: sqlite3_column_text(stmt, 0))
                 let _packcode = String(cString: sqlite3_column_text(stmt, 1))
                 let _colordesc = String(cString: sqlite3_column_text(stmt, 4))
