@@ -151,7 +151,7 @@ class LogisticViewController: UIViewController
     
     struct Logistic: Decodable {
         let logicode: String
-        let description: String
+        let description: String?
         let logisCode: String
         
         enum CodingKeys: String, CodingKey {
@@ -179,6 +179,7 @@ class LogisticViewController: UIViewController
             .validate(statusCode: 200..<300)
             .responseDecodable(of: [Logistic].self) {  [weak self] response in
                 
+//                print("responst: ", response)
                 guard let self = self else { return }
                 
                 switch response.result {
@@ -194,7 +195,7 @@ class LogisticViewController: UIViewController
                         
                         for item in data {
                             //Add data to dictionary
-                            let line = item.logicode + " : " + item.description + " : " + item.logisCode
+                            let line = item.logicode + " : " + (item.description ?? "-") + " : " + item.logisCode
                             self.store.append(line)
                             self.logiArr.append(item.logicode)  //Add data to record logicode
                         }
