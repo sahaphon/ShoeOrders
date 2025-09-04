@@ -956,6 +956,7 @@ class OrderViewController: UIViewController {
         CustomerViewController.GlobalValiable.blnSolidPackAsort = false
         CustomerViewController.GlobalValiable.pro = 0
         
+        CustomerViewController.GlobalValiable.sale_type = false
         
         //Reset control
         lblStore.text = ""
@@ -964,6 +965,7 @@ class OrderViewController: UIViewController {
         lblPO.text = ""
         lblItem.text = ""
         lblCredit.text = "0"
+        blnPk = false
     }
     
     // ช่วยห่อ Any ให้ Encodable ได้
@@ -1077,9 +1079,10 @@ class OrderViewController: UIViewController {
                                                   message: "ส่งข้อมูลออเดอร์สำเร็จ!..",
                                                   preferredStyle: .alert)
 
-                    let okAction = UIAlertAction(title: "ตกลง", style: .default) { _ in
+                    let okAction = UIAlertAction(title: "ตกลง", style: .default) { [self] _ in
                         // ปิด ViewController ปัจจุบัน
 //                      self.dismiss(animated: true, completion: nil)
+                        self.ClearAllData() //
                         
                         //back viewcontroller
                         if let menu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListOD") as? ListOdViewController
