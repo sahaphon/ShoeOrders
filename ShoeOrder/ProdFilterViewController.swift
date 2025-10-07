@@ -144,9 +144,11 @@ class ProdFilterViewController: UIViewController, UITextFieldDelegate {
         let sfixdue: String
         let efixdue: String
         let server_date: String
+        let prod_lev: String
+        let lev_name: String
         
         enum CodingKeys: String, CodingKey {
-            case style, n_pack, packtype, type, packcode, packno, colorcode, sizedesc, pairs, price, p_novat, validdate, sfixdue, efixdue
+            case style, n_pack, packtype, type, packcode, packno, colorcode, sizedesc, pairs, price, p_novat, validdate, sfixdue, efixdue, prod_lev, lev_name
             case not_access = "AccessDenied"
             case prodcode = "prod"
             case color_name = "description"
@@ -173,7 +175,7 @@ class ProdFilterViewController: UIViewController, UITextFieldDelegate {
         let progressHUD = ProgressHUD(text: "Please wait..")
         self.view.addSubview(progressHUD)
         
-        let URL = "http://111.223.38.24:4000/findProd"
+        let URL = "http://111.223.38.24:4000/findProd_new"
         
         AF.request(URL, method: .get, parameters: parameters)
             .validate(statusCode: 200..<300)
@@ -223,51 +225,57 @@ class ProdFilterViewController: UIViewController, UITextFieldDelegate {
                               
                               for item in value {
                                   
-                                  let update = "INSERT INTO prodlist (prodcode, style, n_pack, packtype, type, packcode, packno, colorcode, colordesc, sizedesc, pairs, price, p_novat, validdate, sfixdue, efixdue)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
-                                  
-                                    var statement: OpaquePointer?
+                                  if (item.prod_lev != "6") {
+                                      
+                                      let update = "INSERT INTO prodlist (prodcode, style, n_pack, packtype, type, packcode, packno, colorcode, colordesc, sizedesc, pairs, price, p_novat, validdate, sfixdue, efixdue, prod_lev, lev_name)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+                                      
+                                        var statement: OpaquePointer?
 
-                                    //preparing the query
-                                    if sqlite3_prepare_v2(db, update, -1, &statement, nil) == SQLITE_OK
-                                    {
-                                       
-                                        CustomerViewController.GlobalValiable.sevdate = item.server_date
-                                        //print("วันที่ Server : ",CustomerViewController.GlobalValiable.sevdate)
+                                        //preparing the query
+                                        if sqlite3_prepare_v2(db, update, -1, &statement, nil) == SQLITE_OK
+                                        {
+                                           
+                                            CustomerViewController.GlobalValiable.sevdate = item.server_date
+                                            //print("วันที่ Server : ",CustomerViewController.GlobalValiable.sevdate)
 
-                                        sqlite3_bind_text(statement, 1, item.prodcode, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 2, item.style, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_int(statement, 3, Int32(item.n_pack))
-                                        sqlite3_bind_text(statement, 4, item.packtype, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 5, item.type, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 6, item.packcode, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_int(statement, 7, Int32(item.packno))
-                                        sqlite3_bind_text(statement, 8, item.colorcode, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 9, item.color_name, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 10, item.sizedesc, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_int(statement, 11, Int32(item.pairs))
-                                        sqlite3_bind_double(statement, 12, Double(item.price)!)
-                                        sqlite3_bind_double(statement, 13, Double(item.p_novat)!)
-                                        sqlite3_bind_text(statement, 14, item.validdate, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 15, item.sfixdue, -1, SQLITE_TRANSIENT)
-                                        sqlite3_bind_text(statement, 16, item.efixdue, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 1, item.prodcode, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 2, item.style, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_int(statement, 3, Int32(item.n_pack))
+                                            sqlite3_bind_text(statement, 4, item.packtype, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 5, item.type, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 6, item.packcode, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_int(statement, 7, Int32(item.packno))
+                                            sqlite3_bind_text(statement, 8, item.colorcode, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 9, item.color_name, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 10, item.sizedesc, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_int(statement, 11, Int32(item.pairs))
+                                            sqlite3_bind_double(statement, 12, Double(item.price)!)
+                                            sqlite3_bind_double(statement, 13, Double(item.p_novat)!)
+                                            sqlite3_bind_text(statement, 14, item.validdate, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 15, item.sfixdue, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 16, item.efixdue, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 17, item.prod_lev, -1, SQLITE_TRANSIENT)
+                                            sqlite3_bind_text(statement, 18, item.lev_name, -1, SQLITE_TRANSIENT)
 
-                                        //executing the query to insert values
-                                        if sqlite3_step(statement) != SQLITE_DONE
+                                            //executing the query to insert values
+                                            if sqlite3_step(statement) != SQLITE_DONE
+                                            {
+                                                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                                                print("failure inserting armstr: \(errmsg)")
+                                                return
+                                            }
+                                        }
+                                        else
                                         {
                                             let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                            print("failure inserting armstr: \(errmsg)")
+                                            print("error preparing insert: \(errmsg)")
                                             return
                                         }
-                                    }
-                                    else
-                                    {
-                                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                                        print("error preparing insert: \(errmsg)")
-                                        return
-                                    }
 
-                                    progressHUD.hide()
-                                    sqlite3_finalize(statement)
+                                        progressHUD.hide()
+                                        sqlite3_finalize(statement)
+                                  }
+                                 
                                 } //Close loop arrays
 
                                 sqlite3_close(db)

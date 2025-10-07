@@ -124,7 +124,7 @@ class ProdFilterViewController2: UIViewController {
             }
             else
             {
-                 queryString = String(format:"SELECT SUBSTR(prodcode,4,7) as prod, packtype, type FROM prodlist WHERE prodcode LIKE '%%%@%%' AND n_pack = '%@' AND p_novat <> 0 AND validdate <= '%@' GROUP BY prodcode, packtype, type ORDER BY prodcode", CustomerViewController.GlobalValiable.oldprod, String(CustomerViewController.GlobalValiable.n_pack), CustomerViewController.GlobalValiable.sevdate)
+                 queryString = String(format:"SELECT SUBSTR(prodcode,4,7) as prod, packtype, type, lev_name FROM prodlist WHERE prodcode LIKE '%%%@%%' AND n_pack = '%@' AND p_novat <> 0 AND validdate <= '%@' GROUP BY prodcode, packtype, type, lev_name ORDER BY prodcode", CustomerViewController.GlobalValiable.oldprod, String(CustomerViewController.GlobalValiable.n_pack), CustomerViewController.GlobalValiable.sevdate)
                 //print("คิวรี่ prodFilter2 ", queryString)
             }
                 
@@ -146,7 +146,7 @@ class ProdFilterViewController2: UIViewController {
                let pack = String(cString: sqlite3_column_text(stmt, 1))
                let pln = String(cString: sqlite3_column_text(stmt, 2))
                 
-               self.prod.append(prod + "   " + pack + " / " + pln)
+               self.prod.append(prod + "   " + pack + " / " + pln + " " + String(cString: sqlite3_column_text(stmt, 3)))
             }
             
             self.pickProd.reloadAllComponents()

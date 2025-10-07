@@ -81,7 +81,7 @@ class LogisticViewController: UIViewController
                 
                 if (secondTextField.text!.count > 0)
                 {
-                    CustomerViewController.GlobalValiable.locat_name = "\(firstTextField.text!)\(" ")\(secondTextField.text!)"
+                    CustomerViewController.GlobalValiable.locat_name = "\(firstTextField.text!)\(" : ")\(secondTextField.text!) : "
                     self.getLogistic()
                 }
                 else
@@ -106,10 +106,8 @@ class LogisticViewController: UIViewController
     
     @IBAction func btnAccept(_ sender: Any)
     {
-        print("1111")
         if((self.presentingViewController) != nil)
         {
-            print("22222")
             if (store.count > 0 && CustomerViewController.GlobalValiable.logiCode == "00")
             {
 //                print("logicode: ", store[0])
@@ -192,6 +190,9 @@ class LogisticViewController: UIViewController
                             progressHUD.hide()
                             return
                         }
+                    
+                        self.store.removeAll()
+                        self.logiArr.removeAll()
                         
                         for item in data {
                             //Add data to dictionary
@@ -249,11 +250,12 @@ extension LogisticViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         guard store.indices.contains(row) else { return }
         
 //        showAlert(title: "เลอกรายการ", message: "\(store[row])")
+        print(">>>> ", "\(store[row])")
         
         let sepLogis = store[row].components(separatedBy: " : ")
-//        print(">>> 1: ", sepLogis[0])
-//        print(">>> 2: ", sepLogis[1])
-//        print(">>> 3: ", sepLogis[2])
+        print(">>> 1: ", sepLogis[0])
+        print(">>> 2: ", sepLogis[1])
+        print(">>> 3: ", sepLogis[2])
         
         //เก็บค่า
         CustomerViewController.GlobalValiable.logiCode = sepLogis[0]

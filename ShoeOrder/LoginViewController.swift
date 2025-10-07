@@ -379,7 +379,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             
             //เก็บ รุ่นที่เลือก
-            if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS prodlist (prodcode CHAR(12), style CHAR(20), n_pack CHAR(1), packtype CHAR(10), type CHAR(20), packcode CHAR(50), packno INTEGER, colorcode CHAR(10), colordesc CHAR(20), sizedesc CHAR(255), pairs INTEGER, price DOUBLE, p_novat DOUBLE, validdate DATE, sfixdue DATE, efixdue DATE)", nil, nil, nil) != SQLITE_OK
+            if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS prodlist (prodcode CHAR(12), style CHAR(20), n_pack CHAR(1), packtype CHAR(10), type CHAR(20), packcode CHAR(50), packno INTEGER, colorcode CHAR(10), colordesc CHAR(20), sizedesc CHAR(255), pairs INTEGER, price DOUBLE, p_novat DOUBLE, validdate DATE, sfixdue DATE, efixdue DATE, prod_lev, lev_name)", nil, nil, nil) != SQLITE_OK
             {
                 let errmsg = String(cString: sqlite3_errmsg(db)!)
                 print("error creating prodlist table: \(errmsg)")

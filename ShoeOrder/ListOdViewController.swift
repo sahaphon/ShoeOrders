@@ -63,6 +63,8 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
                 .responseDecodable(of: [ListOD].self) {  [weak self] response in
                 guard let self = self else { return }
                 defer { progressHUD.hide() }
+                    
+                print ("response.result : \(response.result)")
                
                 switch response.result {
                         
@@ -180,7 +182,7 @@ class ListOdViewController: UIViewController, UISearchBarDelegate
                         self.od.removeAll()
                         self.myTable.reloadData()
                         
-                        let alert = UIAlertController(title: "เกิดข้อผิลดพลาด", message: "\(error)", preferredStyle: .alert)
+                        let alert = UIAlertController(title: "เกิดข้อผิดพลาด", message: "\(error)", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "ตกลง", style: .default, handler: nil))
                         self.present(alert, animated: true)
                         
@@ -589,15 +591,3 @@ extension ListOdViewController: UITableViewDataSource, UITableViewDelegate
         selectedCell.contentView.backgroundColor = UIColor.lightText  //lightText
     }
 }
-
-//extension Date {
-//    func toString(format: String = "yyyy-MM-dd HH:mm:ss",
-//                  locale: String = "th_TH",
-//                  timezone: String = "Asia/Bangkok") -> String {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = format
-//        formatter.locale = Locale(identifier: locale)
-//        formatter.timeZone = TimeZone(identifier: timezone)
-//        return formatter.string(from: self)
-//    }
-//}
